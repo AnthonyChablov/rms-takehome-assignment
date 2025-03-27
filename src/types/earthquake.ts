@@ -1,4 +1,4 @@
-export interface Earthquake {
+export interface RawEarthquake  {
     time: string;
     latitude: number;
     longitude: number;
@@ -21,4 +21,4 @@ export interface Earthquake {
     status: string;
     locationSource: string;
     magSource: string;
-  }
+}
