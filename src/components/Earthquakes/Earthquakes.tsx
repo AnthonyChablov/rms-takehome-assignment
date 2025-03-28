@@ -18,14 +18,7 @@ const Earthquakes = () => {
 
   return (
     <div>
-      <h1>Recent Earthquakes</h1>
-      <ul>
-        {earthquakesQuery.data.map((earthquake) => (
-          <li key={earthquake.id}>
-            Magnitude: {earthquake.mag}, Location: {earthquake.place}
-          </li>
-        ))}
-      </ul>
+      <PlotPane />
     </div>
   );
 };
