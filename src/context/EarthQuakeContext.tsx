@@ -31,10 +31,11 @@ export const HighlightedEarthquakeProvider = ({
   );
 };
 
-// Created a Custom Hook for cleaner usage.
-export const useHighlightedEarthquake =
+// Created a Custom Hook for cleaner usage when consuming the context
+export const useHighlightedEarthquakeContext =
   (): HighlightedEarthquakeContextType => {
     const context = useContext(HighlightedEarthquakeContext);
+    // Check for null
     if (!context) {
       throw new Error(
         'useHighlightedEarthquake must be used within a HighlightedEarthquakeProvider',
