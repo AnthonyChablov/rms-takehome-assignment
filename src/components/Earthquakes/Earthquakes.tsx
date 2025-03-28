@@ -18,7 +18,7 @@ const Earthquakes = () => {
 
   return (
     <div>
-      <PlotPane />
+      <PlotPane data={earthquakesQuery.data} />
     </div>
   );
 };
