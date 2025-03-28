@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEarthquakes } from '@/services/earthquakes/useEarthQuakes';
+import { useEarthquakes } from '@/services/earthquakes/useEarthquakes';
 
 const Earthquakes = () => {
   const earthquakesQuery = useEarthquakes();
@@ -13,11 +13,16 @@ const Earthquakes = () => {
   }
 
   return (
-    <>
-      {earthquakesQuery.data.map((earthquake) => (
-        <p key={earthquake.id}>{earthquake.dmin}</p>
-      ))}
-    </>
+    <div>
+      <h1>Recent Earthquakes</h1>
+      <ul>
+        {earthquakesQuery.data.map((earthquake) => (
+          <li key={earthquake.id}>
+            Magnitude: {earthquake.mag}, Location: {earthquake.place}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
