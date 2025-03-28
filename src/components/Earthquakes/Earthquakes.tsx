@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEarthquakes } from '@/services/earthquakes/useEarthquakes';
+import { useEarthquakes } from '@/services/earthquakes/hooks/useEarthquakes';
 
 const Earthquakes = () => {
   const earthquakesQuery = useEarthquakes();

@@ -2,10 +2,11 @@ import axios from 'axios';
 import { RawEarthquake } from '@/types/earthquake';
 import Papa, { ParseResult } from 'papaparse';
 import { CSVRow } from '@/types/csvRow';
-import { parseEarthquakeRow } from './earthquakeParser';
+import { parseEarthquakeRow } from './utils/earthquakeParser';
 
 const BASE_URL =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv';
+
 const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 
 const axiosInstance = axios.create({
