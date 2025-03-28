@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const ToolTip = () => {
-  return (
-    <div>ToolTip</div>
-  )
-}
+  return <div>ToolTip</div>;
+};
 
-export default ToolTip
+export default ToolTip;

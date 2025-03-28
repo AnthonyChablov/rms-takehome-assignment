@@ -1,7 +1,11 @@
-import Earthquakes from "./components/Earthquakes/Earthquakes";
+import Earthquakes from './components/Earthquakes/Earthquakes';
 
 function App() {
-  return <><Earthquakes/></>;
+  return (
+    <>
+      <Earthquakes />
+    </>
+  );
 }
 
 export default App;

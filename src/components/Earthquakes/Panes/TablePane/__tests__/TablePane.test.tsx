@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import TablePane from '../TablePane'; 
+import TablePane from '../TablePane';
 
 describe('TablePane', () => {
   test('should render TablePane in the document', () => {

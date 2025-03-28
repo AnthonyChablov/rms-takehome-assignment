@@ -10,8 +10,8 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true,     
-    "types": ["vitest/globals","@testing-library/jest-dom", ] ,
+    "isolatedModules": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "jsx": "preserve",
     "incremental": true,
     "plugins": [

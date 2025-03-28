@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const PlotPane = () => {
-  return (
-    <div>PlotPane</div>
-  )
-}
+  return <div>PlotPane</div>;
+};
 
-export default PlotPane
+export default PlotPane;
