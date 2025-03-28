@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEarthquakes } from '@/services/earthquakes/earthquakesQuery';
+import PlotPane from './Panes/PlotPane/PlotPane';
 
 const Earthquakes = () => {
   const earthquakesQuery = useEarthquakes();
