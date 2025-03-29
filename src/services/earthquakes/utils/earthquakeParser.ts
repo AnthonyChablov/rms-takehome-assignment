@@ -1,8 +1,8 @@
 // services/earthquakes/earthquakeParser.ts
-import { RawEarthquake } from '../../../types/earthquake';
+import { EarthquakeRecord } from '../../../types/earthquake';
 import { CSVRow } from '../../../types/csvRow';
 
-export const parseEarthquakeRow = (row: CSVRow): RawEarthquake => ({
+export const parseEarthquakeRow = (row: CSVRow): EarthquakeRecord => ({
   id: row.id,
   time: row.time, // Keep as string as per RawEarthquake type
   latitude: parseFloat(row.latitude),

@@ -1,10 +1,10 @@
 import React, { createContext, useState, useContext } from 'react';
-import { RawEarthquake } from '@/types/earthquake';
+import { EarthquakeRecord } from '@/types/earthquake';
 
 interface HighlightedEarthquakeContextType {
-  highlightedEarthquake: RawEarthquake | null;
+  highlightedEarthquake: EarthquakeRecord | null;
   setHighlightedEarthquake: React.Dispatch<
-    React.SetStateAction<RawEarthquake | null>
+    React.SetStateAction<EarthquakeRecord | null>
   >;
 }
 interface HighlightedEarthquakeProviderProps {
@@ -20,7 +20,7 @@ export const HighlightedEarthquakeProvider = ({
   children,
 }: HighlightedEarthquakeProviderProps) => {
   const [highlightedEarthquake, setHighlightedEarthquake] =
-    useState<RawEarthquake | null>(null);
+    useState<EarthquakeRecord | null>(null);
 
   return (
     <HighlightedEarthquakeContext.Provider

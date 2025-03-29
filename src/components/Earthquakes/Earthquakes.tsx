@@ -1,9 +1,9 @@
 import React from 'react';
 import { useEarthquakes } from '@/services/earthquakes/earthquakesQuery';
-import { useHighlightedEarthquakeContext } from '@/context/EarthQuakeContext';
+import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
 import PlotPane from './Panes/PlotPane/PlotPane';
 import TablePane from './Panes/TablePane/TablePane';
-import { RawEarthquake } from '@/types/earthquake';
+import { EarthquakeRecord } from '@/types/earthquake';
 import Loader from '../Loading/Loader';
 
 const Earthquakes = () => {
@@ -24,7 +24,7 @@ const Earthquakes = () => {
   }
 
   // Filter the data to get only the first 100 items
-  const first100Earthquakes: RawEarthquake[] | undefined =
+  const first100Earthquakes: EarthquakeRecord[] | undefined =
     earthquakesQuery.data?.slice(0, 100);
 
   return (

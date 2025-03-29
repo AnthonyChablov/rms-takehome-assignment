@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RawEarthquake } from '@/types/earthquake';
+import { EarthquakeRecord } from '@/types/earthquake';
 import Papa, { ParseResult } from 'papaparse';
 import { CSVRow } from '@/types/csvRow';
 import { parseEarthquakeRow } from './utils/earthquakeParser';
@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
   withCredentials: false,
 });
 
-export const getEarthquakes = async (): Promise<RawEarthquake[]> => {
+export const getEarthquakes = async (): Promise<EarthquakeRecord[]> => {
   const response = await axiosInstance.get<string>('', {
     headers: {
       Accept: 'text/csv',
@@ -27,7 +27,7 @@ export const getEarthquakes = async (): Promise<RawEarthquake[]> => {
       header: true,
       dynamicTyping: true,
       complete: (results: ParseResult<CSVRow>) => {
-        const earthquakes: RawEarthquake[] =
+        const earthquakes: EarthquakeRecord[] =
           results.data.map(parseEarthquakeRow);
         resolve(earthquakes);
       },

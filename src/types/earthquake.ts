@@ -1,4 +1,4 @@
-export interface RawEarthquake {
+export interface EarthquakeRecord {
   time: string;
   latitude: number;
   longitude: number;

@@ -1,7 +1,7 @@
 import Earthquakes from './components/Earthquakes/Earthquakes';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { HighlightedEarthquakeProvider } from './context/EarthQuakeContext';
+import { HighlightedEarthquakeProvider } from './context/EarthquakeContext';
 
 function App() {
   const queryClient = new QueryClient({
