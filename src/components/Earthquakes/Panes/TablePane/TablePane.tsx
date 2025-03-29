@@ -20,6 +20,7 @@ function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
       <div className="overflow-y-auto overflow-x-auto flex-grow">
         <div className="">
           <table className="min-w-full leading-normal relative ">
+            {/* Table Header */}
             <thead className="">
               <tr className=" sticky top-0 left-0 bg-gray-200">
                 {columns.map((column) => (
