@@ -37,7 +37,7 @@ const Earthquakes = () => {
     earthquakesQuery.data?.slice(0, 100);
 
   return (
-    <div className="p-10 space-y-6">
+    <div className="px-10 space-y-6 flex space-x-4 justify-between">
       <PlotPane data={first100Earthquakes} />
       <TablePane data={first100Earthquakes} />
     </div>

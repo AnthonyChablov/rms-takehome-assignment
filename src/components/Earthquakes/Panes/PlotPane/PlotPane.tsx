@@ -45,7 +45,7 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 ">
+    <div className="bg-white rounded-lg  p-6 w-7/12 ">
       <div className="mb-4 flex items-center space-x-4">
         <div>
           <label

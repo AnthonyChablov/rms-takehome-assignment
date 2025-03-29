@@ -6,7 +6,7 @@ interface ErrorProps {
 
 const Error = ({ message = 'An unexpected error occurred.' }: ErrorProps) => {
   return (
-    <div className="flex flex-col items-center justify-center space-y-4">
+    <div className="flex flex-col items-center justify-center space-y-4 p-10">
       <div className="text-center">
         <h2 className="text-xl font-semibold text-gray-800">
           Oops! Something went wrong.

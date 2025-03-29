@@ -13,8 +13,8 @@ function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
   const columns = Object.keys(data[0]);
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 h-96 flex flex-col">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">
+    <div className="bg-white rounded-lg  w-5/12 px-4 h-screen flex flex-col p-4">
+      <h2 className="text-xl font-bold mb-4 text-gray-800 ">
         USGS Most Recent Earthquakes (Top 100)
       </h2>
       <div className="overflow-y-auto overflow-x-auto flex-grow">
