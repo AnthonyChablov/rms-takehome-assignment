@@ -5,6 +5,7 @@ import PlotPane from './Panes/PlotPane/PlotPane';
 import TablePane from './Panes/TablePane/TablePane';
 import { EarthquakeRecord } from '@/types/earthquake';
 import Loader from '../Loading/Loader';
+import Error from '../Error/Error';
 
 const Earthquakes = () => {
   const earthquakesQuery = useEarthquakes();
@@ -20,7 +21,15 @@ const Earthquakes = () => {
   }
 
   if (earthquakesQuery.isError) {
-    return <div className="p-10 space-y-4">Error!</div>;
+    return (
+      <div className="">
+        <Error />
+        <div className="p-10 space-y-6">
+          <PlotPane data={[]} />
+          <TablePane data={[]} />
+        </div>
+      </div>
+    );
   }
 
   // Filter the data to get only the first 100 items
