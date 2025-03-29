@@ -14,7 +14,9 @@ function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 h-96 flex flex-col">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">Data Table</h2>
+      <h2 className="text-xl font-bold mb-4 text-gray-800">
+        USGS Most Recent Earthquakes (Top 100)
+      </h2>
       <div className="overflow-y-auto overflow-x-auto flex-grow">
         <div className="">
           <table className="min-w-full leading-normal relative ">

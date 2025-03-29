@@ -45,16 +45,16 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-md p-6 ">
       <div className="mb-4 flex items-center space-x-4">
         <div>
           <label
-            className="block text-gray-700 text-sm font-bold mb-2 cursor-pointer"
+            className="block text-gray-700 text-sm font-bold mb-2 "
             htmlFor="xAxis"
           >
             X-Axis:
           </label>
-          <div className="relative">
+          <div className="relative hover:cursor-pointer">
             <select
               id="xAxis"
               value={xAxisKey || ''}
@@ -87,16 +87,18 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
           >
             Y-Axis:
           </label>
-          <div className="relative">
+          <div className="relative ">
             <select
               id="yAxis"
               value={yAxisKey || ''}
               onChange={handleYAxisChange}
               className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
             >
-              <option value="">Select Y-Axis</option>
+              <option className="hover:cursor-pointer" value="">
+                Select Y-Axis
+              </option>
               {numericKeys.map((key) => (
-                <option key={key} value={key}>
+                <option className="hover:cursor-pointer" key={key} value={key}>
                   {key}
                 </option>
               ))}
@@ -116,19 +118,27 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
 
       {data.length > 0 && xAxisKey && yAxisKey && (
         <ResponsiveContainer width="100%" height={400}>
-          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+          <ScatterChart margin={{ top: 20, right: 10, bottom: 20, left: 10 }}>
+            {/* Adjusted margins for labels */}
             <CartesianGrid stroke="#ccc" />
             <XAxis
               dataKey={xAxisKey}
               name={xAxisKey}
               stroke="#8884d8"
               tickLine={false}
+              label={{ value: xAxisKey, position: 'bottom', offset: 0 }}
             />
             <YAxis
               dataKey={yAxisKey}
               name={yAxisKey}
               stroke="#8884d8"
               tickLine={false}
+              label={{
+                value: yAxisKey,
+                angle: -90,
+                position: 'left',
+                offset: 0,
+              }}
             />
             <Tooltip
               contentStyle={{

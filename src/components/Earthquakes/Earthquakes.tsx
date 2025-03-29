@@ -4,6 +4,7 @@ import { useHighlightedEarthquakeContext } from '@/context/EarthQuakeContext';
 import PlotPane from './Panes/PlotPane/PlotPane';
 import TablePane from './Panes/TablePane/TablePane';
 import { RawEarthquake } from '@/types/earthquake';
+import Loader from '../Loading/Loader';
 
 const Earthquakes = () => {
   const earthquakesQuery = useEarthquakes();
@@ -11,7 +12,11 @@ const Earthquakes = () => {
     useHighlightedEarthquakeContext();
 
   if (earthquakesQuery.isPending) {
-    return <div className="p-10 space-y-4">loading...</div>;
+    return (
+      <div className="p-10 space-y-4">
+        <Loader />
+      </div>
+    );
   }
 
   if (earthquakesQuery.isError) {
@@ -23,7 +28,7 @@ const Earthquakes = () => {
     earthquakesQuery.data?.slice(0, 100);
 
   return (
-    <div className="p-10 space-y-4">
+    <div className="p-10 space-y-6">
       <PlotPane data={first100Earthquakes} />
       <TablePane data={first100Earthquakes} />
     </div>
