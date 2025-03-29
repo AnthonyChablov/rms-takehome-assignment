@@ -45,42 +45,104 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
   };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="xAxis">X-Axis:</label>
-        <select id="xAxis" value={xAxisKey || ''} onChange={handleXAxisChange}>
-          <option value="">Select X-Axis</option>
-          {numericKeys.map((key) => (
-            <option key={key} value={key}>
-              {key}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="yAxis">Y-Axis:</label>
-        <select id="yAxis" value={yAxisKey || ''} onChange={handleYAxisChange}>
-          <option value="">Select Y-Axis</option>
-          {numericKeys.map((key) => (
-            <option key={key} value={key}>
-              {key}
-            </option>
-          ))}
-        </select>
+    <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="mb-4 flex items-center space-x-4">
+        <div>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2 cursor-pointer"
+            htmlFor="xAxis"
+          >
+            X-Axis:
+          </label>
+          <div className="relative">
+            <select
+              id="xAxis"
+              value={xAxisKey || ''}
+              onChange={handleXAxisChange}
+              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+            >
+              <option value="">Select X-Axis</option>
+              {numericKeys.map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg
+                className="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2 cursor-pointer"
+            htmlFor="yAxis"
+          >
+            Y-Axis:
+          </label>
+          <div className="relative">
+            <select
+              id="yAxis"
+              value={yAxisKey || ''}
+              onChange={handleYAxisChange}
+              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+            >
+              <option value="">Select Y-Axis</option>
+              {numericKeys.map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg
+                className="fill-current h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       {data.length > 0 && xAxisKey && yAxisKey && (
-        <ResponsiveContainer className="" width={`100%`} height={400}>
+        <ResponsiveContainer width="100%" height={400}>
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-            <CartesianGrid />
-            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <CartesianGrid stroke="#ccc" />
+            <XAxis
+              dataKey={xAxisKey}
+              name={xAxisKey}
+              stroke="#8884d8"
+              tickLine={false}
+            />
+            <YAxis
+              dataKey={yAxisKey}
+              name={yAxisKey}
+              stroke="#8884d8"
+              tickLine={false}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: '#f5f5f5',
+                border: '1px solid #ccc',
+              }}
+            />
             <Scatter
-              className=" hover:cursor-pointer"
+              className="hover:cursor-pointer"
               data={data}
               fill="#8884d8"
+              stroke="#8884d8"
+              strokeWidth={2}
             />
-            <XAxis dataKey={xAxisKey} name={xAxisKey} />
-            <YAxis dataKey={yAxisKey} name={yAxisKey} />
           </ScatterChart>
         </ResponsiveContainer>
       )}

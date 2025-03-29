@@ -11,11 +11,11 @@ const Earthquakes = () => {
     useHighlightedEarthquakeContext();
 
   if (earthquakesQuery.isPending) {
-    return <>loading...</>;
+    return <div className="p-10 space-y-4">loading...</div>;
   }
 
   if (earthquakesQuery.isError) {
-    return <>Error!</>;
+    return <div className="p-10 space-y-4">Error!</div>;
   }
 
   // Filter the data to get only the first 100 items
