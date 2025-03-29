@@ -149,8 +149,8 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
             <Scatter
               className="hover:cursor-pointer"
               data={data}
-              fill="#8884d8"
-              stroke="#8884d8"
+              fill="#2b7fff"
+              stroke="#2b7fff"
               strokeWidth={0.2}
             />
           </ScatterChart>

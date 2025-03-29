@@ -4,7 +4,7 @@ import { clsx, type ClassValue } from 'clsx';
 export const formatDate = (value: any) => {
   try {
     const date = new Date(value);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    return date.toLocaleDateString();
   } catch (error) {
     return value?.toString() || '';
   }
