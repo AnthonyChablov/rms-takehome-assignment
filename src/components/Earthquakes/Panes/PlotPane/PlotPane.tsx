@@ -70,13 +70,17 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
       </div>
 
       {data.length > 0 && xAxisKey && yAxisKey && (
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer className="" width={`100%`} height={400}>
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Scatter
+              className=" hover:cursor-pointer"
+              data={data}
+              fill="#8884d8"
+            />
             <XAxis dataKey={xAxisKey} name={xAxisKey} />
             <YAxis dataKey={yAxisKey} name={yAxisKey} />
-            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            <Scatter data={data} fill="#8884d8" />
           </ScatterChart>
         </ResponsiveContainer>
       )}
