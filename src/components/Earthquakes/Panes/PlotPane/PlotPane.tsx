@@ -151,7 +151,7 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
               data={data}
               fill="#8884d8"
               stroke="#8884d8"
-              strokeWidth={2}
+              strokeWidth={0.2}
             />
           </ScatterChart>
         </ResponsiveContainer>

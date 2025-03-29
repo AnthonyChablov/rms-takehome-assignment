@@ -21,7 +21,7 @@ function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
         <div className="">
           <table className="min-w-full leading-normal relative ">
             <thead className="">
-              <tr className=" sticky top-0 left-0 bg-gray-100">
+              <tr className=" sticky top-0 left-0 bg-gray-200">
                 {columns.map((column) => (
                   <th
                     key={column}

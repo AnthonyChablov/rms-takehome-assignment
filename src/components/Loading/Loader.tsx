@@ -2,9 +2,9 @@ import React from 'react';
 
 const Loader = () => {
   return (
-    <div className="animate-pulse space-y-6">
+    <div className="animate-pulse space-y-6 flex space-x-4 justify-between">
       {/* Skeleton for PlotPane */}
-      <div className="bg-gray-100 rounded-lg shadow-md p-6 h-[32.5rem] w-full mb-6 flex flex-col">
+      <div className="bg-white rounded-lg px-6 w-7/12  flex flex-col">
         <div className="mb-4 flex items-center space-x-4">
           <div>
             <div className="bg-gray-200 h-4 rounded w-24 mb-2"></div>
@@ -19,16 +19,16 @@ const Loader = () => {
       </div>
 
       {/* Skeleton for TablePane */}
-      <div className="bg-gray-100 rounded-lg shadow-md p-6 h-fit w-full">
-        <div className="bg-gray-200 h-8 rounded w-32 mb-4"></div>
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-lg w-5/12  flex flex-col">
+        <div className="bg-gray-200 rounded w-32 mb-4"></div>
+        <div className="overflow-x-auto flex-grow">
           <table className="min-w-full leading-normal">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-200">
               <tr>
                 {Array.from({ length: 22 }).map((_, index) => (
                   <th
                     key={`header-${index}`}
-                    className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                    className="px-5 py-2 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                   >
                     <div className="bg-gray-300 h-4 rounded w-16"></div>
                   </th>
@@ -36,12 +36,12 @@ const Loader = () => {
               </tr>
             </thead>
             <tbody className="h-fit">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <tr key={`row-${index}`}>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <tr className="space-x-3 py-3" key={`row-${index}`}>
                   {Array.from({ length: 22 }).map((_, cellIndex) => (
                     <td
                       key={`cell-${index}-${cellIndex}`}
-                      className="px-5 py-5 border-b border-gray-200 bg-white text-sm"
+                      className="px-5 py-3 border-b text-left border-gray-200 bg-white text-sm"
                     >
                       <div className="bg-gray-300 h-6 rounded w-24"></div>
                     </td>
