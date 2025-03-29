@@ -13,7 +13,7 @@ const Earthquakes = () => {
 
   if (earthquakesQuery.isPending) {
     return (
-      <div className="p-10 space-y-4">
+      <div className="p-10 space-y-6">
         <Loader />
       </div>
     );

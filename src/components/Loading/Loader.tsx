@@ -4,14 +4,14 @@ const Loader = () => {
   return (
     <div className="animate-pulse space-y-6">
       {/* Skeleton for PlotPane */}
-      <div className="bg-gray-100 rounded-lg shadow-md p-6 h-[33rem] w-full mb-6 flex flex-col">
+      <div className="bg-gray-100 rounded-lg shadow-md p-6 h-[32.5rem] w-full mb-6 flex flex-col">
         <div className="mb-4 flex items-center space-x-4">
           <div>
-            <div className="bg-gray-200 h-8 rounded w-24 mb-2"></div>
+            <div className="bg-gray-200 h-4 rounded w-24 mb-2"></div>
             <div className="bg-gray-200 h-10 rounded w-48"></div>
           </div>
           <div>
-            <div className="bg-gray-200 h-8 rounded w-24 mb-2"></div>
+            <div className="bg-gray-200 h-4 rounded w-24 mb-2"></div>
             <div className="bg-gray-200 h-10 rounded w-48"></div>
           </div>
         </div>
@@ -19,7 +19,7 @@ const Loader = () => {
       </div>
 
       {/* Skeleton for TablePane */}
-      <div className="bg-gray-100 rounded-lg shadow-md p-6 h-96 w-full">
+      <div className="bg-gray-100 rounded-lg shadow-md p-6 h-fit w-full">
         <div className="bg-gray-200 h-8 rounded w-32 mb-4"></div>
         <div className="overflow-x-auto">
           <table className="min-w-full leading-normal">
@@ -35,8 +35,8 @@ const Loader = () => {
                 ))}
               </tr>
             </thead>
-            <tbody>
-              {Array.from({ length: 5 }).map((_, index) => (
+            <tbody className="h-fit">
+              {Array.from({ length: 3 }).map((_, index) => (
                 <tr key={`row-${index}`}>
                   {Array.from({ length: 22 }).map((_, cellIndex) => (
                     <td
