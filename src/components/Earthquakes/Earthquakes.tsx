@@ -15,7 +15,7 @@ const Earthquakes = () => {
 
   if (earthquakesQuery.isPending) {
     return (
-      <Container>
+      <Container className="py-6">
         <Loader />
       </Container>
     );
@@ -23,7 +23,7 @@ const Earthquakes = () => {
 
   if (earthquakesQuery.isError) {
     return (
-      <Container className="">
+      <Container>
         <Error />
         <div className="px-4 space-y-6 flex space-x-4 justify-between ">
           <PlotPane data={[]} />
@@ -33,7 +33,7 @@ const Earthquakes = () => {
     );
   }
 
-  // Filter the data to get only the first 100 items
+  // Filter the data to get only the first 100 items - there is way too much data here
   const first100Earthquakes: EarthquakeRecord[] | undefined =
     earthquakesQuery.data?.slice(0, 100);
 

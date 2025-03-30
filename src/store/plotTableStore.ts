@@ -10,9 +10,9 @@ interface PlotTableState<T = any> {
 }
 
 export const usePlotTableStore = create<PlotTableState>((set) => ({
-  xAxisKey: null,
+  xAxisKey: 'latitude',
   setXAxisKey: (key) => set({ xAxisKey: key }),
-  yAxisKey: null,
+  yAxisKey: 'longitude',
   setYAxisKey: (key) => set({ yAxisKey: key }),
   highlightedRecord: null,
   setHighlightedRecord: (record) => set({ highlightedRecord: record }),
