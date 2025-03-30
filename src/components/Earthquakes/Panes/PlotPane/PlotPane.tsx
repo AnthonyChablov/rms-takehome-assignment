@@ -154,14 +154,14 @@ function PlotPane<T extends Record<string, any>>({
             <XAxis
               dataKey={xAxisKey}
               name={xAxisKey}
-              stroke="#8884d8"
+              stroke="#2b7fff"
               tickLine={false}
               label={{ value: xAxisKey, position: 'bottom', offset: 0 }}
             />
             <YAxis
               dataKey={yAxisKey}
               name={yAxisKey}
-              stroke="#8884d8"
+              stroke="#2b7fff"
               tickLine={false}
               label={{
                 value: yAxisKey,
