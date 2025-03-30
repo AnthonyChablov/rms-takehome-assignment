@@ -54,7 +54,7 @@ function TablePane<T extends Record<string, any>>({
                 key={row?.id}
                 className={`                   
                   ${cn(index % 2 === 0 ? 'bg-white' : 'bg-gray-50')}
-                  hover:cursor-pointer  hover:bg-blue-100 h-16 
+                  hover:cursor-pointer  hover:bg-blue-100 h-18 
                   
                 `}
               >
@@ -62,7 +62,7 @@ function TablePane<T extends Record<string, any>>({
                   <td
                     key={`${index}-${column}`}
                     className={`px-5 border-b border-gray-200 text-left text-sm 
-                      ${row?.id === highlighted?.id && 'bg-blue-600'}`}
+                      ${row?.id === highlighted?.id && 'bg-blue-300'}`}
                   >
                     <p className="text-gray-900 whitespace-no-wrap">
                       {column === 'time' || column === 'updated'
