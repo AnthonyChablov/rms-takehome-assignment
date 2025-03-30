@@ -20,6 +20,8 @@ const Loader = () => {
 
       {/* Skeleton for TablePane */}
       <div className="animate-pulse bg-white rounded-lg w-5/12  flex flex-col ">
+        {' '}
+        <div className="bg-gray-200 h-4 rounded w-64 mb-2"></div>
         <div className="bg-gray-200 rounded w-32 mb-4"></div>
         <div className="overflow-x-auto flex-grow">
           <table className="min-w-full leading-normal">
