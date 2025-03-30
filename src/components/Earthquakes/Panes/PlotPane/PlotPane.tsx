@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import CustomDot from './CustomDot/CustomDot';
 import usePlotPaneData from './hooks/usePlotPlaneData';
+import { usePlotTableStore } from '@/store/plotTableStore';
 import { cn } from '@/utils/utils';
 
 interface PlotPaneProps<T extends Record<string, any>> {
@@ -24,8 +25,16 @@ function PlotPane<T extends Record<string, any>>({
   setHighlighted,
 }: PlotPaneProps<T>) {
   // Use custom hook to manage the axis and numeric keys state
-  const { xAxisKey, setXAxisKey, yAxisKey, setYAxisKey, numericKeys } =
-    usePlotPaneData(data);
+  const { numericKeys } = usePlotPaneData(data);
+
+  // Use Zustand to get and set xAxisKey and yAxisKey
+  const {
+    xAxisKey,
+    setXAxisKey,
+    yAxisKey,
+    setYAxisKey,
+    setHighlightedRecord: setGlobalHighlightedRecord, // Rename this for clarity
+  } = usePlotTableStore();
 
   const handleXAxisChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setXAxisKey(event.target.value);
