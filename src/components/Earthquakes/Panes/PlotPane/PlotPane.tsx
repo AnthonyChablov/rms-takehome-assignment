@@ -8,12 +8,20 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import CustomDot from './CustomDot/CustomDot';
+import { cn } from '@/utils/utils';
 
 interface PlotPaneProps<T extends Record<string, any>> {
   data: T[];
+  highlighted?: T | null;
+  setHighlighted?: (item: T | null) => void;
 }
 
-function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
+function PlotPane<T extends Record<string, any>>({
+  data,
+  highlighted,
+  setHighlighted,
+}: PlotPaneProps<T>) {
   const [xAxisKey, setXAxisKey] = useState<string | null>(null);
   const [yAxisKey, setYAxisKey] = useState<string | null>(null);
   const [numericKeys, setNumericKeys] = useState<string[]>([]);
@@ -44,8 +52,29 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
     setYAxisKey(event.target.value);
   };
 
+  const handleDotMouseEnter = (event: any) => {
+    if (setHighlighted) {
+      const { selected } = event.payload;
+      setHighlighted(selected);
+    }
+  };
+
+  const handleDotMouseLeave = () => {
+    if (setHighlighted) {
+      setHighlighted(null);
+    }
+  };
+
+  const handleDotClick = (event: any) => {
+    if (setHighlighted) {
+      console.log(event?.payload);
+      setHighlighted(event?.payload);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg  p-6 w-7/12 ">
+      {/* Menu Select */}
       <div className="mb-4 flex items-center space-x-4">
         <div>
           <label
@@ -116,8 +145,9 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
         </div>
       </div>
 
+      {/* Scatter Plot */}
       {data.length > 0 && xAxisKey && yAxisKey && (
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={500}>
           <ScatterChart margin={{ top: 20, right: 10, bottom: 20, left: 10 }}>
             {/* Adjusted margins for labels */}
             <CartesianGrid stroke="#ccc" />
@@ -147,11 +177,11 @@ function PlotPane<T extends Record<string, any>>({ data }: PlotPaneProps<T>) {
               }}
             />
             <Scatter
-              className="hover:cursor-pointer"
+              className={cn(`hover:cursor-pointer`)}
               data={data}
-              fill="#2b7fff"
-              stroke="#2b7fff"
-              strokeWidth={0.2}
+              strokeWidth={1}
+              shape={<CustomDot selectedPoint={highlighted} />}
+              onClick={handleDotClick}
             />
           </ScatterChart>
         </ResponsiveContainer>

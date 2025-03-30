@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useEarthquakes } from '@/services/earthquakes/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
 import PlotPane from './Panes/PlotPane/PlotPane';
@@ -38,8 +38,16 @@ const Earthquakes = () => {
 
   return (
     <div className="px-4 space-y-6 flex space-x-4 justify-between ">
-      <PlotPane data={first100Earthquakes} />
-      <TablePane data={first100Earthquakes} />
+      <PlotPane
+        data={first100Earthquakes}
+        highlighted={highlightedEarthquake}
+        setHighlighted={setHighlightedEarthquake}
+      />
+      <TablePane
+        data={first100Earthquakes}
+        highlighted={highlightedEarthquake}
+        setHighlighted={setHighlightedEarthquake}
+      />
     </div>
   );
 };

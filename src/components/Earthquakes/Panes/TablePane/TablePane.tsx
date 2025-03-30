@@ -4,9 +4,15 @@ import { cn } from '@/utils/utils';
 
 interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
+  highlighted?: T | null;
+  setHighlighted?: (item: T | null) => void;
 }
 
-function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
+function TablePane<T extends Record<string, any>>({
+  data,
+  highlighted,
+  setHighlighted,
+}: TablePaneProps<T>) {
   if (!data || data.length === 0) {
     return <p className="text-gray-500 italic">No data to display.</p>;
   }
@@ -15,9 +21,9 @@ function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
 
   return (
     <div className="bg-white rounded-lg w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-gray-800">
+      <h1 className="text-xl font-bold mb-4 text-gray-800">
         USGS Most Recent Earthquakes (Top 100)
-      </h2>
+      </h1>
       <div className="overflow-y-auto overflow-x-auto flex-grow">
         <table className="min-w-full leading-normal relative ">
           {/* Table Header */}
@@ -33,6 +39,7 @@ function TablePane<T extends Record<string, any>>({ data }: TablePaneProps<T>) {
               ))}
             </tr>
           </thead>
+
           <tbody>
             {data.map((row, index) => (
               <tr
