@@ -20,9 +20,9 @@ function TablePane<T extends Record<string, any>>({
 
   const columns = Object.keys(data[0]);
 
-  const handleClick = (input: T | null) => {
+  const handleClick = (row: T | null) => {
     if (setHighlighted) {
-      setHighlighted(input);
+      setHighlighted(row);
     }
   };
 
@@ -74,6 +74,7 @@ function TablePane<T extends Record<string, any>>({
                   hover:cursor-pointer  hover:bg-blue-100 h-18 
                   
                 `}
+                onClick={() => handleClick(row)}
               >
                 {columns.map((column) => (
                   <td
