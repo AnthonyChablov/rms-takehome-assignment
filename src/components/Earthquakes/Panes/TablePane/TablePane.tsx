@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
+import { EarthquakeRecord } from '@/types/earthquake';
 
 interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
@@ -18,6 +19,12 @@ function TablePane<T extends Record<string, any>>({
   }
 
   const columns = Object.keys(data[0]);
+
+  const handleClick = (input: T | null) => {
+    if (setHighlighted) {
+      setHighlighted(input);
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
@@ -43,9 +50,12 @@ function TablePane<T extends Record<string, any>>({
           <tbody>
             {data.map((row, index) => (
               <tr
-                key={index}
-                className={`${cn(index % 2 === 0 ? 'bg-white' : 'bg-gray-50')} 
-                  hover:cursor-pointer  hover:bg-blue-100`}
+                id={row?.id}
+                key={row?.id}
+                className={`
+                  ${cn(index % 2 === 0 ? 'bg-white' : 'bg-gray-50')}
+                  ${row?.id === highlighted?.id && 'bg-blue-600'} 
+                    hover:cursor-pointer  hover:bg-blue-100 h-16`}
               >
                 {columns.map((column) => (
                   <td

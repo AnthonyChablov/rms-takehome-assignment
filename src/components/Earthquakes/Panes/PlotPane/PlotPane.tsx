@@ -52,20 +52,21 @@ function PlotPane<T extends Record<string, any>>({
     setYAxisKey(event.target.value);
   };
 
-  const handleDotMouseEnter = (event: any) => {
+  const handleMouseEnter = (event: any) => {
     if (setHighlighted) {
-      const { selected } = event.payload;
-      setHighlighted(selected);
+      console.log(event?.payload);
+      setHighlighted(event?.payload);
     }
   };
 
-  const handleDotMouseLeave = () => {
+  const handleMouseLeave = (event: any) => {
     if (setHighlighted) {
-      setHighlighted(null);
+      console.log(event?.payload);
+      setHighlighted(event?.payload);
     }
   };
 
-  const handleDotClick = (event: any) => {
+  const handleClick = (event: any) => {
     if (setHighlighted) {
       console.log(event?.payload);
       setHighlighted(event?.payload);
@@ -181,7 +182,9 @@ function PlotPane<T extends Record<string, any>>({
               data={data}
               strokeWidth={1}
               shape={<CustomDot selectedPoint={highlighted} />}
-              onClick={handleDotClick}
+              onClick={handleClick}
+              onMouseOver={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             />
           </ScatterChart>
         </ResponsiveContainer>
