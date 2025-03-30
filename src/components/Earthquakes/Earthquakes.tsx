@@ -15,7 +15,7 @@ const Earthquakes = () => {
 
   if (earthquakesQuery.isPending) {
     return (
-      <Container className="py-6">
+      <Container className="py-6 space-y-6 flex space-x-4 justify-between">
         <Loader />
       </Container>
     );

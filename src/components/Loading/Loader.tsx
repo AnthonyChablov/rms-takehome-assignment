@@ -2,17 +2,17 @@ import React from 'react';
 
 const Loader = () => {
   return (
-    <div className=" space-y-6 flex space-x-4 justify-between">
+    <>
       {/* Skeleton for PlotPane */}
       <div className="animate-pulse bg-white rounded-lg px-6 w-7/12  flex flex-col ">
         <div className="mb-4 flex items-center space-x-4">
           <div>
-            <div className="bg-gray-200 h-4 rounded w-24 mb-2"></div>
-            <div className="bg-gray-200 h-10 rounded w-48"></div>
+            <div className="bg-gray-200 h-4 rounded w-12 mb-2"></div>
+            <div className="bg-gray-200 h-10 rounded w-34"></div>
           </div>
           <div>
-            <div className="bg-gray-200 h-4 rounded w-24 mb-2"></div>
-            <div className="bg-gray-200 h-10 rounded w-48"></div>
+            <div className="bg-gray-200 h-4 rounded w-12 mb-2"></div>
+            <div className="bg-gray-200 h-10 rounded w-34"></div>
           </div>
         </div>
         <div className="bg-gray-200 rounded-md flex-grow"></div>
@@ -52,7 +52,7 @@ const Loader = () => {
           </table>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
