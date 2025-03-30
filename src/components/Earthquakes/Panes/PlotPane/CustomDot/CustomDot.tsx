@@ -25,7 +25,7 @@ const CustomDot = <T extends Record<string, any>>({
   onMouseLeave,
 }: CustomDotProps<T>) => {
   const isHighlighted = selectedPoint && payload === selectedPoint;
-  const dotRadius = isHighlighted ? 8.5 : 6;
+  const dotRadius = isHighlighted ? 9 : 6;
   const dotFill = isHighlighted ? '#2b7fff' : fill || '#8ec5ff'; // Highlight color
 
   return (
