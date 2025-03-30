@@ -4,7 +4,10 @@ const Loader = () => {
   return (
     <>
       {/* Skeleton for PlotPane */}
-      <div className="animate-pulse bg-white rounded-lg px-6 w-7/12  flex flex-col ">
+      <div
+        data-testid="skeleton-plot"
+        className="animate-pulse bg-white rounded-lg px-6 w-7/12  flex flex-col "
+      >
         <div className="mb-4 flex items-center space-x-4">
           <div>
             <div className="bg-gray-200 h-4 rounded w-12 mb-2"></div>
@@ -19,8 +22,10 @@ const Loader = () => {
       </div>
 
       {/* Skeleton for TablePane */}
-      <div className="animate-pulse bg-white rounded-lg w-5/12  flex flex-col ">
-        {' '}
+      <div
+        data-testid="skeleton-table"
+        className="animate-pulse bg-white rounded-lg w-5/12  flex flex-col "
+      >
         <div className="bg-gray-200 h-4 rounded w-64 mb-2"></div>
         <div className="bg-gray-200 rounded w-32 mb-4"></div>
         <div className="overflow-x-auto flex-grow">
