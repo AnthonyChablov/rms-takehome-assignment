@@ -45,6 +45,7 @@ const Earthquakes = () => {
         setHighlighted={setHighlightedEarthquake}
       />
       <TablePane
+        title={'USGS Most Recent Earthquakes (Top 100)'}
         data={first100Earthquakes}
         highlighted={highlightedEarthquake}
         setHighlighted={setHighlightedEarthquake}

@@ -7,12 +7,14 @@ interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
   highlighted?: T | null;
   setHighlighted?: (item: T | null) => void;
+  title?: React.ReactNode;
 }
 
 function TablePane<T extends Record<string, any>>({
-  data,
+  data = [],
   highlighted,
   setHighlighted,
+  title = '',
 }: TablePaneProps<T>) {
   if (!data || data.length === 0) {
     return <p className="text-gray-500 italic">No data to display.</p>;
@@ -42,9 +44,7 @@ function TablePane<T extends Record<string, any>>({
 
   return (
     <div className="bg-white rounded-lg w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
-      <h1 className="text-xl font-bold mb-4 text-gray-800">
-        USGS Most Recent Earthquakes (Top 100)
-      </h1>
+      <h1 className="text-xl font-bold mb-4 text-gray-800">{title}</h1>
       <div
         ref={tableContainerRef}
         className="overflow-y-auto overflow-x-auto flex-grow"
