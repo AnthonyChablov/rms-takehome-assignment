@@ -36,12 +36,12 @@ const Loader = () => {
               </tr>
             </thead>
             <tbody className="h-fit">
-              {Array.from({ length: 10 }).map((_, index) => (
-                <tr className="space-x-3 py-3" key={`row-${index}`}>
+              {Array.from({ length: 8 }).map((_, index) => (
+                <tr className="space-x-3 py-3 h-18" key={`row-${index}`}>
                   {Array.from({ length: 22 }).map((_, cellIndex) => (
                     <td
                       key={`cell-${index}-${cellIndex}`}
-                      className="px-5 py-3 border-b text-left border-gray-200 bg-white text-sm"
+                      className="px-5 py-3  border-b text-left border-gray-200 bg-white text-sm"
                     >
                       <div className="bg-gray-300 h-6 rounded w-24"></div>
                     </td>
