@@ -26,24 +26,6 @@ function PlotPane<T extends Record<string, any>>({
   const [yAxisKey, setYAxisKey] = useState<string | null>(null);
   const [numericKeys, setNumericKeys] = useState<string[]>([]);
 
-  useEffect(() => {
-    if (data.length > 0) {
-      const firstRow = data[0];
-      const numbers = Object.keys(firstRow).filter(
-        (key) => typeof firstRow[key] === 'number',
-      );
-      setNumericKeys(numbers);
-
-      // Set initial axis keys if available
-      if (numbers.length >= 2) {
-        setXAxisKey(numbers[0]);
-        setYAxisKey(numbers[1]);
-      } else if (numbers.length === 1) {
-        setXAxisKey(numbers[0]);
-      }
-    }
-  }, [data]);
-
   const handleXAxisChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setXAxisKey(event.target.value);
   };
@@ -72,6 +54,24 @@ function PlotPane<T extends Record<string, any>>({
       setHighlighted(event?.payload);
     }
   };
+
+  useEffect(() => {
+    if (data.length > 0) {
+      const firstRow = data[0];
+      const numbers = Object.keys(firstRow).filter(
+        (key) => typeof firstRow[key] === 'number',
+      );
+      setNumericKeys(numbers);
+
+      // Set initial axis keys if available
+      if (numbers.length >= 2) {
+        setXAxisKey(numbers[0]);
+        setYAxisKey(numbers[1]);
+      } else if (numbers.length === 1) {
+        setXAxisKey(numbers[0]);
+      }
+    }
+  }, [data]);
 
   return (
     <div className="bg-white rounded-lg  p-6 w-7/12 ">
