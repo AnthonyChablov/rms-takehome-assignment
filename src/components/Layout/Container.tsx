@@ -11,7 +11,7 @@ const Container = ({ children, className = '' }: ContainerProps) => {
     <div
       role="container"
       className={cn(
-        ` max-w-[150rem] container mx-auto px-3 md:px-8 lg:px-12  ${className}`,
+        ` max-w-[160rem] container mx-auto px-3 md:px-8 lg:px-12  ${className}`,
       )}
     >
       {children}
