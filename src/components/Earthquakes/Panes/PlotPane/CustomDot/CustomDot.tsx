@@ -26,7 +26,7 @@ const CustomDot = <T extends Record<string, any>>({
 }: CustomDotProps<T>) => {
   const isHighlighted = selectedPoint && payload === selectedPoint;
   const dotRadius = isHighlighted ? 8.5 : 6;
-  const dotFill = isHighlighted ? '#1d293d' : fill || '#5aa1f1'; // Highlight color
+  const dotFill = isHighlighted ? '#2b7fff' : fill || '#8ec5ff'; // Highlight color
 
   return (
     <circle
