@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
 import { EarthquakeRecord } from '@/types/earthquake';
@@ -26,12 +26,29 @@ function TablePane<T extends Record<string, any>>({
     }
   };
 
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (highlighted?.id && tableContainerRef.current) {
+      const highlightedRow = document.getElementById(highlighted.id);
+      if (highlightedRow) {
+        tableContainerRef.current.scrollTo({
+          top: highlightedRow.offsetTop - tableContainerRef.current.offsetTop,
+          behavior: 'smooth', // Enable smooth scrolling
+        });
+      }
+    }
+  }, [highlighted]);
+
   return (
     <div className="bg-white rounded-lg w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
       <h1 className="text-xl font-bold mb-4 text-gray-800">
         USGS Most Recent Earthquakes (Top 100)
       </h1>
-      <div className="overflow-y-auto overflow-x-auto flex-grow">
+      <div
+        ref={tableContainerRef}
+        className="overflow-y-auto overflow-x-auto flex-grow"
+      >
         <table className="min-w-full leading-normal relative ">
           {/* Table Header */}
           <thead className="">
