@@ -11,6 +11,10 @@ interface TablePaneProps<T extends Record<string, any>> {
   selected?: T | null;
   setSelected?: (item: T | null) => void;
   title?: React.ReactNode;
+  xAxisKey?: string | null;
+  setXAxisKey?: (key: string) => void;
+  yAxisKey?: string | null;
+  setYAxisKey?: (key: string) => void;
 }
 
 /**
@@ -26,6 +30,10 @@ function TablePane<T extends Record<string, any>>({
   selected,
   setSelected,
   title = '',
+  xAxisKey = '',
+  setXAxisKey,
+  yAxisKey = '',
+  setYAxisKey,
 }: TablePaneProps<T>) {
   // Render a message if there is no data to display
   if (!data || data.length === 0) {
@@ -34,13 +42,6 @@ function TablePane<T extends Record<string, any>>({
 
   // Extract column headers from the first data item
   const columns = Object.keys(data[0]);
-
-  // Event handlers
-  const handleMouseEnter = (row: T | null) => {
-    if (setHighlighted) {
-      setHighlighted(row);
-    }
-  };
 
   const handleClick = (row: T | null) => {
     if (setHighlighted && setSelected) {
@@ -60,6 +61,16 @@ function TablePane<T extends Record<string, any>>({
   // Use the custom hook to automatically scroll the table container
   // to the highlighted row when the 'highlighted' prop changes.
   useScrollToElement(highlighted, tableContainerRef);
+
+  const sortedData = React.useMemo(() => {
+    if (data && xAxisKey) {
+      return [...data].sort((a, b) => {
+        // Assuming xAxisKey corresponds to a number
+        return (a[xAxisKey] as number) - (b[xAxisKey] as number);
+      });
+    }
+    return data;
+  }, [data, xAxisKey]);
 
   return (
     <div className="bg-white rounded-lg w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
@@ -88,7 +99,7 @@ function TablePane<T extends Record<string, any>>({
 
           <tbody>
             {/* Map through the data to create table rows */}
-            {data.map((row, index) => (
+            {sortedData.map((row, index) => (
               <tr
                 // Set the ID of the row to the item's ID for scrolling purposes
                 id={row?.id}

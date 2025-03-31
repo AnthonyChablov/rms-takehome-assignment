@@ -76,17 +76,21 @@ const Earthquakes = () => {
     <Container className="px-4 space-y-6 flex space-x-4 justify-between ">
       <PlotPane
         data={earthquakesQuery.data}
-        highlighted={highlightedEarthquake}
-        setHighlighted={setHighlightedEarthquake}
-        selected={selectedRecord}
-        setSelected={setSelectedRecord}
         xAxisKey={xAxisKey}
         setXAxisKey={setXAxisKey}
         yAxisKey={yAxisKey}
         setYAxisKey={setYAxisKey}
+        highlighted={highlightedEarthquake}
+        setHighlighted={setHighlightedEarthquake}
+        selected={selectedRecord}
+        setSelected={setSelectedRecord}
       />
       <TablePane
         title={'USGS Most Recent Earthquakes (Top 100)'}
+        xAxisKey={xAxisKey}
+        setXAxisKey={setXAxisKey}
+        yAxisKey={yAxisKey}
+        setYAxisKey={setYAxisKey}
         data={earthquakesQuery.data}
         highlighted={highlightedEarthquake}
         setHighlighted={setHighlightedEarthquake}
