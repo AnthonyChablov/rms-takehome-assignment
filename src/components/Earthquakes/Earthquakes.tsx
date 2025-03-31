@@ -61,8 +61,8 @@ const Earthquakes = () => {
             setXAxisKey={setXAxisKey}
             yAxisKey={yAxisKey}
             setYAxisKey={setYAxisKey}
-            selectedRecord={selectedRecord}
-            setSelectedRecord={setSelectedRecord}
+            selected={selectedRecord}
+            setSelected={setSelectedRecord}
           />
           <TablePane data={[]} />
         </div>
@@ -84,8 +84,6 @@ const Earthquakes = () => {
         setXAxisKey={setXAxisKey}
         yAxisKey={yAxisKey}
         setYAxisKey={setYAxisKey}
-        selectedRecord={selectedRecord}
-        setSelectedRecord={setSelectedRecord}
       />
       <TablePane
         title={'USGS Most Recent Earthquakes (Top 100)'}
