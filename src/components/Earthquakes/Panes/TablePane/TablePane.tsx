@@ -36,7 +36,6 @@ function TablePane<T extends Record<string, any>>({
       if (highlightedRow) {
         tableContainerRef.current.scrollTo({
           top: highlightedRow.offsetTop - tableContainerRef.current.offsetTop,
-          behavior: 'smooth', // Enable smooth scrolling
         });
       }
     }
