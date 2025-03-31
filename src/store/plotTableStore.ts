@@ -9,8 +9,8 @@ interface PlotTableState<T = any> {
   setXAxisKey: (key: string | null) => void;
   yAxisKey: string | null;
   setYAxisKey: (key: string | null) => void;
-  highlightedRecord: T | null;
-  setGlobalHighlightedRecord: (record: T | null) => void;
+  selectedRecord: T | null;
+  setSelectedRecord: (record: T | null) => void;
 }
 
 export const usePlotTableStore = create<PlotTableState>((set) => ({
@@ -18,6 +18,6 @@ export const usePlotTableStore = create<PlotTableState>((set) => ({
   setXAxisKey: (key) => set({ xAxisKey: key }),
   yAxisKey: 'longitude',
   setYAxisKey: (key) => set({ yAxisKey: key }),
-  highlightedRecord: null,
-  setGlobalHighlightedRecord: (record) => set({ highlightedRecord: record }),
+  selectedRecord: null,
+  setSelectedRecord: (record) => set({ selectedRecord: record }),
 }));

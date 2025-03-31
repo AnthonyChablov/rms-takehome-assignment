@@ -19,12 +19,16 @@ interface PlotPaneProps<T extends Record<string, any>> {
   data: T[];
   highlighted?: T | null;
   setHighlighted?: (item: T | null) => void;
+  selected?: T | null;
+  setSelected?: (item: T | null) => void;
 }
 
 function PlotPane<T extends Record<string, any>>({
   data,
   highlighted,
   setHighlighted,
+  selected,
+  setSelected,
 }: PlotPaneProps<T>) {
   // Use custom hook to manage the axis and numeric keys state
   const { numericKeys } = usePlotPaneData(data);
@@ -35,7 +39,8 @@ function PlotPane<T extends Record<string, any>>({
     setXAxisKey,
     yAxisKey,
     setYAxisKey,
-    setGlobalHighlightedRecord, // Rename this for clarity
+    selectedRecord,
+    setSelectedRecord,
   } = usePlotTableStore();
 
   const handleXAxisChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,22 +53,19 @@ function PlotPane<T extends Record<string, any>>({
 
   const handleMouseEnter = (event: any) => {
     if (setHighlighted) {
-      console.log(event?.payload);
       setHighlighted(event?.payload);
     }
   };
 
   const handleMouseLeave = (event: any) => {
     if (setHighlighted) {
-      console.log(event?.payload);
       setHighlighted(event?.payload);
     }
   };
 
   const handleClick = (event: any) => {
     if (setHighlighted) {
-      console.log(event?.payload);
-      setHighlighted(event?.payload);
+      setSelectedRecord(event?.payload);
     }
   };
 
@@ -124,7 +126,12 @@ function PlotPane<T extends Record<string, any>>({
               className={cn(`hover:cursor-pointer`)}
               data={sortedData}
               strokeWidth={1}
-              shape={<CustomDot selectedPoint={highlighted} />}
+              shape={
+                <CustomDot
+                  selectedPoint={selectedRecord}
+                  highlightedPoint={highlighted}
+                />
+              }
               onClick={handleClick}
               onMouseOver={handleMouseEnter}
               onMouseLeave={handleMouseLeave}

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useEarthquakesQuery } from '@/services/earthquakes/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
 import PlotPane from './Panes/PlotPane/PlotPane';
 import TablePane from './Panes/TablePane/TablePane';
-import { EarthquakeRecord } from '@/types/earthquake';
 import Loader from '../Loading/Loader';
 import Error from '../Error/Error';
 import Container from '../Layout/Container';
+import { usePlotTableStore } from '@/store/plotTableStore';
 
 /**
  * Fetches and displays a list of recent earthquakes from the USGS API.
@@ -26,6 +26,8 @@ const Earthquakes = () => {
   const { highlightedEarthquake, setHighlightedEarthquake } =
     useHighlightedEarthquakeContext();
 
+  // --- Zustand State ---
+  const { selectedRecord, setSelectedRecord } = usePlotTableStore();
   // --- Loading State ---
   // Displays a loader while the earthquake data is being fetched.
   if (earthquakesQuery.isPending) {
@@ -58,12 +60,16 @@ const Earthquakes = () => {
         data={earthquakesQuery.data}
         highlighted={highlightedEarthquake}
         setHighlighted={setHighlightedEarthquake}
+        selected={selectedRecord}
+        setSelected={setSelectedRecord}
       />
       <TablePane
         title={'USGS Most Recent Earthquakes (Top 100)'}
         data={earthquakesQuery.data}
         highlighted={highlightedEarthquake}
         setHighlighted={setHighlightedEarthquake}
+        selected={selectedRecord}
+        setSelected={setSelectedRecord}
       />
     </Container>
   );

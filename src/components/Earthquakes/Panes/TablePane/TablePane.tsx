@@ -8,6 +8,8 @@ interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
   highlighted?: T | null;
   setHighlighted?: (item: T | null) => void;
+  selected?: T | null;
+  setSelected?: (item: T | null) => void;
   title?: React.ReactNode;
 }
 
@@ -21,6 +23,8 @@ function TablePane<T extends Record<string, any>>({
   data = [],
   highlighted,
   setHighlighted,
+  selected,
+  setSelected,
   title = '',
 }: TablePaneProps<T>) {
   // Render a message if there is no data to display
@@ -31,10 +35,17 @@ function TablePane<T extends Record<string, any>>({
   // Extract column headers from the first data item
   const columns = Object.keys(data[0]);
 
-  // Handle click event
-  const handleClick = (row: T | null) => {
+  // Event handellers
+  const handleMouseEnter = (row: T | null) => {
     if (setHighlighted) {
       setHighlighted(row);
+    }
+  };
+
+  const handleClick = (row: T | null) => {
+    if (setHighlighted && setSelected) {
+      setHighlighted(row);
+      setSelected(row);
     }
   };
 
@@ -84,6 +95,8 @@ function TablePane<T extends Record<string, any>>({
                 `}
                 // Handle click on a row to highlight it
                 onClick={() => handleClick(row)}
+                // Mouse hover functionality
+                /* onMouseOver={() => handleMouseEnter(row)} */
               >
                 {/* Map through the columns to create table data cells */}
                 {columns.map((column) => (
