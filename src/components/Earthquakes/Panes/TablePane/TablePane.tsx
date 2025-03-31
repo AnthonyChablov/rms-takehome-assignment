@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
 import { EarthquakeRecord } from '@/types/earthquake';
+import { useScrollToElement } from './hooks/useScrollToElement';
 
 interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
@@ -29,6 +30,8 @@ function TablePane<T extends Record<string, any>>({
   };
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  useScrollToElement(highlighted, tableContainerRef);
 
   useEffect(() => {
     if (highlighted?.id && tableContainerRef.current) {
