@@ -1,6 +1,6 @@
 import { useEffect, useRef, RefObject } from 'react';
 
-export function useScrollToRow<T extends Record<string, any>>(
+export function useScrollToElement<T extends Record<string, any>>(
   highlighted: T | null | undefined,
   containerRef: RefObject<HTMLDivElement | null>,
 ) {
