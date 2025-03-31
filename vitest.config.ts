@@ -14,4 +14,7 @@ export default defineConfig({
       exclude: ['vitest.setup.ts'],
     },
   },
+  resolve: {
+    alias: [{ find: '@', replacement: resolve(__dirname, './src') }],
+  },
 });
