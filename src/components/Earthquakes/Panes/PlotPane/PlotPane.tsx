@@ -24,8 +24,6 @@ interface PlotPaneProps<T extends Record<string, any>> {
   setXAxisKey: (key: string) => void;
   yAxisKey: string | null;
   setYAxisKey: (key: string) => void;
-  selectedRecord: T | null;
-  setSelectedRecord: (item: T | null) => void;
 }
 
 function PlotPane<T extends Record<string, any>>({
@@ -38,8 +36,6 @@ function PlotPane<T extends Record<string, any>>({
   setXAxisKey,
   yAxisKey,
   setYAxisKey,
-  selectedRecord,
-  setSelectedRecord,
 }: PlotPaneProps<T>) {
   // Use custom hook to manage the axis and numeric keys state
   const { numericKeys } = usePlotPaneData(data);
@@ -71,10 +67,10 @@ function PlotPane<T extends Record<string, any>>({
     if (setHighlighted && setSelected) {
       // If the clicked item is already selected, deselect it
       if (payload === selected) {
-        setSelectedRecord(null);
+        setSelected(null);
       } else {
         // Otherwise, select the clicked item
-        setSelectedRecord(payload);
+        setSelected(payload);
       }
     }
   };
@@ -143,7 +139,7 @@ function PlotPane<T extends Record<string, any>>({
               strokeWidth={1}
               shape={
                 <CustomDot
-                  selectedPoint={selectedRecord}
+                  selectedPoint={selected}
                   highlightedPoint={highlighted}
                 />
               }
