@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
-import { useScrollToElement } from './hooks/useScrollToElement';
+import { useScrollToRow } from '../../../../hooks/useScrollToElement';
 
 // Interface for the TablePane component props
 interface TablePaneProps<T extends Record<string, any>> {
@@ -60,7 +60,7 @@ function TablePane<T extends Record<string, any>>({
 
   // Use the custom hook to automatically scroll the table container
   // to the highlighted row when the 'highlighted' prop changes.
-  useScrollToElement(highlighted, tableContainerRef);
+  useScrollToRow(highlighted, tableContainerRef);
 
   const sortedData = React.useMemo(() => {
     if (data && xAxisKey) {
