@@ -11,7 +11,12 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["vitest/globals"],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom/extend-expect"
+    ],
+
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -28,8 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "**/*.spec.ts",
-    "**/*.d.ts"
+    "src"
   ],
   "exclude": ["node_modules"]
 }

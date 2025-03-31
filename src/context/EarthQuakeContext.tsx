@@ -7,11 +7,6 @@ import React, {
 } from 'react';
 import { EarthquakeRecord } from '@/types/earthquake';
 
-/* 2. Context API:
- * - Set up a React Context to manage the currently highlighted earthquake record.
- * - Use the Context Provider in a top-level component to allow nested children access to the highlighted record state.
- */
-
 interface HighlightedEarthquakeContextType {
   highlightedEarthquake: EarthquakeRecord | null;
   setHighlightedEarthquake: Dispatch<SetStateAction<EarthquakeRecord | null>>;
@@ -26,6 +21,10 @@ const HighlightedEarthquakeContext = createContext<
   HighlightedEarthquakeContextType | undefined
 >(undefined);
 
+/* 2. Context API:
+ * - Set up a React Context to manage the currently highlighted earthquake record.
+ * - Use the Context Provider in a top-level component to allow nested children access to the highlighted record state.
+ */
 export const HighlightedEarthquakeProvider: React.FC<
   HighlightedEarthquakeProviderProps
 > = ({ children }) => {
