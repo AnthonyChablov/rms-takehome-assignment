@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loader = () => {
+const Loading = () => {
   return (
     <>
       {/* Skeleton for PlotPane */}
@@ -63,4 +63,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default Loading;

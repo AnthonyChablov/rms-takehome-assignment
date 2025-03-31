@@ -3,7 +3,7 @@ import { useEarthquakesQuery } from '@/services/earthquakes/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
 import PlotPane from './Panes/PlotPane/PlotPane';
 import TablePane from './Panes/TablePane/TablePane';
-import Loader from '../Loading/Loader';
+import Loader from '../Loading/Loading';
 import Error from '../Error/Error';
 import Container from '../Layout/Container';
 import { usePlotTableStore } from '@/store/plotTableStore';
