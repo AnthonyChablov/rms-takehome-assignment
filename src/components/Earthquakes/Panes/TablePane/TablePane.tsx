@@ -44,8 +44,13 @@ function TablePane<T extends Record<string, any>>({
 
   const handleClick = (row: T | null) => {
     if (setHighlighted && setSelected) {
-      setHighlighted(row);
-      setSelected(row);
+      if (row === selected) {
+        setHighlighted(null);
+        setSelected(null);
+      } else {
+        setHighlighted(row);
+        setSelected(row);
+      }
     }
   };
 
