@@ -89,8 +89,17 @@ function PlotPane<T extends Record<string, any>>({
     return data;
   }, [data, xAxisKey]);
 
+  const MAX = 3;
+  const tickArray = [
+    0,
+    Math.trunc(MAX / 4),
+    Math.trunc(MAX / 2),
+    Math.trunc((3 * MAX) / 4),
+    MAX,
+  ];
+
   return (
-    <div className="bg-white rounded-lg  p-6 w-7/12 ">
+    <div className="bg-white rounded-lg  py-6 w-7/12 ">
       {/* Menu Select */}
       <AxisSelector
         xAxisKey={xAxisKey}
@@ -103,9 +112,12 @@ function PlotPane<T extends Record<string, any>>({
       {/* Scatter Plot */}
       {data.length > 0 && xAxisKey && yAxisKey && (
         <ResponsiveContainer width="100%" height={500}>
-          <ScatterChart margin={{ top: 20, right: 10, bottom: 20, left: 10 }}>
+          <ScatterChart
+            margin={{ top: 20, right: 10, bottom: 20, left: 10 }}
+            style={{ border: 'none' }}
+          >
             {/* Adjusted margins for labels */}
-            <CartesianGrid stroke="#ccc" />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey={xAxisKey}
               name={xAxisKey}
@@ -131,7 +143,6 @@ function PlotPane<T extends Record<string, any>>({
                 border: '1px solid #ccc',
               }}
             />
-
             <Scatter
               className={cn(`hover:cursor-pointer`)}
               data={sortedData}
@@ -146,6 +157,10 @@ function PlotPane<T extends Record<string, any>>({
               onMouseOver={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
+            {/* Reference line at Y=0 with blue color */}
+            <ReferenceLine y={0} stroke="#51a2ff" strokeWidth={1} />
+            {/* Reference line at X=50 with blue color */}
+            <ReferenceLine x={0} stroke="#51a2ff" strokeWidth={1} />
           </ScatterChart>
         </ResponsiveContainer>
       )}

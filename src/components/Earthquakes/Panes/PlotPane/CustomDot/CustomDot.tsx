@@ -37,7 +37,7 @@ const CustomDot = <T extends Record<string, any>>({
   onMouseLeave,
   defaultFill = '#8ec5ff', // Default fill color
   highlightFill = '#2b7fff', // Highlight color
-  selectFill = '#2b7fff', // Select color
+  selectFill = '#00c950', // Select color
   highlightRadius = 9, // Radius when highlighted
   defaultRadius = 6, // Default radius
   selectRadius = 12, // Radius when selected
