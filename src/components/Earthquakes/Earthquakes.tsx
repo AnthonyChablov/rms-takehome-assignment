@@ -26,8 +26,18 @@ const Earthquakes = () => {
   const { highlightedEarthquake, setHighlightedEarthquake } =
     useHighlightedEarthquakeContext();
 
-  // --- Zustand State ---
-  const { selectedRecord, setSelectedRecord } = usePlotTableStore();
+  // --- Zustand Store ---
+  // Accesses the global state for the plot table, including the selected record
+  // and the keys used for the X and Y axes of the plot.
+  const {
+    selectedRecord,
+    setSelectedRecord,
+    xAxisKey,
+    setXAxisKey,
+    yAxisKey,
+    setYAxisKey,
+  } = usePlotTableStore();
+
   // --- Loading State ---
   // Displays a loader while the earthquake data is being fetched.
   if (earthquakesQuery.isPending) {
@@ -45,7 +55,15 @@ const Earthquakes = () => {
       <Container>
         <Error />
         <div className="px-4 space-y-6 flex space-x-4 justify-between ">
-          <PlotPane data={[]} />
+          <PlotPane
+            data={[]}
+            xAxisKey={xAxisKey}
+            setXAxisKey={setXAxisKey}
+            yAxisKey={yAxisKey}
+            setYAxisKey={setYAxisKey}
+            selectedRecord={selectedRecord}
+            setSelectedRecord={setSelectedRecord}
+          />
           <TablePane data={[]} />
         </div>
       </Container>
@@ -62,6 +80,12 @@ const Earthquakes = () => {
         setHighlighted={setHighlightedEarthquake}
         selected={selectedRecord}
         setSelected={setSelectedRecord}
+        xAxisKey={xAxisKey}
+        setXAxisKey={setXAxisKey}
+        yAxisKey={yAxisKey}
+        setYAxisKey={setYAxisKey}
+        selectedRecord={selectedRecord}
+        setSelectedRecord={setSelectedRecord}
       />
       <TablePane
         title={'USGS Most Recent Earthquakes (Top 100)'}

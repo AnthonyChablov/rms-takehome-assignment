@@ -21,6 +21,12 @@ interface PlotPaneProps<T extends Record<string, any>> {
   setHighlighted?: (item: T | null) => void;
   selected?: T | null;
   setSelected?: (item: T | null) => void;
+  xAxisKey: string | null;
+  setXAxisKey: (key: string) => void;
+  yAxisKey: string | null;
+  setYAxisKey: (key: string) => void;
+  selectedRecord: T | null;
+  setSelectedRecord: (item: T | null) => void;
 }
 
 function PlotPane<T extends Record<string, any>>({
@@ -29,19 +35,15 @@ function PlotPane<T extends Record<string, any>>({
   setHighlighted,
   selected,
   setSelected,
+  xAxisKey,
+  setXAxisKey,
+  yAxisKey,
+  setYAxisKey,
+  selectedRecord,
+  setSelectedRecord,
 }: PlotPaneProps<T>) {
   // Use custom hook to manage the axis and numeric keys state
   const { numericKeys } = usePlotPaneData(data);
-
-  // Use Zustand to get and set xAxisKey and yAxisKey
-  const {
-    xAxisKey,
-    setXAxisKey,
-    yAxisKey,
-    setYAxisKey,
-    selectedRecord,
-    setSelectedRecord,
-  } = usePlotTableStore();
 
   const handleXAxisChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setXAxisKey(event.target.value);
@@ -64,8 +66,11 @@ function PlotPane<T extends Record<string, any>>({
   };
 
   const handleClick = (event: any) => {
-    if (setHighlighted) {
+    if (setHighlighted && setSelected) {
       setSelectedRecord(event?.payload);
+    }
+    if (event?.payload === selected) {
+      setSelectedRecord(null); // Deselect if already selected
     }
   };
 
