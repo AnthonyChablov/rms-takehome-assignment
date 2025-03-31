@@ -11,7 +11,6 @@ import {
 } from 'recharts';
 import CustomDot from './CustomDot/CustomDot';
 import usePlotPaneData from './hooks/usePlotPlaneData';
-import { usePlotTableStore } from '@/store/plotTableStore';
 import { cn } from '@/utils/utils';
 import AxisSelector from './AxisSelector/AxisSelector';
 
@@ -66,11 +65,17 @@ function PlotPane<T extends Record<string, any>>({
   };
 
   const handleClick = (event: any) => {
+    const payload = event?.payload;
+
+    // Check if both setHighlighted and setSelected are defined
     if (setHighlighted && setSelected) {
-      setSelectedRecord(event?.payload);
-    }
-    if (event?.payload === selected) {
-      setSelectedRecord(null); // Deselect if already selected
+      // If the clicked item is already selected, deselect it
+      if (payload === selected) {
+        setSelectedRecord(null);
+      } else {
+        // Otherwise, select the clicked item
+        setSelectedRecord(payload);
+      }
     }
   };
 
