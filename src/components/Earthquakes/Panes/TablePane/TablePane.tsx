@@ -35,7 +35,7 @@ function TablePane<T extends Record<string, any>>({
   // Extract column headers from the first data item
   const columns = Object.keys(data[0]);
 
-  // Event handellers
+  // Event handlers
   const handleMouseEnter = (row: T | null) => {
     if (setHighlighted) {
       setHighlighted(row);
@@ -88,30 +88,33 @@ function TablePane<T extends Record<string, any>>({
                 // Set the ID of the row to the item's ID for scrolling purposes
                 id={row?.id}
                 key={row?.id}
-                className={`
-                  ${cn(index % 2 === 0 ? 'bg-white' : 'bg-gray-50')}
-                  hover:cursor-pointer hover:bg-blue-100 h-18
-
-                `}
-                // Handle click on a row to highlight it
+                className={cn(
+                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
+                  'hover:cursor-pointer hover:bg-blue-100 h-18 transition-colors duration-200',
+                  row?.id === highlighted?.id && 'bg-blue-200', // Subtle highlight
+                  row?.id === selected?.id &&
+                    'bg-green-100 border-l-4 border-green-500 shadow-sm', // Distinct selection
+                )}
+                // Handle click on a row to highlight and select it
                 onClick={() => handleClick(row)}
-                // Mouse hover functionality
-                /* onMouseOver={() => handleMouseEnter(row)} */
               >
                 {/* Map through the columns to create table data cells */}
                 {columns.map((column) => (
                   <td
                     key={`${index}-${column}`}
-                    className={`px-5 border-b border-gray-200 text-left text-sm
-                      // Highlight the row if it matches the highlighted item
-                      ${row?.id === highlighted?.id && 'bg-blue-300'}`}
+                    className={`px-5 py-2 border-b border-gray-200 text-left text-sm ${
+                      row?.id === selected?.id
+                        ? 'font-medium text-green-700'
+                        : 'text-gray-900'
+                    }`}
                   >
-                    <p className="text-gray-900 whitespace-no-wrap">
-                      {/* Format 'time' and 'updated' columns, otherwise display as string */}
-                      {column === 'time' || column === 'updated'
-                        ? formatDate(row[column])
-                        : row[column]?.toString()}
-                    </p>
+                    <div className="flex items-center space-x-2">
+                      <p className="whitespace-no-wrap">
+                        {column === 'time' || column === 'updated'
+                          ? formatDate(row[column])
+                          : row[column]?.toString()}
+                      </p>
+                    </div>
                   </td>
                 ))}
               </tr>
