@@ -89,15 +89,6 @@ function PlotPane<T extends Record<string, any>>({
     return data;
   }, [data, xAxisKey]);
 
-  const MAX = 3;
-  const tickArray = [
-    0,
-    Math.trunc(MAX / 4),
-    Math.trunc(MAX / 2),
-    Math.trunc((3 * MAX) / 4),
-    MAX,
-  ];
-
   return (
     <div className="bg-white rounded-lg  py-6 w-7/12 ">
       {/* Menu Select */}
@@ -124,6 +115,9 @@ function PlotPane<T extends Record<string, any>>({
               stroke="#2b7fff"
               tickLine={false}
               label={{ value: xAxisKey, position: 'bottom', offset: 0 }}
+              interval={'preserveEnd'}
+              type={'number'}
+              tickCount={5}
             />
             <YAxis
               dataKey={yAxisKey}
