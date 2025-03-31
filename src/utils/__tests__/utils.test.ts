@@ -35,7 +35,7 @@ describe('cn()', () => {
   });
 });
 
-describe('formatDate', () => {
+describe('formatDate()', () => {
   it('should format a valid date string to a locale date string', () => {
     // Arrange
     const dateString = '2023-10-26T10:00:00Z';

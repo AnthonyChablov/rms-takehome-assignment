@@ -27,8 +27,9 @@ export const getEarthquakes = async (): Promise<EarthquakeRecord[]> => {
       header: true,
       dynamicTyping: true,
       complete: (results: ParseResult<CSVRow>) => {
-        const earthquakes: EarthquakeRecord[] =
-          results.data.map(parseEarthquakeRow);
+        const earthquakes: EarthquakeRecord[] = results.data
+          .map(parseEarthquakeRow)
+          .slice(0, 100); // Filter the data to get only the first 100 items - there is way too much data here
         resolve(earthquakes);
       },
       error: (error: Error) => {

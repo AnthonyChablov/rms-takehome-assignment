@@ -8,11 +8,26 @@ import Loader from '../Loading/Loader';
 import Error from '../Error/Error';
 import Container from '../Layout/Container';
 
+/**
+ * Fetches and displays a list of recent earthquakes from the USGS API.
+ * Provides interactive visualization and a tabular view of the data.
+ */
 const Earthquakes = () => {
+  // --- Data Fetching ---
+  // Fetches earthquake data using TanStack Query.
+  // The query automatically handles caching and background updates.
+  // Data source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
   const earthquakesQuery = useEarthquakesQuery();
+
+  // --- Context API ---
+  // Accesses the highlighted earthquake record and the setter function from the context.
+  // This allows child components (PlotPane and TablePane) to communicate
+  // and highlight the same earthquake record.
   const { highlightedEarthquake, setHighlightedEarthquake } =
     useHighlightedEarthquakeContext();
 
+  // --- Loading State ---
+  // Displays a loader while the earthquake data is being fetched.
   if (earthquakesQuery.isPending) {
     return (
       <Container className="py-6 space-y-6 flex space-x-4 justify-between">
@@ -21,6 +36,8 @@ const Earthquakes = () => {
     );
   }
 
+  // --- Error State ---
+  // Displays an error message and empty panes if the data fetching fails.
   if (earthquakesQuery.isError) {
     return (
       <Container>
@@ -33,20 +50,18 @@ const Earthquakes = () => {
     );
   }
 
-  // Filter the data to get only the first 100 items - there is way too much data here
-  const first100Earthquakes: EarthquakeRecord[] | undefined =
-    earthquakesQuery.data?.slice(0, 100);
-
+  // --- Success State ---
+  // Renders the PlotPane and TablePane components with the fetched earthquake data.
   return (
     <Container className="px-4 space-y-6 flex space-x-4 justify-between ">
       <PlotPane
-        data={first100Earthquakes}
+        data={earthquakesQuery.data}
         highlighted={highlightedEarthquake}
         setHighlighted={setHighlightedEarthquake}
       />
       <TablePane
         title={'USGS Most Recent Earthquakes (Top 100)'}
-        data={first100Earthquakes}
+        data={earthquakesQuery.data}
         highlighted={highlightedEarthquake}
         setHighlighted={setHighlightedEarthquake}
       />

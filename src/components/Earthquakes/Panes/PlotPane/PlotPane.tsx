@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   ScatterChart,
   Scatter,
@@ -7,6 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  ReferenceLine,
 } from 'recharts';
 import CustomDot from './CustomDot/CustomDot';
 import usePlotPaneData from './hooks/usePlotPlaneData';
@@ -34,7 +35,7 @@ function PlotPane<T extends Record<string, any>>({
     setXAxisKey,
     yAxisKey,
     setYAxisKey,
-    setHighlightedRecord: setGlobalHighlightedRecord, // Rename this for clarity
+    setGlobalHighlightedRecord, // Rename this for clarity
   } = usePlotTableStore();
 
   const handleXAxisChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -65,6 +66,16 @@ function PlotPane<T extends Record<string, any>>({
       setHighlighted(event?.payload);
     }
   };
+
+  const sortedData = React.useMemo(() => {
+    if (data && xAxisKey) {
+      return [...data].sort((a, b) => {
+        // Assuming xAxisKey corresponds to a number
+        return (a[xAxisKey] as number) - (b[xAxisKey] as number);
+      });
+    }
+    return data;
+  }, [data, xAxisKey]);
 
   return (
     <div className="bg-white rounded-lg  p-6 w-7/12 ">
@@ -108,9 +119,10 @@ function PlotPane<T extends Record<string, any>>({
                 border: '1px solid #ccc',
               }}
             />
+
             <Scatter
               className={cn(`hover:cursor-pointer`)}
-              data={data}
+              data={sortedData}
               strokeWidth={1}
               shape={<CustomDot selectedPoint={highlighted} />}
               onClick={handleClick}

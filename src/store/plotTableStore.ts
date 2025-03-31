@@ -1,4 +1,8 @@
 import { create } from 'zustand';
+import { EarthquakeRecord } from '@/types/earthquake';
+
+// Create a global store (using Zustand, for example) to maintain state such as selected or filtered records.
+// Use this store to update the highlighted record when interacting with the table or plot.
 
 interface PlotTableState<T = any> {
   xAxisKey: string | null;
@@ -6,7 +10,7 @@ interface PlotTableState<T = any> {
   yAxisKey: string | null;
   setYAxisKey: (key: string | null) => void;
   highlightedRecord: T | null;
-  setHighlightedRecord: (record: T | null) => void;
+  setGlobalHighlightedRecord: (record: T | null) => void;
 }
 
 export const usePlotTableStore = create<PlotTableState>((set) => ({
@@ -15,5 +19,5 @@ export const usePlotTableStore = create<PlotTableState>((set) => ({
   yAxisKey: 'longitude',
   setYAxisKey: (key) => set({ yAxisKey: key }),
   highlightedRecord: null,
-  setHighlightedRecord: (record) => set({ highlightedRecord: record }),
+  setGlobalHighlightedRecord: (record) => set({ highlightedRecord: record }),
 }));
