@@ -1,10 +1,11 @@
 // services/earthquakes/earthquakeParser.ts
 import { EarthquakeRecord } from '../../../types/earthquake';
 import { CSVRow } from '../../../types/csvRow';
+import { formatDate } from '@/utils/utils';
 
 export const parseEarthquakeRow = (row: CSVRow): EarthquakeRecord => ({
   id: row.id,
-  time: row.time, // Keep as string as per RawEarthquake type
+  time: formatDate(row.time),
   latitude: parseFloat(row.latitude),
   longitude: parseFloat(row.longitude),
   depth: parseFloat(row.depth),
@@ -15,7 +16,7 @@ export const parseEarthquakeRow = (row: CSVRow): EarthquakeRecord => ({
   dmin: row.dmin ? parseFloat(row.dmin) : null,
   rms: parseFloat(row.rms),
   net: row.net,
-  updated: row.updated,
+  updated: formatDate(row.updated),
   place: row.place,
   type: row.type,
   horizontalError: row.horizontalError ? parseFloat(row.horizontalError) : null,

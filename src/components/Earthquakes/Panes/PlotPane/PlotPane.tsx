@@ -75,16 +75,6 @@ function PlotPane<T extends Record<string, any>>({
     }
   };
 
-  const sortedData = React.useMemo(() => {
-    if (data && xAxisKey) {
-      return [...data].sort((a, b) => {
-        // Assuming xAxisKey corresponds to a number
-        return (a[xAxisKey] as number) - (b[xAxisKey] as number);
-      });
-    }
-    return data;
-  }, [data, xAxisKey]);
-
   return (
     <div className="bg-white rounded-lg  py-6 w-full lg:w-7/12 ">
       {/* Menu Select */}
@@ -135,7 +125,7 @@ function PlotPane<T extends Record<string, any>>({
             />
             <Scatter
               className={cn(`hover:cursor-pointer`)}
-              data={sortedData}
+              data={data}
               strokeWidth={1}
               shape={
                 <CustomDot

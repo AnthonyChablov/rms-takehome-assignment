@@ -13,12 +13,6 @@ import { usePlotTableStore } from '@/store/plotTableStore';
  * Provides interactive visualization and a tabular view of the data.
  */
 const Earthquakes = () => {
-  // --- Data Fetching ---
-  // Fetches earthquake data using TanStack Query.
-  // The query automatically handles caching and background updates.
-  // Data source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
-  const earthquakesQuery = useEarthquakesQuery();
-
   // --- Context API ---
   // Accesses the highlighted earthquake record and the setter function from the context.
   // This allows child components (PlotPane and TablePane) to communicate
@@ -36,7 +30,14 @@ const Earthquakes = () => {
     setXAxisKey,
     yAxisKey,
     setYAxisKey,
+    filters, // filters are used to fetch the data
   } = usePlotTableStore();
+
+  // --- Data Fetching ---
+  // Fetches earthquake data using TanStack Query.
+  // The query automatically handles caching and background updates.
+  // Data source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
+  const earthquakesQuery = useEarthquakesQuery(filters);
 
   // --- Loading State ---
   // Displays a loader while the earthquake data is being fetched.

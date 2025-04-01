@@ -3,7 +3,6 @@ import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
 import { useScrollToElement } from '../../../../hooks/useScrollToElement';
 
-// Interface for the TablePane component props
 interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
   highlighted?: T | null;
@@ -17,17 +16,11 @@ interface TablePaneProps<T extends Record<string, any>> {
   setYAxisKey?: (key: string) => void;
 }
 
-/**
- * Component to display data in a tabular format with highlighting and scrolling functionality.
- *
- * @param {TablePaneProps<T>} props - The props for the TablePane component.
- * @returns {JSX.Element} - The rendered TablePane component.
- */
 function TablePane<T extends Record<string, any>>({
   data = [],
-  highlighted,
+  highlighted = null,
   setHighlighted,
-  selected,
+  selected = null,
   setSelected,
   title = '',
   xAxisKey = '',
@@ -43,6 +36,7 @@ function TablePane<T extends Record<string, any>>({
   // Extract column headers from the first data item
   const columns = Object.keys(data[0]);
 
+  // Click Handler
   const handleClick = (row: T | null) => {
     if (setHighlighted && setSelected) {
       if (row === selected) {
@@ -58,8 +52,7 @@ function TablePane<T extends Record<string, any>>({
   // Create a ref for the table container to enable scrolling
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
-  // Use the custom hook to automatically scroll the table container
-  // to the highlighted row when the 'highlighted' prop changes.
+  // Use the custom hook to automatically scroll the table container to the highlighted row when the 'highlighted' prop changes.
   useScrollToElement(highlighted, tableContainerRef);
 
   const sortedData = React.useMemo(() => {
@@ -89,7 +82,9 @@ function TablePane<T extends Record<string, any>>({
               {columns.map((column) => (
                 <th
                   key={column}
-                  className="px-5 py-3 border-b border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                  className="px-5 py-3 border-b border-gray-200 
+                    text-left text-xs font-semibold text-gray-700 
+                    uppercase tracking-wider"
                 >
                   {column}
                 </th>
@@ -125,11 +120,7 @@ function TablePane<T extends Record<string, any>>({
                     }`}
                   >
                     <div className="flex items-center space-x-2">
-                      <p className={'w-33'}>
-                        {column === 'time' || column === 'updated'
-                          ? formatDate(row[column])
-                          : row[column]?.toString()}
-                      </p>
+                      <p className={'w-33'}>{String(row[column])}</p>
                     </div>
                   </td>
                 ))}
