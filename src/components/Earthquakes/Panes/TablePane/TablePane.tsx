@@ -118,14 +118,14 @@ function TablePane<T extends Record<string, any>>({
                 {columns.map((column) => (
                   <td
                     key={`${index}-${column}`}
-                    className={`px-5 py-2 border-b border-gray-200 text-left text-sm ${
+                    className={`px-5 py-2 border-b border-gray-200 text-left  text-sm ${
                       row?.id === selected?.id
                         ? 'font-medium text-green-700'
                         : 'text-gray-900'
                     }`}
                   >
                     <div className="flex items-center space-x-2">
-                      <p className="whitespace-no-wrap">
+                      <p className={cn(`w-33 `)}>
                         {column === 'time' || column === 'updated'
                           ? formatDate(row[column])
                           : row[column]?.toString()}
