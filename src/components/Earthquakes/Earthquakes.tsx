@@ -42,7 +42,7 @@ const Earthquakes = () => {
   // Displays a loader while the earthquake data is being fetched.
   if (earthquakesQuery.isPending) {
     return (
-      <Container className="py-6 space-y-6 flex space-x-4 justify-between">
+      <Container className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
         <Loader />
       </Container>
     );
@@ -54,7 +54,7 @@ const Earthquakes = () => {
     return (
       <Container>
         <Error />
-        <div className="px-4 space-y-6 flex space-x-4 justify-between ">
+        <div className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between ">
           <PlotPane
             data={[]}
             xAxisKey={xAxisKey}
