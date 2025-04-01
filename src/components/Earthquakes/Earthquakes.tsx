@@ -37,7 +37,9 @@ const Earthquakes = () => {
   // Fetches earthquake data using TanStack Query.
   // The query automatically handles caching and background updates.
   // Data source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
-  const earthquakesQuery = useEarthquakesQuery(filters);
+  const earthquakesQuery = useEarthquakesQuery(filters, xAxisKey);
+  // The query is dependent on the filters and xAxisKey, which are used to sort the data.
+  // The data is fetched from the USGS API and parsed into a structured format.
 
   // --- Loading State ---
   // Displays a loader while the earthquake data is being fetched.

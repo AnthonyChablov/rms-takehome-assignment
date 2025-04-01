@@ -5,12 +5,11 @@ import { usePlotTableStore } from '@/store/plotTableStore'; // Import your Zusta
 
 export const useEarthquakesQuery = (
   filters: GetEarthQuakesFilters | undefined,
+  sortBy: string | null = null,
 ) => {
-  const xAxisKey = usePlotTableStore((state) => state.xAxisKey);
-
   return useQuery({
-    queryKey: ['earthquakes', filters, xAxisKey], // Include xAxisKey in the query key
-    queryFn: () => getEarthquakes(filters, xAxisKey), // Pass xAxisKey to getEarthquakes
+    queryKey: ['earthquakes', filters, sortBy], // Include filters and sortBy in the query key
+    queryFn: () => getEarthquakes(filters, sortBy), // Pass xAxisKey to getEarthquakes to sort the data
     refetchOnWindowFocus: false,
   });
 };
