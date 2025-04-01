@@ -55,3 +55,5 @@ export const useHighlightedEarthquakeContext =
     }
     return context;
   };
+
+export default HighlightedEarthquakeContext;
