@@ -86,7 +86,7 @@ function PlotPane<T extends Record<string, any>>({
   }, [data, xAxisKey]);
 
   return (
-    <div className="bg-white rounded-lg  py-6 w-7/12 ">
+    <div className="bg-white rounded-lg  py-6 w-full lg:w-7/12 ">
       {/* Menu Select */}
       <AxisSelector
         xAxisKey={xAxisKey}

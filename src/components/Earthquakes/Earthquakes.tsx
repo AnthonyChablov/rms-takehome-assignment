@@ -73,7 +73,7 @@ const Earthquakes = () => {
   // --- Success State ---
   // Renders the PlotPane and TablePane components with the fetched earthquake data.
   return (
-    <Container className="px-4 space-y-6 flex space-x-4 justify-between ">
+    <Container className="px-4 space-y-6 flex flex-col lg:flex-row  space-x-4 justify-between ">
       <PlotPane
         data={earthquakesQuery.data}
         xAxisKey={xAxisKey}

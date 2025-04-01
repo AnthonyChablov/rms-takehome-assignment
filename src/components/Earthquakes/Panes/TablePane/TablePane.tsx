@@ -73,7 +73,7 @@ function TablePane<T extends Record<string, any>>({
   }, [data, xAxisKey]);
 
   return (
-    <div className="bg-white rounded-lg w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
+    <div className="bg-white rounded-lg w-full lg:w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
       {/* Table title */}
       <h1 className="text-xl font-bold mb-4 text-gray-800">{title}</h1>
       {/* Scrollable container for the table */}
@@ -125,7 +125,7 @@ function TablePane<T extends Record<string, any>>({
                     }`}
                   >
                     <div className="flex items-center space-x-2">
-                      <p className={cn(`w-33 `)}>
+                      <p className={'w-33'}>
                         {column === 'time' || column === 'updated'
                           ? formatDate(row[column])
                           : row[column]?.toString()}
