@@ -64,6 +64,10 @@ export const getEarthquakes = async (
       header: true,
       dynamicTyping: true,
       complete: (results: ParseResult<CSVRow>) => {
+        // Parse the CSV data into an array of EarthquakeRecord objects
+        // The parsing function (parseEarthquakeRow) is responsible for converting
+        // each CSV row into the appropriate EarthquakeRecord format.
+        // This is where the CSV data is transformed into a structured format.
         let earthquakes: EarthquakeRecord[] =
           results.data.map(parseEarthquakeRow);
 
@@ -94,9 +98,10 @@ export const getEarthquakes = async (
         if (filters?.limit !== undefined) {
           earthquakes = earthquakes.slice(0, filters.limit);
         }
-
+        // Resolve the promise with the parsed and optionally sorted data
         resolve(earthquakes);
       },
+      // Handle errors during parsing
       error: (error: Error) => {
         reject(error);
       },
