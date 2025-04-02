@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { EarthquakeRecord } from '@/types/earthquake';
-import { GetEarthQuakesFilters } from '@/api/earthquakes/earthquakesApi';
+import { GetEarthQuakesFilters } from '@/api/earthquakesApi';
 
 // Create a global store (using Zustand, for example) to maintain state such as selected or filtered records.
 // Use this store to update the highlighted record when interacting with the table or plot.
