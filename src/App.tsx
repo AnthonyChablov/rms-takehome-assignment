@@ -9,14 +9,17 @@ function App() {
   });
 
   return (
-    <>
+    <main className="App" data-testid="app">
       <QueryClientProvider client={queryClient}>
         <HighlightedEarthquakeProvider>
           <Earthquakes />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools
+            initialIsOpen={false}
+            data-testid="react-query-devtools"
+          />
         </HighlightedEarthquakeProvider>
       </QueryClientProvider>
-    </>
+    </main>
   );
 }
 

@@ -45,9 +45,11 @@ const Earthquakes = () => {
   // Displays a loader while the earthquake data is being fetched.
   if (earthquakesQuery.isPending) {
     return (
-      <Container className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
-        <Loader />
-      </Container>
+      <div data-testid="earthquakes-layout">
+        <Container className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
+          <Loader />
+        </Container>
+      </div>
     );
   }
 
@@ -55,52 +57,56 @@ const Earthquakes = () => {
   // Displays an error message and empty panes if the data fetching fails.
   if (earthquakesQuery.isError) {
     return (
-      <Container>
-        <Error />
-        <div className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between ">
-          <PlotPane
-            data={[]}
-            xAxisKey={xAxisKey}
-            setXAxisKey={setXAxisKey}
-            yAxisKey={yAxisKey}
-            setYAxisKey={setYAxisKey}
-            selected={selectedRecord}
-            setSelected={setSelectedRecord}
-          />
-          <TablePane data={[]} />
-        </div>
-      </Container>
+      <div data-testid="earthquakes-layout">
+        <Container>
+          <Error />
+          <div className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between ">
+            <PlotPane
+              data={[]}
+              xAxisKey={xAxisKey}
+              setXAxisKey={setXAxisKey}
+              yAxisKey={yAxisKey}
+              setYAxisKey={setYAxisKey}
+              selected={selectedRecord}
+              setSelected={setSelectedRecord}
+            />
+            <TablePane data={[]} />
+          </div>
+        </Container>
+      </div>
     );
   }
 
   // --- Success State ---
   // Renders the PlotPane and TablePane components with the fetched earthquake data.
   return (
-    <Container className="px-4 space-y-6 flex flex-col lg:flex-row  space-x-4 justify-between ">
-      <PlotPane
-        data={earthquakesQuery.data}
-        xAxisKey={xAxisKey}
-        setXAxisKey={setXAxisKey}
-        yAxisKey={yAxisKey}
-        setYAxisKey={setYAxisKey}
-        highlighted={highlightedEarthquake}
-        setHighlighted={setHighlightedEarthquake}
-        selected={selectedRecord}
-        setSelected={setSelectedRecord}
-      />
-      <TablePane
-        title={'USGS Most Recent Earthquakes (Top 100)'}
-        xAxisKey={xAxisKey}
-        setXAxisKey={setXAxisKey}
-        yAxisKey={yAxisKey}
-        setYAxisKey={setYAxisKey}
-        data={earthquakesQuery.data}
-        highlighted={highlightedEarthquake}
-        setHighlighted={setHighlightedEarthquake}
-        selected={selectedRecord}
-        setSelected={setSelectedRecord}
-      />
-    </Container>
+    <div data-testid="earthquakes-layout">
+      <Container className="px-4 space-y-6 flex flex-col lg:flex-row  space-x-4 justify-between ">
+        <PlotPane
+          data={earthquakesQuery.data}
+          xAxisKey={xAxisKey}
+          setXAxisKey={setXAxisKey}
+          yAxisKey={yAxisKey}
+          setYAxisKey={setYAxisKey}
+          highlighted={highlightedEarthquake}
+          setHighlighted={setHighlightedEarthquake}
+          selected={selectedRecord}
+          setSelected={setSelectedRecord}
+        />
+        <TablePane
+          title={'USGS Most Recent Earthquakes (Top 100)'}
+          xAxisKey={xAxisKey}
+          setXAxisKey={setXAxisKey}
+          yAxisKey={yAxisKey}
+          setYAxisKey={setYAxisKey}
+          data={earthquakesQuery.data}
+          highlighted={highlightedEarthquake}
+          setHighlighted={setHighlightedEarthquake}
+          selected={selectedRecord}
+          setSelected={setSelectedRecord}
+        />
+      </Container>
+    </div>
   );
 };
 
