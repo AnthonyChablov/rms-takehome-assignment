@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { useEarthquakesQuery } from '@/api/earthquakes/earthquakesQuery';
+import React from 'react';
+import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
 import PlotPane from './components/PlotPane/PlotPane';
 import TablePane from './components/TablePane/TablePane';
