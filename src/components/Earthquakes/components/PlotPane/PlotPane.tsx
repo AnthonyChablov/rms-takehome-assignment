@@ -76,7 +76,10 @@ function PlotPane<T extends Record<string, any>>({
   };
 
   return (
-    <div className="bg-white rounded-lg  py-6 w-full lg:w-7/12 ">
+    <div
+      className="bg-white rounded-lg  py-6 w-full lg:w-7/12 "
+      data-testid="plot-pane"
+    >
       {/* Menu Select */}
       <AxisSelector
         xAxisKey={xAxisKey}
