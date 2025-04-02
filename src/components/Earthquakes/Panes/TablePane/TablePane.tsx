@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
 import { useScrollToElement } from '../../../../hooks/useScrollToElement';
+import useSortedData from './hooks/useSortedData';
 
 interface TablePaneProps<T extends Record<string, any>> {
   data: T[];
@@ -55,6 +56,8 @@ function TablePane<T extends Record<string, any>>({
   // Use the custom hook to automatically scroll the table container to the highlighted row when the 'highlighted' prop changes.
   useScrollToElement(highlighted, tableContainerRef);
 
+  const sortedData = useSortedData(data, xAxisKey);
+
   return (
     <div className="bg-white rounded-lg w-full lg:w-5/12 px-4 h-screen flex flex-col p-4 shadow-md">
       {/* Table title */}
@@ -84,7 +87,7 @@ function TablePane<T extends Record<string, any>>({
 
           <tbody>
             {/* Map through the data to create table rows */}
-            {data.map((row, index) => (
+            {sortedData.map((row, index) => (
               <tr
                 // Set the ID of the row to the item's ID for scrolling purposes
                 id={row?.id}
