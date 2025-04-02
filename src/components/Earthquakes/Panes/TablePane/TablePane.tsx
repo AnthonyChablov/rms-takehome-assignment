@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { formatDate } from '@/utils/utils';
 import { cn } from '@/utils/utils';
 import { useScrollToElement } from '../../../../hooks/useScrollToElement';
 import useSortedData from './hooks/useSortedData';
