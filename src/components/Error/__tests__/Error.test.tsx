@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest'; // Import Vitest functions
 import Error from '../Error';
 
 describe('Error.tsx', () => {
-  it('renders without crashing', () => {
+  it('renders in the DOM without crashing', () => {
     // Arrange
     // No specific arrangement needed for a simple render test.
 
