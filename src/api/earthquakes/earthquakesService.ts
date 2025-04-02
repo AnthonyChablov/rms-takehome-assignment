@@ -1,105 +1,77 @@
-import axios from 'axios';
+// src/api/earthquakeApi.ts
 import { EarthquakeRecord } from '@/types/earthquake';
-import Papa, { ParseResult } from 'papaparse';
-import { CSVRow } from '@/types/csvRow';
-import { parseEarthquakeRow } from './utils/earthquakeParser';
+// If you keep filters in a separate type definition:
+// import { GetEarthQuakesFilters } from './types';
+import { getEarthquakeApiUrl } from './utils/earthquakeUrl/earthquakeUrl';
+import { fetchData } from './utils/fetchData/fetchData';
+import { parseCSV } from './utils/parseCSV/parseCSV';
+import {
+  transformCsvToEarthquakes,
+  filterInvalidEarthquakes,
+  sortEarthquakes,
+  applyLimit,
+} from './utils/transformCSV/transformCSV';
 
-const BASE_URL: string =
-  'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv';
-const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-
-// Determine the appropriate URL based on the environment
-const url =
-  process.env.NODE_ENV === 'development' ? PROXY_URL + BASE_URL : BASE_URL;
-
-// Create an Axios instance with the base URL
-const axiosInstance = axios.create({
-  baseURL: url,
-  withCredentials: false,
-});
-
+// Re-define or import the filters type
 export type GetEarthQuakesFilters = {
-  limit: number;
+  limit?: number; // Make limit optional if it's not always required
 };
 
 /**
- * Fetches earthquake data from the USGS CSV.
+ * Fetches, parses, filters, sorts, and limits earthquake data from the USGS CSV feed.
+ * This function orchestrates calls to various utility functions.
+ * Designed to be used with React Query's useQuery hook.
  *
- * Currently, this function directly fetches and processes the CSV data on the client-side.
- * In a more robust application with a backend API, this function would instead call an
- * API endpoint, passing the filters and sorting parameters to the backend for processing.
- *
- * @param filters Optional filters to apply to the data (currently only 'limit' is used).
- * @param sortBy Optional field to sort the data by. This is received from the client-side
- * state (Zustand). Sorting is currently performed on the client-side
- * after fetching and parsing the entire CSV.
- * @returns A promise that resolves to an array of EarthquakeRecord objects.
+ * @param filters Optional filters (currently only 'limit').
+ * @param sortBy Optional key to sort the data by.
+ * @returns A promise that resolves to an array of processed EarthquakeRecord objects.
+ * @throws Throws an error if any step in the process fails.
  */
 export const getEarthquakes = async (
   filters?: GetEarthQuakesFilters,
   sortBy?: string | null,
+  // Optional: You could pass the yAxisKey dynamically if needed
+  // yAxisKey: keyof EarthquakeRecord = 'longitude'
 ): Promise<EarthquakeRecord[]> => {
-  // In a real backend scenario, the filtering and sorting would happen on the server.
-  // The API call would include parameters like:
-  // const response = await axiosInstance.get<string>('', {
-  //   params: {
-  //     ...filters, // e.g., limit=100
-  //     sortBy: sortBy,
-  //     // potentially sortOrder: 'asc' | 'desc'
-  //   },
-  //   headers: {
-  //     Accept: 'text/csv',
-  //   },
-  //   transformResponse: [(data) => data],
-  // });
-  const response = await axiosInstance.get<string>('', {
-    headers: {
-      Accept: 'text/csv',
-    },
-    transformResponse: [(data) => data],
-  });
+  console.log(
+    `Workspaceing earthquakes with filters: ${JSON.stringify(filters)}, sortBy: ${sortBy}`,
+  );
+  try {
+    // 1. Get the correct URL
+    const apiUrl = getEarthquakeApiUrl();
 
-  return new Promise((resolve, reject) => {
-    Papa.parse<CSVRow>(response.data, {
-      header: true,
-      dynamicTyping: true,
-      complete: (results: ParseResult<CSVRow>) => {
-        // Parse the CSV data into an array of EarthquakeRecord objects
-        // The parsing function (parseEarthquakeRow) is responsible for converting
-        // each CSV row into the appropriate EarthquakeRecord format.
-        // This is where the CSV data is transformed into a structured format.
-        let earthquakes: EarthquakeRecord[] =
-          results.data.map(parseEarthquakeRow);
+    // 2. Fetch the raw CSV data
+    const csvData = await fetchData(apiUrl);
 
-        // Apply limit if provided
-        // Similar to sorting, in a backend scenario, the limit would ideally be applied
-        // by the backend to reduce the amount of data sent to the client.
-        if (filters?.limit !== undefined) {
-          earthquakes = earthquakes.slice(0, filters.limit);
-        }
-        // Resolve the promise with the parsed and optionally sorted data
-        resolve(
-          earthquakes.sort((a, b) => {
-            const valA = a[sortBy as keyof EarthquakeRecord];
-            const valB = b[sortBy as keyof EarthquakeRecord];
-            if (valA === null || valB === null) {
-              return 0; // Handle null values
-            }
-            if (typeof valA === 'string' && typeof valB === 'string') {
-              return valA.localeCompare(valB);
-            }
-            if (typeof valA === 'number' && typeof valB === 'number') {
-              return valA - valB;
-            }
-            // Handle other types if necessary
-            return 0; // Default case
-          }),
-        );
-      },
-      // Handle errors during parsing
-      error: (error: Error) => {
-        reject(error);
-      },
-    });
-  });
+    // 3. Parse the CSV string
+    const parsedRows = await parseCSV(csvData);
+
+    // 4. Transform CSV rows into EarthquakeRecord objects
+    let earthquakes = transformCsvToEarthquakes(parsedRows);
+    console.log(`Parsed ${earthquakes.length} records.`);
+
+    // 5. Filter out records with null values for critical keys (before sorting/limiting)
+    // Using the default 'longitude' for yAxisKey as in the original code.
+    // Pass a dynamic key here if your charting needs change.
+    earthquakes = filterInvalidEarthquakes(earthquakes, sortBy, 'longitude');
+    console.log(
+      `Filtered down to ${earthquakes.length} valid records for sorting/plotting.`,
+    );
+
+    // 6. Sort the data
+    earthquakes = sortEarthquakes(earthquakes, sortBy);
+    console.log(`Sorted records by: ${sortBy ?? 'default order'}.`);
+
+    // 7. Apply the limit (after filtering and sorting)
+    earthquakes = applyLimit(earthquakes, filters?.limit);
+    console.log(
+      `Applied limit: ${filters?.limit ?? 'none'}. Final count: ${earthquakes.length}`,
+    );
+
+    return earthquakes;
+  } catch (error) {
+    console.error('Error in getEarthquakes processing pipeline:', error);
+    // Let the error propagate up to React Query for handling (e.g., setting error state)
+    throw error;
+  }
 };
