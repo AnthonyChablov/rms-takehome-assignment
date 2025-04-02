@@ -9,10 +9,10 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from 'recharts';
-import CustomDot from './CustomDot/CustomDot';
+import CustomDot from './components/CustomDot/CustomDot';
 import usePlotPaneData from './hooks/usePlotPlaneData';
 import { cn } from '@/utils/utils';
-import AxisSelector from './AxisSelector/AxisSelector';
+import AxisSelector from './components/AxisSelector/AxisSelector';
 
 interface PlotPaneProps<T extends Record<string, any>> {
   data: T[];
@@ -74,16 +74,6 @@ function PlotPane<T extends Record<string, any>>({
       }
     }
   };
-
-  // Filter out data points where either xAxisKey or yAxisKey is null
-  const plotData = useMemo(() => {
-    if (!xAxisKey || !yAxisKey) {
-      return data; // Or handle this case differently if needed
-    }
-    return data.filter(
-      (item) => item[xAxisKey] !== null && item[yAxisKey] !== null,
-    );
-  }, [data, xAxisKey, yAxisKey]);
 
   return (
     <div className="bg-white rounded-lg  py-6 w-full lg:w-7/12 ">
