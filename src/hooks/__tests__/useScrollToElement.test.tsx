@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { useScrollToElement } from '@/hooks/useScrollToElement';
-import { useRef } from 'react';
+import { useScrollToElement } from '../useScrollToElement';
 
 describe('useScrollToElement', () => {
   // Mock DOM elements and methods
@@ -10,6 +9,7 @@ describe('useScrollToElement', () => {
   let mockScrollTo: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    // Arrange (Common setup)
     // Create mock DOM elements
     containerElement = document.createElement('div');
     highlightedElement = document.createElement('div');
@@ -48,43 +48,55 @@ describe('useScrollToElement', () => {
   });
 
   it('should not scroll when highlighted is null', () => {
+    // Arrange
     const containerRef = { current: containerElement };
 
+    // Act
     renderHook(() => useScrollToElement(null, containerRef));
 
+    // Assert
     expect(mockScrollTo).not.toHaveBeenCalled();
   });
 
   it('should not scroll when highlighted has no id', () => {
+    // Arrange
     const containerRef = { current: containerElement };
     const highlighted = { name: 'test' };
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(mockScrollTo).not.toHaveBeenCalled();
   });
 
   it('should not scroll when containerRef is null', () => {
+    // Arrange
     const containerRef = { current: null };
     const highlighted = { id: 'test-id' };
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(document.getElementById).not.toHaveBeenCalled();
   });
 
   it('should not scroll when element with id does not exist', () => {
+    // Arrange
     const containerRef = { current: containerElement };
     const highlighted = { id: 'non-existent-id' };
-
     vi.spyOn(document, 'getElementById').mockReturnValue(null);
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(mockScrollTo).not.toHaveBeenCalled();
   });
 
   it('should not scroll when element is fully visible in viewport', () => {
+    // Arrange
     const containerRef = { current: containerElement };
     const highlighted = { id: 'test-id' };
 
@@ -101,12 +113,15 @@ describe('useScrollToElement', () => {
       toJSON: () => {},
     });
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(mockScrollTo).not.toHaveBeenCalled();
   });
 
   it('should scroll when element is above viewport', () => {
+    // Arrange
     const containerRef = { current: containerElement };
     const highlighted = { id: 'test-id' };
 
@@ -123,8 +138,10 @@ describe('useScrollToElement', () => {
       toJSON: () => {},
     });
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(mockScrollTo).toHaveBeenCalledWith({
       top: 150, // 200 (highlightedElement.offsetTop) - 50 (containerElement.offsetTop)
       behavior: 'smooth',
@@ -132,6 +149,7 @@ describe('useScrollToElement', () => {
   });
 
   it('should scroll when element is below viewport', () => {
+    // Arrange
     const containerRef = { current: containerElement };
     const highlighted = { id: 'test-id' };
 
@@ -148,8 +166,10 @@ describe('useScrollToElement', () => {
       toJSON: () => {},
     });
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(mockScrollTo).toHaveBeenCalledWith({
       top: 150, // 200 (highlightedElement.offsetTop) - 50 (containerElement.offsetTop)
       behavior: 'smooth',
@@ -157,6 +177,7 @@ describe('useScrollToElement', () => {
   });
 
   it('should scroll to element when highlighted changes', () => {
+    // Arrange
     const containerRef = { current: containerElement };
     const initialHighlighted = { id: 'test-id-1' };
     const newHighlighted = { id: 'test-id' };
@@ -174,17 +195,19 @@ describe('useScrollToElement', () => {
       toJSON: () => {},
     });
 
+    // Act - Part 1
     const { rerender } = renderHook(
       ({ highlighted }) => useScrollToElement(highlighted, containerRef),
       { initialProps: { highlighted: initialHighlighted } },
     );
 
-    // Should not scroll with initial props
+    // Assert - Part 1
     expect(mockScrollTo).not.toHaveBeenCalled();
 
-    // Rerender with new highlighted
+    // Act - Part 2
     rerender({ highlighted: newHighlighted });
 
+    // Assert - Part 2
     expect(mockScrollTo).toHaveBeenCalledWith({
       top: 150,
       behavior: 'smooth',
@@ -192,7 +215,7 @@ describe('useScrollToElement', () => {
   });
 
   it('should use provided container ref without creating a new one', () => {
-    // Create a real ref with the containerElement
+    // Arrange
     const containerRef = { current: containerElement };
     const highlighted = { id: 'test-id' };
 
@@ -209,14 +232,14 @@ describe('useScrollToElement', () => {
       toJSON: () => {},
     });
 
+    // Act
     renderHook(() => useScrollToElement(highlighted, containerRef));
 
+    // Assert
     expect(mockScrollTo).toHaveBeenCalledWith({
       top: 150,
       behavior: 'smooth',
     });
-
-    // Verify container ref is still the same object
     expect(containerRef.current).toBe(containerElement);
   });
 });
