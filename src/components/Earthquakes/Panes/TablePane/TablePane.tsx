@@ -2,20 +2,27 @@ import React, { useRef } from 'react';
 import { cn } from '@/utils/utils';
 import { useScrollToElement } from '../../../../hooks/useScrollToElement';
 import useSortedData from './hooks/useSortedData';
+import { TableRow } from './TableRow/TableRow';
+import { TableHeader } from './TableHeader/TableHeader';
 
+// Interface defining the props for the TablePane component.
 interface TablePaneProps<T extends Record<string, any>> {
-  data: T[];
-  highlighted?: T | null;
-  setHighlighted?: (item: T | null) => void;
-  selected?: T | null;
-  setSelected?: (item: T | null) => void;
-  title?: React.ReactNode;
-  xAxisKey?: string | null;
-  setXAxisKey?: (key: string) => void;
-  yAxisKey?: string | null;
-  setYAxisKey?: (key: string) => void;
+  data: T[]; // An array of data objects to be displayed in the table.
+  highlighted?: T | null; // The currently highlighted data item.
+  setHighlighted?: (item: T | null) => void; // Function to set the highlighted data item.
+  selected?: T | null; // The currently selected data item.
+  setSelected?: (item: T | null) => void; // Function to set the selected data item.
+  title?: React.ReactNode; // The title of the table pane.
+  xAxisKey?: string | null; // The key used for sorting the data on the x-axis.
+  setXAxisKey?: (key: string) => void; // Function to set the x-axis sorting key.
+  yAxisKey?: string | null; // The key used for sorting the data on the y-axis (currently unused in this component).
+  setYAxisKey?: (key: string) => void; // Function to set the y-axis sorting key (currently unused).
 }
 
+/**
+ * TablePane Component: Displays data in a tabular format with highlighting and selection capabilities.
+ * It utilizes client-side sorting via the `useSortedData` hook.
+ */
 function TablePane<T extends Record<string, any>>({
   data = [],
   highlighted = null,
@@ -36,7 +43,7 @@ function TablePane<T extends Record<string, any>>({
   // Extract column headers from the first data item
   const columns = Object.keys(data[0]);
 
-  // Click Handler
+  // Click Handler: Handles clicks on table rows to highlight and select them.
   const handleClick = (row: T | null) => {
     if (setHighlighted && setSelected) {
       if (row === selected) {
@@ -55,6 +62,12 @@ function TablePane<T extends Record<string, any>>({
   // Use the custom hook to automatically scroll the table container to the highlighted row when the 'highlighted' prop changes.
   useScrollToElement(highlighted, tableContainerRef);
 
+  /**
+   * useSortedData Hook: A custom hook responsible for sorting the data client-side.
+   * It takes the `data` and the `xAxisKey` as input.
+   * When `xAxisKey` changes, the hook re-sorts the `data` based on the values associated with that key.
+   * This approach performs sorting in the browser, which can be suitable for smaller datasets but might impact performance for very large datasets.
+   */
   const sortedData = useSortedData(data, xAxisKey);
 
   return (
@@ -68,55 +81,20 @@ function TablePane<T extends Record<string, any>>({
       >
         <table className="min-w-full leading-normal relative ">
           {/* Table Header */}
-          <thead className="">
-            <tr className="sticky top-0 left-0 bg-gray-200 ">
-              {/* Map through the columns to create table headers */}
-              {columns.map((column) => (
-                <th
-                  key={column}
-                  className="px-5 py-3 border-b border-gray-200 
-                    text-left text-xs font-semibold text-gray-700 
-                    uppercase tracking-wider"
-                >
-                  {column}
-                </th>
-              ))}
-            </tr>
-          </thead>
+          <TableHeader columns={columns} />
 
           <tbody>
             {/* Map through the data to create table rows */}
             {sortedData.map((row, index) => (
-              <tr
-                // Set the ID of the row to the item's ID for scrolling purposes
-                id={row?.id}
+              <TableRow
                 key={row?.id}
-                className={cn(
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
-                  'hover:cursor-pointer hover:bg-blue-100 h-18 transition-colors duration-200',
-                  row?.id === highlighted?.id && 'bg-blue-200', // Subtle highlight
-                  row?.id === selected?.id &&
-                    'bg-green-100 border-l-4 border-green-500 shadow-sm', // Distinct selection
-                )}
-                // Handle click on a row to highlight and select it
-                onClick={() => handleClick(row)}
-              >
-                {/* Map through the columns to create table data cells */}
-                {columns.map((column) => (
-                  <td
-                    key={`${index}-${column}`}
-                    className={`px-5 py-2 border-b border-gray-200 text-left  text-sm ${
-                      row?.id === selected?.id
-                        ? 'font-medium text-green-700'
-                        : 'text-gray-900'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <p className={'w-33'}>{String(row[column])}</p>
-                    </div>
-                  </td>
-                ))}
-              </tr>
+                row={row}
+                index={index}
+                columns={columns}
+                highlighted={highlighted}
+                selected={selected}
+                handleClick={handleClick}
+              />
             ))}
           </tbody>
         </table>
