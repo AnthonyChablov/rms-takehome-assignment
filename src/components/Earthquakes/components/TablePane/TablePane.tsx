@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { cn } from '@/utils/utils';
-import { useScrollToElement } from '../../../../../hooks/useScrollToElement';
+import { useScrollToElement } from '../../../../hooks/useScrollToElement';
 import useSortedData from './hooks/useSortedData';
 import { TableRow } from './components/TableRow/TableRow';
 import { TableHeader } from './components/TableHeader/TableHeader';

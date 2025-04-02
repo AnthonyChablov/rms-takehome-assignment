@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useEarthquakesQuery } from '@/api/earthquakes/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
-import PlotPane from './components/Panes/PlotPane/PlotPane';
-import TablePane from './components/Panes/TablePane/TablePane';
+import PlotPane from './components/PlotPane/PlotPane';
+import TablePane from './components/TablePane/TablePane';
 import Loader from '../Loading/Loading';
 import Error from '../Error/Error';
 import Container from '../Layout/Container';
