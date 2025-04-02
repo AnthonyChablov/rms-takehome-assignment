@@ -1,4 +1,3 @@
-// src/utils/earthquakeUtils.ts
 import { EarthquakeRecord } from '@/types/earthquake';
 import { CSVRow } from '@/types/csvRow';
 // Assuming parseEarthquakeRow is correctly defined in earthquakeParser.ts

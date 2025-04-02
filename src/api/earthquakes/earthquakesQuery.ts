@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getEarthquakes } from './earthquakesService';
-import { GetEarthQuakesFilters } from './earthquakesService';
+import { getEarthquakes } from './earthquakesApi';
+import { GetEarthQuakesFilters } from './earthquakesApi';
 import { usePlotTableStore } from '@/store/plotTableStore'; // Import your Zustand store
 
 export const useEarthquakesQuery = (

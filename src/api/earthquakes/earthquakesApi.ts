@@ -1,4 +1,3 @@
-// src/api/earthquakeApi.ts
 import { EarthquakeRecord } from '@/types/earthquake';
 // If you keep filters in a separate type definition:
 // import { GetEarthQuakesFilters } from './types';

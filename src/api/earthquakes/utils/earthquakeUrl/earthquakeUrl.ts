@@ -1,4 +1,3 @@
-// src/utils/apiUtils.ts
 const BASE_URL: string =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv';
 // WARNING: cors-anywhere is a public proxy often rate-limited or down.

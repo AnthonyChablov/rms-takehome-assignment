@@ -1,4 +1,3 @@
-// src/utils/fetchUtils.ts
 import axios from 'axios';
 
 // Optional: Create a single reusable Axios instance if you make multiple calls

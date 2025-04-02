@@ -1,4 +1,3 @@
-// services/earthquakes/earthquakeParser.ts
 import { EarthquakeRecord } from '../../../../types/earthquake';
 import { CSVRow } from '../../../../types/csvRow';
 import { formatDate } from '@/utils/utils';
