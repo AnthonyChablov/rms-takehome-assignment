@@ -71,10 +71,14 @@ export const getEarthquakes = async (
         let earthquakes: EarthquakeRecord[] =
           results.data.map(parseEarthquakeRow);
 
-        // Apply sorting if sortBy is provided
-        // This is currently being done on the client-side. In a backend scenario,
-        // the backend would handle the sorting, likely using database queries.
-        if (sortBy) {
+        // Apply limit if provided
+        // Similar to sorting, in a backend scenario, the limit would ideally be applied
+        // by the backend to reduce the amount of data sent to the client.
+        if (filters?.limit !== undefined) {
+          earthquakes = earthquakes.slice(0, filters.limit);
+        }
+        // Resolve the promise with the parsed and optionally sorted data
+        resolve(
           earthquakes.sort((a, b) => {
             const valA = a[sortBy as keyof EarthquakeRecord];
             const valB = b[sortBy as keyof EarthquakeRecord];
@@ -89,17 +93,8 @@ export const getEarthquakes = async (
             }
             // Handle other types if necessary
             return 0; // Default case
-          });
-        }
-
-        // Apply limit if provided
-        // Similar to sorting, in a backend scenario, the limit would ideally be applied
-        // by the backend to reduce the amount of data sent to the client.
-        if (filters?.limit !== undefined) {
-          earthquakes = earthquakes.slice(0, filters.limit);
-        }
-        // Resolve the promise with the parsed and optionally sorted data
-        resolve(earthquakes);
+          }),
+        );
       },
       // Handle errors during parsing
       error: (error: Error) => {
