@@ -1,4 +1,4 @@
-import { useEffect, useRef, RefObject } from 'react';
+import { useEffect, RefObject } from 'react';
 
 export function useScrollToElement<T extends Record<string, any>>(
   highlighted: T | null | undefined,
