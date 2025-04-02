@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEarthquakesQuery } from '@/api/earthquakesQuery';
-import { useHighlightedEarthquakeContext } from '@/context/EarthquakeContext';
+import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
 import PlotPane from './components/PlotPane/PlotPane';
 import TablePane from './components/TablePane/TablePane';
 import Loader from '../Loading/Loading';
