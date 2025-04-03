@@ -26,7 +26,9 @@ describe('App.tsx', () => {
     // Arrange
     render(<App />);
     // Act
-    const earthquakesComponent = screen.getByTestId('earthquakes');
+    const earthquakesComponent = screen.getByTestId(
+      'earthquakes-loading earthquakes',
+    );
     // Assert
     expect(earthquakesComponent).toBeInTheDocument();
   });

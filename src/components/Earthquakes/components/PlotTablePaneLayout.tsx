@@ -41,7 +41,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   // --- Loading State ---
   if (isLoading) {
     return (
-      <div data-testid="earthquakes-loading">
+      <div data-testid="earthquakes-loading earthquakes">
         <Container className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
           <Loading />
         </Container>
@@ -52,7 +52,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   // --- Error State ---
   if (isError) {
     return (
-      <div data-testid="earthquakes-error">
+      <div data-testid="earthquakes-error earthquakes">
         <Container>
           <Error />
           <div className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
@@ -74,7 +74,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
 
   // --- Success State ---
   return (
-    <div data-testid-="earthquakes-success">
+    <div data-testid-="earthquakes-success earthquakes">
       <Container className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
         <PlotPane
           data={data}
