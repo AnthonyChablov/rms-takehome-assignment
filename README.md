@@ -1,14 +1,14 @@
-# Earthquake Data Visualization Dashboard
+# 🌎 Earthquake Data Visualization Dashboard
 
 This project is a Single Page Application (SPA) that visualizes United States Geological Survey (USGS) earthquake data with an interactive plot and a data table, this project was built as part of a frontend developer technical assessment.
 
-## Overview
+## 📊 Overview
 
 The Earthquake Data Visualization Dashboard loads geospatial statistical data from a USGS public dataset, displaying it in both an interactive scatter plot and a scrollable data table. The application demonstrates multiple state management approaches and implements state linking between the scatter plot and the scrollable data table.
 
 ![Earthquake Dashboard Screenshot](https://via.placeholder.com/800x450)
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - **React** with **TypeScript** - Core UI framework
 - **Vite** - Build tool and development server
@@ -19,9 +19,9 @@ The Earthquake Data Visualization Dashboard loads geospatial statistical data fr
 - **Tailwind CSS** - Utility-first CSS framework
 - **Vitest** & **React Testing Library** - Testing frameworks and library
 
-## Architecture Overview
+## 🏗️ Architecture Overview
 
-### State Management Strategy
+### 🧠 State Management Strategy
 
 The application employs three distinct state management approaches as required:
 
@@ -40,7 +40,7 @@ The application employs three distinct state management approaches as required:
    - Manages client-side UI state such as axis selections, filters, and selected records
    - Provides a clean separation of client state from server/data state
 
-### Separation of Concerns
+### 🧩 Separation of Concerns
 
 The project follows a clear separation between:
 
@@ -50,35 +50,35 @@ The project follows a clear separation between:
 
 This separation ensures that each type of state is managed by the most appropriate tool, creating a more maintainable and scalable application architecture.
 
-## Key Features
+## ✨ Key Features
 
-- **Interactive Scatter Plot**
+- **📈 Interactive Scatter Plot**
 
   - Configurable X and Y axes via dropdown selectors
   - Visual highlighting of selected data points
   - Responsive design adapting to viewport size
 
-- **Data Table**
+- **📋 Data Table**
 
   - Complete display of earthquake records
   - Scroll functionality to access all rows and columns
   - Row highlighting on hover/selection
   - Synchronized with plot selections
 
-- **Bidirectional Component Linking**
+- **🔄 Bidirectional Component Linking**
 
   - Selecting a table row highlights the corresponding plot point
   - Selecting a plot point scrolls to and highlights the corresponding table row
 
-- **Data Processing Pipeline**
+- **⚙️ Data Processing Pipeline**
   - Fetches CSV data from USGS dataset here : https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
   - Parses and transforms raw data into appropriate structures
   - Filters invalid records and applies optional limits
   - Sorts data based on selected axes
 
-## Implementation Details
+## 💻 Implementation Details
 
-### Data Fetching and Processing
+### 📤 Data Fetching and Processing
 
 The application uses a well-structured data pipeline:
 
@@ -112,7 +112,7 @@ export const getEarthquakes = async (
 };
 ```
 
-### Context API Implementation
+### 🔄 Context API Implementation
 
 A React Context provides a clean way to share the highlighted earthquake state between components:
 
@@ -154,7 +154,7 @@ export const useHighlightedEarthquakeContext = (): HighlightedEarthquakeContextT
 };
 ```
 
-### Zustand Store Implementation
+### 🗄️ Zustand Store Implementation
 
 Zustand manages client-side state related to the plot and table:
 
@@ -188,7 +188,7 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
 }));
 ```
 
-### TanStack Query Implementation
+### 🔁 TanStack Query Implementation
 
 React Query handles the asynchronous data fetching and caching:
 
@@ -205,13 +205,13 @@ export const useEarthquakesQuery = (
 };
 ```
 
-## Design Decisions
+## 🧠 Design Decisions
 
-### Query Key Strategy
+### 🔑 Query Key Strategy
 
 The TanStack Query implementation deliberately excludes `sortBy` from the query key to prevent unnecessary refetches when only sorting changes. This is an optimization that recognizes sorting as a client-side operation that doesn't require re-fetching data from the server.
 
-### State Management Separation
+### 🧩 State Management Separation
 
 While TanStack Query could handle more state management, I deliberately separated concerns:
 
@@ -221,7 +221,7 @@ While TanStack Query could handle more state management, I deliberately separate
 
 This separation creates a cleaner architecture that would scale better in a larger application where different teams might work on different aspects of the application.
 
-## Installation
+## 🚀 Installation
 
 1. Clone the repository:
 
@@ -247,19 +247,19 @@ This separation creates a cleaner architecture that would scale better in a larg
    http://localhost:5173
    ```
 
-## Running Tests
+## 🧪 Running Tests
 
 ```bash
 npm test
 ```
 
-## Build for Production
+## 📦 Build for Production
 
 ```bash
 npm run build
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
@@ -279,7 +279,7 @@ src/
 └── App.tsx               # Main application component
 ```
 
-## Use of AI
+## 🤖 Use of AI
 
 AI tools were used in the following ways:
 
@@ -289,7 +289,7 @@ AI tools were used in the following ways:
 
 All code was manually reviewed and modified to ensure it meets the requirements and follows best practices.
 
-## Future Improvements
+## 🔮 Future Improvements
 
 - Add more interactive features to the scatter plot (zoom, pan)
 - End-to-End (E2E) testing with Cypress
@@ -299,10 +299,10 @@ All code was manually reviewed and modified to ensure it meets the requirements 
 - Add more improvements to mobile responsiveness
 - Add more comprehensive error handling and loading states
 
-## License
+## 📄 License
 
 MIT
 
-## Contact
+## 📬 Contact
 
 For any questions or feedback about this project, please contact me at aechablov@gmail.com.
