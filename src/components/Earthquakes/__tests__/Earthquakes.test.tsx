@@ -126,5 +126,12 @@ describe('Earthquakes.tsx', () => {
     expect(screen.queryByTestId('earthquakes-loading')).toBeNull();
     expect(screen.queryByTestId('earthquakes-error')).toBeNull();
     expect(screen.getByTestId('earthquakes-success')).toBeInTheDocument();
+
+    expect(
+      screen.getByText('USGS Most Recent Earthquakes (Top 100)'),
+    ).toBeInTheDocument();
+
+    expect(screen.getByTestId('plot-pane')).toBeInTheDocument();
+    expect(screen.getByTestId('table-pane')).toBeInTheDocument();
   });
 });
