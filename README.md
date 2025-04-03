@@ -1,10 +1,10 @@
 # Earthquake Data Visualization Dashboard
 
-This project is a Single Page Application (SPA) that visualizes USGS earthquake data with an interactive plot and a data table, built as part of a frontend developer technical assessment.
+This project is a Single Page Application (SPA) that visualizes United States Geological Survey (USGS) earthquake data with an interactive plot and a data table, this project was built as part of a frontend developer technical assessment.
 
 ## Overview
 
-The Earthquake Data Visualization Dashboard loads geospatial statistical data from the USGS public API, displaying it in both an interactive scatter plot and a scrollable data table. The application demonstrates multiple state management approaches and implements bidirectional state linking between components.
+The Earthquake Data Visualization Dashboard loads geospatial statistical data from a USGS public dataset, displaying it in both an interactive scatter plot and a scrollable data table. The application demonstrates multiple state management approaches and implements state linking between the scatter plot and the scrollable data table.
 
 ![Earthquake Dashboard Screenshot](https://via.placeholder.com/800x450)
 
@@ -12,12 +12,12 @@ The Earthquake Data Visualization Dashboard loads geospatial statistical data fr
 
 - **React** with **TypeScript** - Core UI framework
 - **Vite** - Build tool and development server
-- **TanStack React Query** - Data fetching, caching, and state management for server data
+- **TanStack / React Query** - Data fetching, caching, and state management for server data
 - **Zustand** - Client-side state management
 - **React Context API** - Component state sharing
 - **Recharts.js** - Interactive data visualization library
 - **Tailwind CSS** - Utility-first CSS framework
-- **Vitest** & **React Testing Library** - Testing frameworks
+- **Vitest** & **React Testing Library** - Testing frameworks and library
 
 ## Architecture Overview
 
@@ -30,7 +30,7 @@ The application employs three distinct state management approaches as required:
    - Used for managing the currently highlighted earthquake record
    - Implemented via `HighlightedEarthquakeContext` to share highlight state across components
 
-2. **TanStack React Query**
+2. **TanStack / React Query**
 
    - Handles data fetching, caching, and server state management
    - Separates data fetching concerns from UI rendering
@@ -44,7 +44,7 @@ The application employs three distinct state management approaches as required:
 
 The project follows a clear separation between:
 
-- **Server State** (TanStack Query): Data fetched from external sources
+- **Server State** (TanStack / React Query): Data fetched from external sources
 - **Client State** (Zustand): UI-related state that changes based on user interactions
 - **Component State** (Context API): State shared between related components
 
@@ -71,7 +71,7 @@ This separation ensures that each type of state is managed by the most appropria
   - Selecting a plot point scrolls to and highlights the corresponding table row
 
 - **Data Processing Pipeline**
-  - Fetches CSV data from USGS API
+  - Fetches CSV data from USGS dataset here : https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
   - Parses and transforms raw data into appropriate structures
   - Filters invalid records and applies optional limits
   - Sorts data based on selected axes
