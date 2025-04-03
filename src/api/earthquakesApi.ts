@@ -4,12 +4,10 @@ import { EarthquakeRecord } from '@/types/earthquake';
 import { getEarthquakeApiUrl } from './utils/earthquakeUrl/earthquakeUrl';
 import { fetchData } from './utils/fetchData/fetchData';
 import { parseCSV } from './utils/parseCSV/parseCSV';
-import {
-  transformCsvToEarthquakes,
-  filterInvalidEarthquakes,
-  sortEarthquakes,
-  applyLimit,
-} from './utils/transformCSV/transformCSV';
+import { transformCsvToEarthquakes } from './utils/transformCSV/transformCSV';
+import { applyLimit } from './utils/transformCSV/applyLimit/applyLimit';
+import { sortEarthquakes } from './utils/transformCSV/sortEarthquakes/sortEarthquakes';
+import { filterInvalidEarthquakes } from './utils/transformCSV/filterInvalidEarthquake/filterInvalidEarthquake';
 
 // Re-define or import the filters type
 export type GetEarthQuakesFilters = {
