@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn } from '@/utils/utils';
 
-interface TableRowProps<T extends Record<string, any>> {
+export interface TableRowProps<T extends Record<string, any>> {
   row: T;
   index: number;
   columns: string[];
@@ -10,7 +10,7 @@ interface TableRowProps<T extends Record<string, any>> {
   handleClick: (item: T | null) => void;
 }
 
-export const TableRow = <T extends Record<string, any>>({
+const TableRow = <T extends Record<string, any>>({
   row,
   index,
   columns,
@@ -48,3 +48,5 @@ export const TableRow = <T extends Record<string, any>>({
     </tr>
   );
 };
+
+export default TableRow;
