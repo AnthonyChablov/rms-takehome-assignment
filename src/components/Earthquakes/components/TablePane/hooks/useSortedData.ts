@@ -10,7 +10,7 @@ import React from 'react';
  * @param b The second object.
  * @returns A negative value if a < b, zero if a === b, a positive value if a > b.
  */
-function compareValues<T>(key: keyof T, a: T, b: T): number {
+export function compareValues<T>(key: keyof T, a: T, b: T): number {
   const valA = a[key];
   const valB = b[key];
 
