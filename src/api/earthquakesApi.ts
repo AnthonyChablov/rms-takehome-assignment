@@ -1,6 +1,4 @@
 import { EarthquakeRecord } from '@/types/earthquake';
-// If you keep filters in a separate type definition:
-// import { GetEarthQuakesFilters } from './types';
 import { getEarthquakeApiUrl } from './utils/earthquakeUrl/earthquakeUrl';
 import { fetchData } from './utils/fetchData/fetchData';
 import { parseCSV } from './utils/parseCSV/parseCSV';
