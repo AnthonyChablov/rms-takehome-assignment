@@ -226,7 +226,7 @@ This separation creates a cleaner architecture that would scale better in a larg
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/earthquake-visualization.git
+   git clone https://github.com/AnthonyChablov/rms-takehome-assignment.git
    cd earthquake-visualization
    ```
 
@@ -292,11 +292,12 @@ All code was manually reviewed and modified to ensure it meets the requirements 
 ## Future Improvements
 
 - Add more interactive features to the scatter plot (zoom, pan)
+- End-to-End (E2E) testing with Cypress
+- Increase unit-testing coverage for all components and utilities
 - Implement data filtering options
 - Add time-series visualization options
-- Improve mobile responsiveness
+- Add more improvements to mobile responsiveness
 - Add more comprehensive error handling and loading states
-- Implement unit tests for all components and utilities
 
 ## License
 
@@ -304,4 +305,4 @@ MIT
 
 ## Contact
 
-For any questions or feedback about this project, please contact me at your.email@example.com.
+For any questions or feedback about this project, please contact me at aechablov@gmail.com.
