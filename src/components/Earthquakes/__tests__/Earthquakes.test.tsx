@@ -41,14 +41,6 @@ const mockEarthquakeData = [
 ];
 
 describe('Earthquakes.tsx', () => {
-  beforeAll(() => {
-    global.ResizeObserver = class ResizeObserver {
-      constructor() {}
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    };
-  });
   beforeEach(() => {
     // Reset mocks before each test
     vi.resetAllMocks();
@@ -68,6 +60,13 @@ describe('Earthquakes.tsx', () => {
       setYAxisKey: vi.fn(),
       filters: { startDate: null, endDate: null, minMagnitude: 0 },
     });
+    // Mock ResizeObserver to avoid errors in tests
+    global.ResizeObserver = class ResizeObserver {
+      constructor() {}
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
   });
 
   it('should pass loading state to layout component when data is being fetched', () => {

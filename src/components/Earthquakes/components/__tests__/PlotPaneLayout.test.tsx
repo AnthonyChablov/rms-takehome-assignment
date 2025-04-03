@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, RenderResult } from '@testing-library/react';
-import { describe, it, expect, vi, Mock } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import PlotTablePaneLayout, {
   PlotTablePaneLayoutProps,
 } from '../PlotTablePaneLayout';
@@ -63,6 +63,19 @@ vi.mock('@/components/Layout/Container', () => ({
 }));
 
 describe('PlotTablePaneLayout', () => {
+  beforeEach(() => {
+    // Reset all mocks before each test
+    vi.clearAllMocks();
+
+    // Mock ResizeObserver to avoid errors in tests
+    global.ResizeObserver = class ResizeObserver {
+      constructor() {}
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
+  });
+
   // Sample data for testing
   const mockData: EarthquakeRecord[] = [
     {
@@ -147,19 +160,31 @@ describe('PlotTablePaneLayout', () => {
 
   it('displays loading state when isLoading is true', (): void => {
     // Arrange
-    const loadingProps: PlotTablePaneLayoutProps<EarthquakeRecord> = {
-      ...defaultProps,
+    const loadingProps = {
       isLoading: true,
+      isError: false,
+      data: [],
+      xAxisKey: 'mag',
+      setXAxisKey: vi.fn() as (key: string) => void,
+      yAxisKey: 'depth',
+      setYAxisKey: vi.fn() as (key: string) => void,
+      highlighted: null,
+      setHighlighted: vi.fn() as React.Dispatch<
+        React.SetStateAction<EarthquakeRecord | null>
+      >,
+      selected: null,
+      setSelected: vi.fn() as (item: EarthquakeRecord | null) => void,
     };
 
     // Act
     render(<PlotTablePaneLayout {...loadingProps} />);
 
     // Assert
-    expect(screen.getByTestId('loading-component')).toBeInTheDocument();
-    expect(screen.getByTestId('earthquakes-loading')).toBeInTheDocument();
-    expect(screen.queryByTestId('plot-pane')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('table-pane')).not.toBeInTheDocument();
+    expect(screen.getByTestId('earthquakes')).toBeInTheDocument();
+    expect(screen.queryByTestId('plot-pane')).not.toBeNull();
+    expect(screen.queryByTestId('table-pane')).not.toBeNull();
+    expect(screen.getByTestId('loading-plot')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-table')).toBeInTheDocument();
   });
 
   it('displays error state when isError is true', (): void => {

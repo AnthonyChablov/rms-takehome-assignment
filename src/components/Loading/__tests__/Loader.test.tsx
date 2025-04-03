@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 import Loader from '../Loading';
 
 describe('Loader.tsx', () => {
-  it('renders in the DOM', () => {
+  it('should render in the DOM', () => {
     // Arrange
     // No specific arrangement needed for a simple render test.
 
@@ -17,7 +17,7 @@ describe('Loader.tsx', () => {
     expect(screen.getByTestId('loading-table')).toBeInTheDocument();
   });
 
-  it('renders a skeleton for PlotPane', () => {
+  it('should renders a skeleton for PlotPane', () => {
     // Arrange
     // No specific arrangement needed.
 
@@ -29,7 +29,7 @@ describe('Loader.tsx', () => {
     expect(screen.getByTestId('loading-plot')).toBeInTheDocument();
   });
 
-  it('renders a skeleton for TablePane', () => {
+  it('should renders a skeleton for TablePane', () => {
     // Arrange
     // No specific arrangement needed.
 
