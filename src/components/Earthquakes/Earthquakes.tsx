@@ -3,7 +3,6 @@ import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
 import { usePlotTableStore } from '@/store/plotTableStore';
 import PlotTableLayout from './components/PlotTablePaneLayout';
-import { EarthquakeRecord } from '@/types/earthquake';
 
 /**
  * Fetches and displays a list of recent earthquakes from the USGS API.
@@ -36,10 +35,10 @@ const Earthquakes = () => {
   // Data source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
   const earthquakesQuery = useEarthquakesQuery(filters, xAxisKey);
   // The query is dependent on the filters and xAxisKey, which are used to sort the data.
-  // The data is fetched from the USGS API and parsed into a structured format.
+  // The data is fetched from a USGS CSV and parsed into a structured format.
 
   return (
-    <PlotTableLayout<EarthquakeRecord>
+    <PlotTableLayout
       isLoading={earthquakesQuery.isPending}
       isError={earthquakesQuery.isError}
       data={earthquakesQuery.data || []}

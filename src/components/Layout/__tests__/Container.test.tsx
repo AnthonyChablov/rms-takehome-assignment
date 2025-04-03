@@ -5,11 +5,11 @@ import Container from '../Container';
 describe('Container.tsx', () => {
   it('should render in the DOM', () => {
     // Arrange
-    const child = <div>123</div>;
+    const child = <div>testData</div>;
 
     // Act
     render(<Container>{child}</Container>);
-    const containerComponent = screen.getByText(123);
+    const containerComponent = screen.getByText('testData');
 
     // Assert
     expect(containerComponent).toBeInTheDocument();
