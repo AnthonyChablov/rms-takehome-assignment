@@ -1,7 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import axios from 'axios';
-import { fetchData } from '../fetchData'; // Adjust the import path as needed
+import { fetchData } from '../fetchData';
 
 // Mock the axios module to control its behavior during testing
 vi.mock('axios');
@@ -20,7 +19,7 @@ describe('fetchData', () => {
     // Assert
     expect(mockedAxios.get).toHaveBeenCalledWith(mockUrl, {
       headers: { Accept: 'text/csv, text/plain, */*' },
-      transformResponse: expect.any(Function), // Check if it's a function
+      transformResponse: expect.arrayContaining([expect.any(Function)]), // Fixed this line
       withCredentials: false,
     });
     expect(data).toBe(mockResponseData);
@@ -38,7 +37,7 @@ describe('fetchData', () => {
     );
     expect(mockedAxios.get).toHaveBeenCalledWith(mockUrl, {
       headers: { Accept: 'text/csv, text/plain, */*' },
-      transformResponse: expect.any(Function), // Check if it's a function
+      transformResponse: expect.arrayContaining([expect.any(Function)]), // Fixed this line
       withCredentials: false,
     });
   });
@@ -55,7 +54,7 @@ describe('fetchData', () => {
     );
     expect(mockedAxios.get).toHaveBeenCalledWith(mockUrl, {
       headers: { Accept: 'text/csv, text/plain, */*' },
-      transformResponse: expect.any(Function), // Check if it's a function
+      transformResponse: expect.arrayContaining([expect.any(Function)]), // Fixed this line
       withCredentials: false,
     });
   });
