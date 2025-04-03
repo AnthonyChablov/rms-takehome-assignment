@@ -9,7 +9,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test:unit": "vitest",
+    "test:unit:coverage": "vitest run --coverage",
+    "test:unit:ui": "vitest --ui"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.16",
@@ -37,6 +39,7 @@
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-react-swc": "^3.8.0",
+    "@vitest/ui": "^3.1.1",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.5",

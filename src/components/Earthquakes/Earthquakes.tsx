@@ -1,12 +1,9 @@
 import React from 'react';
 import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
-import PlotPane from './components/PlotPane/PlotPane';
-import TablePane from './components/TablePane/TablePane';
-import Loader from '../Loading/Loading';
-import Error from '../Error/Error';
-import Container from '../Layout/Container';
 import { usePlotTableStore } from '@/store/plotTableStore';
+import PlotTableLayout from './components/PlotTablePaneLayout';
+import { EarthquakeRecord } from '@/types/earthquake';
 
 /**
  * Fetches and displays a list of recent earthquakes from the USGS API.
@@ -41,72 +38,21 @@ const Earthquakes = () => {
   // The query is dependent on the filters and xAxisKey, which are used to sort the data.
   // The data is fetched from the USGS API and parsed into a structured format.
 
-  // --- Loading State ---
-  // Displays a loader while the earthquake data is being fetched.
-  if (earthquakesQuery.isPending) {
-    return (
-      <div data-testid="earthquakes-layout">
-        <Container className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
-          <Loader />
-        </Container>
-      </div>
-    );
-  }
-
-  // --- Error State ---
-  // Displays an error message and empty panes if the data fetching fails.
-  if (earthquakesQuery.isError) {
-    return (
-      <div data-testid="earthquakes-layout">
-        <Container>
-          <Error />
-          <div className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between ">
-            <PlotPane
-              data={[]}
-              xAxisKey={xAxisKey}
-              setXAxisKey={setXAxisKey}
-              yAxisKey={yAxisKey}
-              setYAxisKey={setYAxisKey}
-              selected={selectedRecord}
-              setSelected={setSelectedRecord}
-            />
-            <TablePane data={[]} />
-          </div>
-        </Container>
-      </div>
-    );
-  }
-
-  // --- Success State ---
-  // Renders the PlotPane and TablePane components with the fetched earthquake data.
   return (
-    <div data-testid="earthquakes-layout">
-      <Container className="px-4 space-y-6 flex flex-col lg:flex-row  space-x-4 justify-between ">
-        <PlotPane
-          data={earthquakesQuery.data}
-          xAxisKey={xAxisKey}
-          setXAxisKey={setXAxisKey}
-          yAxisKey={yAxisKey}
-          setYAxisKey={setYAxisKey}
-          highlighted={highlightedEarthquake}
-          setHighlighted={setHighlightedEarthquake}
-          selected={selectedRecord}
-          setSelected={setSelectedRecord}
-        />
-        <TablePane
-          title={'USGS Most Recent Earthquakes (Top 100)'}
-          xAxisKey={xAxisKey}
-          setXAxisKey={setXAxisKey}
-          yAxisKey={yAxisKey}
-          setYAxisKey={setYAxisKey}
-          data={earthquakesQuery.data}
-          highlighted={highlightedEarthquake}
-          setHighlighted={setHighlightedEarthquake}
-          selected={selectedRecord}
-          setSelected={setSelectedRecord}
-        />
-      </Container>
-    </div>
+    <PlotTableLayout<EarthquakeRecord>
+      isLoading={earthquakesQuery.isPending}
+      isError={earthquakesQuery.isError}
+      data={earthquakesQuery.data || []}
+      xAxisKey={xAxisKey}
+      setXAxisKey={setXAxisKey}
+      yAxisKey={yAxisKey}
+      setYAxisKey={setYAxisKey}
+      highlighted={highlightedEarthquake}
+      setHighlighted={setHighlightedEarthquake}
+      selected={selectedRecord}
+      setSelected={setSelectedRecord}
+      title="USGS Most Recent Earthquakes (Top 100)"
+    />
   );
 };
 

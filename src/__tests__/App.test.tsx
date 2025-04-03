@@ -22,11 +22,11 @@ describe('App.tsx', () => {
     expect(appComponent).toBeInTheDocument();
   });
 
-  it('should render the Earthquakes component', () => {
+  it('should render the Earthquakes component loading', () => {
     // Arrange
     render(<App />);
     // Act
-    const earthquakesComponent = screen.getByTestId('earthquakes-layout');
+    const earthquakesComponent = screen.getByTestId('earthquakes');
     // Assert
     expect(earthquakesComponent).toBeInTheDocument();
   });

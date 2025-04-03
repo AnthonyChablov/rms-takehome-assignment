@@ -5,7 +5,7 @@ const Loading = () => {
     <>
       {/* Skeleton for PlotPane */}
       <div
-        data-testid="skeleton-plot"
+        data-testid="loading-plot"
         className="animate-pulse bg-white rounded-lg px-6 w-full lg:w-7/12 flex flex-col "
       >
         {/* Menu skeletons */}
@@ -24,7 +24,7 @@ const Loading = () => {
 
       {/* Skeleton for TablePane */}
       <div
-        data-testid="skeleton-table"
+        data-testid="loading-table"
         className="animate-pulse bg-white rounded-lg w-full lg:w-5/12  flex flex-col "
       >
         <div className="bg-gray-200 h-4 rounded w-64 mb-2"></div>

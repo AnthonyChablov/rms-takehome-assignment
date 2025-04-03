@@ -13,8 +13,8 @@ describe('Loader.tsx', () => {
 
     // Assert
     // If the test reaches this point without throwing an error, it has rendered.
-    expect(screen.getByTestId('skeleton-plot')).toBeInTheDocument();
-    expect(screen.getByTestId('skeleton-table')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-plot')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-table')).toBeInTheDocument();
   });
 
   it('renders a skeleton for PlotPane', () => {
@@ -26,7 +26,7 @@ describe('Loader.tsx', () => {
 
     // Assert
     // If the test reaches this point without throwing an error, it has rendered.
-    expect(screen.getByTestId('skeleton-plot')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-plot')).toBeInTheDocument();
   });
 
   it('renders a skeleton for TablePane', () => {
@@ -38,6 +38,6 @@ describe('Loader.tsx', () => {
 
     // Assert
     // If the test reaches this point without throwing an error, it has rendered.
-    expect(screen.getByTestId('skeleton-table')).toBeInTheDocument();
+    expect(screen.getByTestId('loading-table')).toBeInTheDocument();
   });
 });
