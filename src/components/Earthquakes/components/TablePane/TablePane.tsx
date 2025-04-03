@@ -3,7 +3,7 @@ import { cn } from '@/utils/utils';
 import { useScrollToElement } from '../../../../hooks/useScrollToElement';
 import useSortedData from './hooks/useSortedData';
 import { TableRow } from './components/TableRow/TableRow';
-import { TableHeader } from './components/TableHeader/TableHeader';
+import TableHeader from './components/TableHeader/TableHeader';
 
 // Interface defining the props for the TablePane component.
 interface TablePaneProps<T extends Record<string, any>> {

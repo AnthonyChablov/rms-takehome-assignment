@@ -2,7 +2,7 @@ interface TableHeaderProps {
   columns: string[];
 }
 
-export const TableHeader = ({ columns }: TableHeaderProps) => (
+const TableHeader = ({ columns }: TableHeaderProps) => (
   <thead className="">
     <tr className="sticky top-0 left-0 bg-gray-200 ">
       {columns.map((column) => (
@@ -18,3 +18,5 @@ export const TableHeader = ({ columns }: TableHeaderProps) => (
     </tr>
   </thead>
 );
+
+export default TableHeader;
