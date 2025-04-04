@@ -26,6 +26,49 @@ interface PlotPaneProps<T extends Record<string, any>> {
   setYAxisKey: (key: string) => void;
 }
 
+/**
+ * PlotPane component renders a scatter plot with configurable axes and interaction features
+ * for visualizing and interacting with data points.
+ *
+ * The component allows for dynamic axis selection, custom point rendering, and interaction events
+ * such as highlighting and selecting data points on hover and click.
+ *
+ * @template T The type of data in the `data` array (typically an object with properties to be plotted on the axes).
+ *
+ * @param {T[]} data The data to plot in the scatter chart.
+ * @param {T | null} [highlighted] The data point currently highlighted (optional).
+ * @param {(item: T | null) => void} [setHighlighted] Function to set the highlighted data point (optional).
+ * @param {T | null} [selected] The data point currently selected (optional).
+ * @param {(item: T | null) => void} [setSelected] Function to set the selected data point (optional).
+ * @param {string | null} xAxisKey The key from the data to be used as the X-axis.
+ * @param {(key: string) => void} setXAxisKey Function to set the X-axis key.
+ * @param {string | null} yAxisKey The key from the data to be used as the Y-axis.
+ * @param {(key: string) => void} setYAxisKey Function to set the Y-axis key.
+ *
+ * @returns A `<div>` containing the scatter plot chart, interactive elements for axis selection,
+ *          and reference lines at X=0 and Y=0 for better visualization.
+ *
+ * @example
+ * ```tsx
+ * <PlotPane
+ *   data={chartData}
+ *   highlighted={highlightedData}
+ *   setHighlighted={setHighlightedData}
+ *   selected={selectedData}
+ *   setSelected={setSelectedData}
+ *   xAxisKey="xValue"
+ *   setXAxisKey={setXAxisKey}
+ *   yAxisKey="yValue"
+ *   setYAxisKey={setYAxisKey}
+ * />
+ * ```
+ *
+ * @note
+ * - The component allows users to dynamically select the X and Y axes from a list of available numeric keys.
+ * - The custom dot component `CustomDot` is used to render individual points, with support for selected and highlighted points.
+ * - Reference lines at X=0 and Y=0 are drawn to help visually track data across both axes.
+ * - Interaction is supported, allowing users to highlight and select points, with updates to the `highlighted` and `selected` states.
+ */
 function PlotPane<T extends Record<string, any>>({
   data,
   highlighted,

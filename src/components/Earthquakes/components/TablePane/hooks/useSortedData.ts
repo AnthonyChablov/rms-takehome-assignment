@@ -3,12 +3,21 @@ import React from 'react';
 
 /**
  * Generic comparison function for sorting.
- * Handles numbers, strings, Dates, and null/undefined values.
- * Sorts null/undefined values to the end.
- * @param key The key to access the value for comparison within objects a and b.
- * @param a The first object.
- * @param b The second object.
- * @returns A negative value if a < b, zero if a === b, a positive value if a > b.
+ * This function compares two values (from objects) based on a specific key and handles different data types like numbers, strings, Dates, and null/undefined values.
+ * It sorts null/undefined values to the end by default.
+ *
+ * @param key The key within the object (T) used for comparison (e.g., a property name of the objects).
+ * @param a The first object to compare.
+ * @param b The second object to compare.
+ * @returns A negative value if `a` is less than `b`, zero if they are equal, or a positive value if `a` is greater than `b`.
+ *
+ * The function compares values based on their type:
+ * - **Numbers**: Subtracts the two values for numerical comparison.
+ * - **Strings**: Uses `localeCompare` for a locale-aware string comparison.
+ * - **Dates**: Compares by timestamp values.
+ * - **Null/Undefined**: Sorts null/undefined values to the end (this is the default behavior).
+ *
+ * If the types are unsupported or mixed, a warning is logged, and the values are treated as equal.
  */
 export function compareValues<T>(key: keyof T, a: T, b: T): number {
   const valA = a[key];
@@ -23,7 +32,6 @@ export function compareValues<T>(key: keyof T, a: T, b: T): number {
   if (bIsNull) return -1; // only b is null/undefined, sort a before b
 
   // --- Specific Type Comparisons ---
-
   // Numbers: Simple subtraction
   if (typeof valA === 'number' && typeof valB === 'number') {
     return valA - valB;
@@ -40,7 +48,6 @@ export function compareValues<T>(key: keyof T, a: T, b: T): number {
   }
 
   // Fallback for unhandled types or mixed types (treat as equal)
-  // You might want to add logging here if needed.
   console.warn(
     `useSortedData: Attempting to compare unsupported types (${typeof valA} vs ${typeof valB}) for key "${String(key)}". Treating as equal.`,
   );
@@ -49,11 +56,24 @@ export function compareValues<T>(key: keyof T, a: T, b: T): number {
 
 /**
  * Custom hook to memoize sorting an array of objects by a specific key.
+ * This hook is useful for sorting data client-side in a performant way, especially when working with dynamic or interactive data in React components.
+ *
+ * The hook will return a memoized, sorted array of objects based on the provided sorting key. If no sorting key is provided, it will return the original data (unsorted).
+ * The sorting is done using the `compareValues` function, which supports sorting based on numbers, strings, Dates, and handles null/undefined values appropriately.
  *
  * @template T The type of objects in the array.
- * @param {T[] | undefined | null} data The array of data to sort.
- * @param {keyof T | undefined | null} sortKey The key (property name) within T to sort by. If null/undefined, data is returned unsorted.
- * @returns {T[]} A new, memoized, sorted array based on the sortKey, or the original data structure if sorting is not possible/needed.
+ * @param {T[] | undefined | null} data The array of data to sort. This could be `undefined` or `null` if data isn't available.
+ * @param {keyof T | undefined | null} sortKey The key within each object to sort by (e.g., a property name of the objects).
+ *  If `null` or `undefined` is passed, the data is returned unsorted.
+ * @returns {T[]} A new, memoized, sorted array based on the sortKey, or the original data structure if sorting is not possible or needed.
+ *
+ * @example
+ * const sortedData = useSortedData(data, 'date');
+ * // This would sort the data by the 'date' property.
+ *
+ * @note
+ * - The `useMemo` hook ensures that the sorting operation is only re-executed when the `data` or `sortKey` changes, optimizing performance.
+ * - The sorting happens client-side, meaning that large datasets could have performance implications. Consider server-side sorting for larger datasets.
  */
 function useSortedData<T>(
   data: T[] | undefined | null,
