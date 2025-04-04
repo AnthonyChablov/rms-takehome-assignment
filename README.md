@@ -2,11 +2,11 @@
 
 This project is a Single Page Application (SPA) that visualizes United States Geological Survey (USGS) earthquake data with an interactive plot and a data table, this project was built as part of a frontend developer technical assessment.
 
-## 📊 Overview
+## Overview
 
 The Earthquake Data Visualization Dashboard loads geospatial statistical data from a USGS public dataset, displaying it in both an interactive scatter plot and a scrollable data table. The application demonstrates multiple state management approaches and implements state linking between the scatter plot and the scrollable data table.
 
-## Live Demo
+## ⚙️ Live Demo
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue)](https://rms-takehome-assignment.vercel.app/)
 
@@ -56,25 +56,25 @@ This separation ensures that each type of state is managed by the most appropria
 
 ## ✨ Key Features
 
-- **📈 Interactive Scatter Plot**
+- **Interactive Scatter Plot**
 
   - Configurable X and Y axes via dropdown selectors
   - Visual highlighting of selected data points
   - Responsive design adapting to viewport size
 
-- **📋 Data Table**
+- **Data Table**
 
   - Complete display of earthquake records
   - Scroll functionality to access all rows and columns
   - Row highlighting on hover/selection
   - Synchronized with plot selections
 
-- **🔄 Bidirectional Component Linking**
+- **Bidirectional Component Linking**
 
   - Selecting a table row highlights the corresponding plot point
   - Selecting a plot point scrolls to and highlights the corresponding table row
 
-- **⚙️ Data Processing Pipeline**
+- **Data Processing Pipeline**
   - Fetches CSV data from USGS dataset here : https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
   - Parses and transforms raw data into appropriate structures
   - Filters invalid records and applies optional limits
@@ -160,7 +160,7 @@ export const useHighlightedEarthquakeContext = (): HighlightedEarthquakeContextT
 
 ### 🗄️ Zustand Store Implementation
 
-Zustand manages client-side state related to the plot and table:
+Zustand manages client-side state related to the plot and table, these features include a global store that is used to maintain state such as selected and filtered record state. In addition to this, the store is used to update the highlighted record when interacting with the table or plot :
 
 ```typescript
 export const usePlotTableStore = create<PlotTableStore>((set) => ({
@@ -194,7 +194,7 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
 
 ### 🔁 TanStack Query Implementation
 
-React Query handles the asynchronous data fetching and caching:
+Tanstack / React Query handles the asynchronous data fetching and caching:
 
 ```typescript
 export const useEarthquakesQuery = (
@@ -211,9 +211,43 @@ export const useEarthquakesQuery = (
 
 ## 🧠 Design Decisions
 
-### Query Key Strategy
+### Query Key Strategy and Client-Side Sorting
 
 The TanStack Query implementation deliberately excludes `sortBy` from the query key to prevent unnecessary refetches when only sorting changes. This is an optimization that recognizes sorting as a client-side operation that doesn't require re-fetching data from the server.
+
+**Client-Side Sorting Implementation:**
+
+In `TablePlot.tsx`, I implemented client-side sorting using a custom `useSortedData` hook. This hook leverages `React.useMemo` to efficiently sort the data based on the selected `xAxisKey`, providing a smoother user experience.
+
+```typescript
+const sortedData = useSortedData(data, xAxisKey);
+
+/**
+ * Custom hook to memoize sorting an array of objects by a specific key.
+ *
+ * @template T The type of objects in the array.
+ * @param {T[] | undefined | null} data The array of data to sort.
+ * @param {keyof T | undefined | null} sortKey The key (property name) within T to sort by. If null/undefined, data is returned unsorted.
+ * @returns {T[]} A new, memoized, sorted array based on the sortKey, or the original data structure if sorting is not possible/needed.
+ */
+function useSortedData<T>(
+  data: T[] | undefined | null,
+  sortKey: keyof T | undefined | null,
+): T[] {
+  const sortedData = React.useMemo(() => {
+    if (data && sortKey) {
+      const dataToSort = [...data];
+      dataToSort.sort((a, b) => compareValues(sortKey, a, b));
+      return dataToSort;
+    }
+    return data || [];
+  }, [data, sortKey]);
+
+  return sortedData;
+}
+
+export default useSortedData;
+```
 
 ### State Management Separation
 
@@ -233,6 +267,8 @@ This separation creates a cleaner architecture that would scale better in a larg
    git clone https://github.com/AnthonyChablov/rms-takehome-assignment.git
    cd earthquake-visualization
    ```
+
+````
 
 2. Install dependencies:
 
@@ -311,3 +347,4 @@ MIT
 ## 📬 Contact
 
 For any questions or feedback about this project, please contact me at aechablov@gmail.com.
+````
