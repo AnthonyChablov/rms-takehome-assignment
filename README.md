@@ -1,4 +1,4 @@
-# 🌎 Earthquake Data Visualization Dashboard
+# Earthquake Data Visualization Dashboard
 
 This project is a Single Page Application (SPA) that visualizes United States Geological Survey (USGS) earthquake data with an interactive plot and a data table, this project was built as part of a frontend developer technical assessment.
 
@@ -6,7 +6,11 @@ This project is a Single Page Application (SPA) that visualizes United States Ge
 
 The Earthquake Data Visualization Dashboard loads geospatial statistical data from a USGS public dataset, displaying it in both an interactive scatter plot and a scrollable data table. The application demonstrates multiple state management approaches and implements state linking between the scatter plot and the scrollable data table.
 
-![Earthquake Dashboard Screenshot](https://via.placeholder.com/800x450)
+## Live Demo
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue)](https://rms-takehome-assignment.vercel.app/)
+
+Check out the live demo of the application!
 
 ## 🛠️ Tech Stack
 
@@ -207,11 +211,11 @@ export const useEarthquakesQuery = (
 
 ## 🧠 Design Decisions
 
-### 🔑 Query Key Strategy
+### Query Key Strategy
 
 The TanStack Query implementation deliberately excludes `sortBy` from the query key to prevent unnecessary refetches when only sorting changes. This is an optimization that recognizes sorting as a client-side operation that doesn't require re-fetching data from the server.
 
-### 🧩 State Management Separation
+### State Management Separation
 
 While TanStack Query could handle more state management, I deliberately separated concerns:
 
@@ -264,19 +268,19 @@ npm run build
 ```
 src
 ├── tests/                    # Contains unit and integration tests for various parts of the application.
-├── api/                      # Handles all API-related logic.
+├── api/                      # Handles all API-related data fetching logic and functionality.
 │   └── utils/                # Utility functions specifically for API interactions.
 │   ├── earthquakesApi.ts     # Defines the API endpoints and services for fetching earthquake data.
-│   └── earthquakesQuery.ts   # Implements data fetching and caching logic using React Query for earthquake data.
+│   └── earthquakesQuery.ts   # Implements data fetching and caching logic using Tanstack / React Query for earthquake data.
 ├── components/               # Reusable UI components.
 │   ├── Earthquakes/          # Components related to displaying earthquake data.
 │   ├── Error/                # Components for displaying error messages.
 │   ├── Layout/               # Components for structuring the overall page layout.
 │   └── Loading/              # Components for displaying loading states.
-├── context/                  # Manages application-wide state using React Context API.
+├── context/                  # Manages state using React Context API.
 ├── hooks/                    # Custom React hooks for encapsulating reusable logic.
-├── store/                    # State management using a library like Redux or Zustand (if applicable).
-├── types/                    # TypeScript type definitions for the project.
+├── store/                    # State management using Zustand.
+├── types/                    # TypeScript type definitions and interfaces for the project.
 └── utils/                    # General utility functions used throughout the application.
 ```
 
