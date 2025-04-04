@@ -268,7 +268,6 @@ This separation creates a cleaner architecture that would scale better in a larg
    cd earthquake-visualization
    ```
 
-````
 2. Install dependencies:
 
    ```bash
@@ -350,4 +349,7 @@ MIT
 ## Contact
 
 For any questions or feedback about this project, please contact me at aechablov@gmail.com.
-````
+
+```
+
+```
