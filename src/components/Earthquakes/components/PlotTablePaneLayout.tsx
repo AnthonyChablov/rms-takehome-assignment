@@ -5,24 +5,36 @@ import Loading from '@/components/Loading/Loading';
 import Error from '@/components/Error/Error';
 import Container from '@/components/Layout/Container';
 
+/**
+ * Props for the `PlotTablePaneLayout` component.
+ * T represents the data type for the earthquake records (generic for flexibility).
+ */
 export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
-  isLoading: boolean;
-  isError: boolean;
-  data: T[];
-  xAxisKey: string | null;
-  setXAxisKey: (key: string) => void;
-  yAxisKey: string | null;
-  setYAxisKey: (key: string) => void;
-  highlighted: T | null | undefined;
-  setHighlighted: Dispatch<SetStateAction<T | null>>;
-  selected: T | null | undefined;
-  setSelected: (item: T | null) => void;
-  title?: string;
+  isLoading: boolean; // Indicates whether data is being loaded
+  isError: boolean; // Indicates whether an error occurred while fetching data
+  data: T[]; // The data to display, typically a list of earthquake records
+  xAxisKey: string | null; // Key for the X-axis (e.g., date, magnitude)
+  setXAxisKey: (key: string) => void; // Setter function to update the X-axis key
+  yAxisKey: string | null; // Key for the Y-axis (e.g., depth, distance)
+  setYAxisKey: (key: string) => void; // Setter function to update the Y-axis key
+  highlighted: T | null | undefined; // The currently highlighted earthquake record
+  setHighlighted: Dispatch<SetStateAction<T | null>>; // Setter function to update the highlighted earthquake
+  selected: T | null | undefined; // The currently selected earthquake record
+  setSelected: (item: T | null) => void; // Setter function to update the selected earthquake
+  title?: string; // Optional title for the visualization
 }
 
 /**
- * Handles the layout and display states (loading, error, success) for earthquake data visualization.
- * Renders appropriate UI components based on the current state.
+ * `PlotTablePaneLayout` component is responsible for rendering the layout and managing
+ * the display states (loading, error, success) for earthquake data visualization.
+ * It displays a plot of the earthquake data in a graphical format and a table view with
+ * the ability to select and highlight earthquake records.
+ *
+ * It also manages the state for X/Y axis keys, selected records, and highlighted records
+ * to ensure a dynamic and interactive user experience.
+ *
+ * @param {PlotTablePaneLayoutProps<T>} props - The props passed to the component.
+ * @returns {JSX.Element} The layout rendering the earthquake data visualization.
  */
 export function PlotTablePaneLayout<T extends Record<string, any>>({
   isLoading,
@@ -36,9 +48,10 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   setHighlighted,
   selected,
   setSelected,
-  title = 'USGS Most Recent Earthquakes (Top 100)',
+  title = 'USGS Most Recent Earthquakes (Top 100)', // Default title if not provided
 }: PlotTablePaneLayoutProps<T>) {
   // --- Loading State ---
+  // If the data is still loading, display a loading skeleton inside a container.
   if (isLoading) {
     return (
       <div data-testid="earthquakes">
@@ -53,12 +66,15 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   }
 
   // --- Error State ---
+  // If an error occurred during data fetching, display an error message and fallback content.
+  // In this case, an empty plot and table are displayed as placeholders.
   if (isError) {
     return (
       <div data-testid="earthquakes">
         <Container dataTestId="earthquakes-error">
           <Error />
           <div className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
+            {/* Render empty plot and table as fallback */}
             <PlotPane
               data={[]}
               xAxisKey={xAxisKey}
@@ -76,6 +92,8 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   }
 
   // --- Success State ---
+  // If data is successfully loaded, render the PlotPane and TablePane components
+  // with the provided data, axes keys, and state management functions.
   return (
     <div data-testid="earthquakes">
       <Container
@@ -94,7 +112,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
           setSelected={setSelected}
         />
         <TablePane
-          title={title}
+          title={title} // Pass title for the table pane
           xAxisKey={xAxisKey}
           setXAxisKey={setXAxisKey}
           yAxisKey={yAxisKey}

@@ -5,23 +5,30 @@ import useSortedData from './hooks/useSortedData';
 import TableRow from './components/TableRow/TableRow';
 import TableHeader from './components/TableHeader/TableHeader';
 
-// Interface defining the props for the TablePane component.
+/**
+ * Interface defining the props for the TablePane component.
+ * @template T - Represents the type of the data objects being displayed in the table.
+ */
 interface TablePaneProps<T extends Record<string, any>> {
-  data: T[]; // An array of data objects to be displayed in the table.
-  highlighted?: T | null; // The currently highlighted data item.
-  setHighlighted?: (item: T | null) => void; // Function to set the highlighted data item.
-  selected?: T | null; // The currently selected data item.
-  setSelected?: (item: T | null) => void; // Function to set the selected data item.
-  title?: React.ReactNode; // The title of the table pane.
+  data: T[]; // The data to be displayed in the table. Each element represents a row in the table.
+  highlighted?: T | null; // The currently highlighted row.
+  setHighlighted?: (item: T | null) => void; // Function to update the highlighted row.
+  selected?: T | null; // The currently selected row.
+  setSelected?: (item: T | null) => void; // Function to update the selected row.
+  title?: React.ReactNode; // The title of the table. Optional.
   xAxisKey?: string | null; // The key used for sorting the data on the x-axis.
   setXAxisKey?: (key: string) => void; // Function to set the x-axis sorting key.
-  yAxisKey?: string | null; // The key used for sorting the data on the y-axis (currently unused in this component).
+  yAxisKey?: string | null; // The key for sorting data on the y-axis (currently unused in this component).
   setYAxisKey?: (key: string) => void; // Function to set the y-axis sorting key (currently unused).
 }
 
 /**
  * TablePane Component: Displays data in a tabular format with highlighting and selection capabilities.
- * It utilizes client-side sorting via the `useSortedData` hook.
+ * It utilizes client-side sorting via the `useSortedData` hook, enabling sorting by a specific column (x-axis).
+ * The component also manages row selection and highlighting based on user interaction.
+ *
+ * @param {TablePaneProps<T>} props - The properties for the TablePane component.
+ * @returns {JSX.Element} The rendered TablePane component.
  */
 function TablePane<T extends Record<string, any>>({
   data = [],
@@ -35,38 +42,48 @@ function TablePane<T extends Record<string, any>>({
   yAxisKey = '',
   setYAxisKey,
 }: TablePaneProps<T>) {
-  // Render a message if there is no data to display
+  // If no data is provided, render a message indicating no data is available.
   if (!data || data.length === 0) {
     return <p className="text-gray-500 italic">No data to display.</p>;
   }
 
-  // Extract column headers from the first data item
+  // Extract column headers from the first data item.
   const columns = Object.keys(data[0]);
 
-  // Click Handler: Handles clicks on table rows to highlight and select them.
+  /**
+   * handleClick Function: This function is triggered when a table row is clicked.
+   * It toggles the highlighted and selected state for the clicked row.
+   * If the same row is clicked again, it clears the highlighted and selected states.
+   *
+   * @param {T | null} row - The clicked row data.
+   */
   const handleClick = (row: T | null) => {
     if (setHighlighted && setSelected) {
+      // If the row is already selected, clear the selection and highlight.
       if (row === selected) {
         setHighlighted(null);
         setSelected(null);
       } else {
+        // Otherwise, set the clicked row as selected and highlighted.
         setHighlighted(row);
         setSelected(row);
       }
     }
   };
 
-  // Create a ref for the table container to enable scrolling
+  // Create a reference for the table container to enable scrolling behavior.
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
-  // Use the custom hook to automatically scroll the table container to the highlighted row when the 'highlighted' prop changes.
+  // Use the custom hook to scroll to the highlighted row when the highlighted state changes.
   useScrollToElement(highlighted, tableContainerRef);
 
   /**
-   * useSortedData Hook: A custom hook responsible for sorting the data client-side.
-   * It takes the `data` and the `xAxisKey` as input.
-   * When `xAxisKey` changes, the hook re-sorts the `data` based on the values associated with that key.
-   * This approach performs sorting in the browser, which can be suitable for smaller datasets but might impact performance for very large datasets.
+   * useSortedData Hook: A custom hook that handles sorting the table data based on the specified x-axis key.
+   * When the x-axis key changes, the hook sorts the data in ascending order based on the values associated with that key.
+   *
+   * @param {T[]} data - The array of data to be sorted.
+   * @param {string} xAxisKey - The key used to sort the data.
+   * @returns {T[]} The sorted data.
    */
   const sortedData = useSortedData(data, xAxisKey);
 
@@ -75,8 +92,9 @@ function TablePane<T extends Record<string, any>>({
       className="bg-white rounded-lg w-full lg:w-5/12 px-4 h-screen flex flex-col p-4 shadow-md"
       data-testid="table-pane"
     >
-      {/* Table title */}
+      {/* Render the title of the table */}
       <h1 className="text-xl font-bold mb-4 text-gray-800">{title}</h1>
+
       {/* Scrollable container for the table */}
       <div
         ref={tableContainerRef}
@@ -87,10 +105,10 @@ function TablePane<T extends Record<string, any>>({
           <TableHeader columns={columns} />
 
           <tbody>
-            {/* Map through the data to create table rows */}
+            {/* Map through the sorted data and render each row */}
             {sortedData.map((row, index) => (
               <TableRow
-                key={row?.id}
+                key={row?.id} // Use the id of each row as the key for efficient re-renders
                 row={row}
                 index={index}
                 columns={columns}

@@ -1,12 +1,28 @@
 import React from 'react';
 
+/**
+ * Loading Component
+ *
+ * This component renders skeleton loaders for a plot and a table to display during data fetching or processing.
+ * The skeleton loaders give users a visual cue that content is being loaded. This improves user experience
+ * by providing a placeholder layout while the actual content is being rendered.
+ *
+ * The skeleton loaders are animated using the `animate-pulse` class from Tailwind CSS to simulate a "pulsing" effect,
+ * which gives the impression that the content is actively being loaded.
+ *
+ * The component includes two main sections:
+ * - **PlotPane Skeleton**: A placeholder for a plot or chart.
+ * - **TablePane Skeleton**: A placeholder for a table with headers and rows.
+ *
+ * @returns JSX.Element - The skeleton loading screen
+ */
 const Loading = () => {
   return (
     <>
       {/* Skeleton for PlotPane */}
       <div
         data-testid="loading-plot"
-        className="animate-pulse bg-white rounded-lg px-6 w-full lg:w-7/12 flex flex-col "
+        className="animate-pulse bg-white rounded-lg px-6 w-full lg:w-7/12 flex flex-col"
       >
         {/* Menu skeletons */}
         <div className="mb-4 flex items-center space-x-4">
@@ -25,7 +41,7 @@ const Loading = () => {
       {/* Skeleton for TablePane */}
       <div
         data-testid="loading-table"
-        className="animate-pulse bg-white rounded-lg w-full lg:w-5/12  flex flex-col "
+        className="animate-pulse bg-white rounded-lg w-full lg:w-5/12 flex flex-col"
       >
         <div className="bg-gray-200 h-4 rounded w-64 mb-2"></div>
         <div className="bg-gray-200 rounded w-32 mb-4"></div>
@@ -33,6 +49,7 @@ const Loading = () => {
           <table className="min-w-full leading-normal">
             <thead className="bg-gray-200">
               <tr>
+                {/* Table header skeletons */}
                 {Array.from({ length: 22 }).map((_, index) => (
                   <th
                     key={`header-${index}`}
@@ -44,12 +61,13 @@ const Loading = () => {
               </tr>
             </thead>
             <tbody className="h-fit">
+              {/* Table row skeletons */}
               {Array.from({ length: 8 }).map((_, index) => (
                 <tr className="space-x-3 py-3 h-18" key={`row-${index}`}>
                   {Array.from({ length: 22 }).map((_, cellIndex) => (
                     <td
                       key={`cell-${index}-${cellIndex}`}
-                      className="px-5 py-3  border-b text-left border-gray-200 bg-white text-sm"
+                      className="px-5 py-3 border-b text-left border-gray-200 bg-white text-sm"
                     >
                       <div className="bg-gray-300 h-6 rounded w-24"></div>
                     </td>
