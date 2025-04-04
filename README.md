@@ -262,21 +262,22 @@ npm run build
 ## 📁 Project Structure
 
 ```
-src/
-├── api/                  # API service functions and utilities
-│   ├── earthquakesApi.ts # Primary API interface
-│   └── utils/            # API utilities (fetch, parse, transform)
-├── components/           # React components
-│   ├── EarthquakeTable/  # Table component
-│   └── EarthquakePlot/   # Plot component
-├── context/              # React Context providers
-│   └── HighlightedEarthquakeContext.tsx
-├── hooks/                # Custom React hooks
-├── store/                # Zustand store
-│   └── plotTableStore.ts # Client-side state management
-├── types/                # TypeScript type definitions
-├── utils/                # Utility functions
-└── App.tsx               # Main application component
+src
+├── tests/                    # Contains unit and integration tests for various parts of the application.
+├── api/                      # Handles all API-related logic.
+│   └── utils/                # Utility functions specifically for API interactions.
+│   ├── earthquakesApi.ts     # Defines the API endpoints and services for fetching earthquake data.
+│   └── earthquakesQuery.ts   # Implements data fetching and caching logic using React Query for earthquake data.
+├── components/               # Reusable UI components.
+│   ├── Earthquakes/          # Components related to displaying earthquake data.
+│   ├── Error/                # Components for displaying error messages.
+│   ├── Layout/               # Components for structuring the overall page layout.
+│   └── Loading/              # Components for displaying loading states.
+├── context/                  # Manages application-wide state using React Context API.
+├── hooks/                    # Custom React hooks for encapsulating reusable logic.
+├── store/                    # State management using a library like Redux or Zustand (if applicable).
+├── types/                    # TypeScript type definitions for the project.
+└── utils/                    # General utility functions used throughout the application.
 ```
 
 ## 🤖 Use of AI
