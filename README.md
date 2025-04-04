@@ -1,18 +1,18 @@
-# Earthquake Data Visualization Dashboard
+# 🌎 Earthquake Data Visualization Dashboard
 
-This project is a Single Page Application (SPA) that visualizes United States Geological Survey (USGS) earthquake data with an interactive plot and a data table, this project was built as part of a frontend developer technical assessment.
+This project is a Single Page Application (SPA) that visualizes United States Geological Survey (USGS) earthquake data with an interactive plot and a data table, this project was built as part of a frontend developer technical assessment as part of the requirements laid out by Resource Modeling Solutions.
 
-## Overview
+## 📋 Overview
 
 The Earthquake Data Visualization Dashboard loads geospatial statistical data from a USGS public dataset, displaying it in both an interactive scatter plot and a scrollable data table. The application demonstrates multiple state management approaches and implements state linking between the scatter plot and the scrollable data table.
 
-## Live Demo
+## 🔗 Live Demo
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue)](https://rms-takehome-assignment.vercel.app/)
 
 Check out the live demo of the application!
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 - **React** with **TypeScript** - Core UI framework
 - **Vite** - Build tool and development server
@@ -23,9 +23,9 @@ Check out the live demo of the application!
 - **Tailwind CSS** - Utility-first CSS framework
 - **Vitest** & **React Testing Library** - Testing frameworks and library
 
-## Architecture Overview
+## 🏗️ Architecture Overview
 
-### State Management Strategy
+### 📊 State Management Strategy
 
 The application employs three distinct state management approaches as required:
 
@@ -44,7 +44,7 @@ The application employs three distinct state management approaches as required:
    - Manages client-side UI state such as axis selections, filters, and selected records
    - Provides a clean separation of client state from server/data state
 
-### Separation of Concerns
+### 🧩 Separation of Concerns
 
 The project follows a clear separation between:
 
@@ -54,7 +54,7 @@ The project follows a clear separation between:
 
 This separation ensures that each type of state is managed by the most appropriate tool, creating a more maintainable and scalable application architecture.
 
-## Key Features
+## ✨ Key Features
 
 - **Interactive Scatter Plot**
 
@@ -80,9 +80,9 @@ This separation ensures that each type of state is managed by the most appropria
   - Filters invalid records and applies optional limits
   - Sorts data based on selected axes
 
-## Implementation Details
+## 🔍 Implementation Details
 
-### Data Fetching and Processing
+### 📡 Data Fetching and Processing
 
 The application uses a well-structured data pipeline:
 
@@ -116,7 +116,7 @@ export const getEarthquakes = async (
 };
 ```
 
-### Context API Implementation
+### 🔄 Context API Implementation
 
 A React Context provides a clean way to share the highlighted earthquake state between components:
 
@@ -158,7 +158,7 @@ export const useHighlightedEarthquakeContext = (): HighlightedEarthquakeContextT
 };
 ```
 
-### Zustand Store Implementation
+### 🗃️ Zustand Store Implementation
 
 Zustand manages client-side state related to the plot and table, these features include a global store that is used to maintain state such as selected and filtered record state. In addition to this, the store is used to update the highlighted record when interacting with the table or plot :
 
@@ -192,7 +192,7 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
 }));
 ```
 
-### TanStack Query Implementation
+### 🔁 TanStack Query Implementation
 
 Tanstack / React Query handles the asynchronous data fetching and caching:
 
@@ -209,9 +209,9 @@ export const useEarthquakesQuery = (
 };
 ```
 
-## Design Decisions
+## 💡 Design Decisions
 
-### Query Key Strategy and Client-Side Sorting
+### 🔑 Query Key Strategy and Client-Side Sorting
 
 The TanStack Query implementation deliberately excludes `sortBy` from the query key to prevent unnecessary refetches when only sorting changes. This is an optimization that recognizes sorting as a client-side operation that doesn't require re-fetching data from the server.
 
@@ -249,7 +249,7 @@ function useSortedData<T>(
 export default useSortedData;
 ```
 
-### State Management Separation
+### 📦 State Management Separation
 
 While TanStack Query could handle more state management, I deliberately separated concerns:
 
@@ -259,13 +259,13 @@ While TanStack Query could handle more state management, I deliberately separate
 
 This separation creates a cleaner architecture that would scale better in a larger application where different teams might work on different aspects of the application.
 
-## Installation
+## 📥 Installation
 
 1. Clone the repository:
 
    ```bash
    git clone https://github.com/AnthonyChablov/rms-takehome-assignment.git
-   cd earthquake-visualization
+   cd rms-takehome-assignment
    ```
 
 2. Install dependencies:
@@ -280,28 +280,30 @@ This separation creates a cleaner architecture that would scale better in a larg
    npm run dev
    ```
 
-4. Open your browser and navigate to:
+4. Open your web browser and navigate to:
    ```
    http://localhost:5173
    ```
 
-## Running Tests
+## 🧪 Running Tests
 
 ```bash
 npm run test:unit:ui
+```
 
 or
 
+```bash
 npm run test:unit
 ```
 
-## Build for Production
+## 🚀 Build for Production
 
 ```bash
 npm run build
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src
@@ -322,7 +324,7 @@ src
 └── utils/                    # General utility functions used throughout the application.
 ```
 
-## Use of AI
+## 🤖 Use of AI
 
 AI tools were used in the following ways:
 
@@ -332,7 +334,7 @@ AI tools were used in the following ways:
 
 All code was manually reviewed and modified to ensure it meets the requirements and follows best practices.
 
-## Future Improvements
+## 🔮 Future Improvements
 
 - Add more interactive features to the scatter plot (zoom, pan)
 - End-to-End (E2E) testing with Cypress
@@ -342,14 +344,10 @@ All code was manually reviewed and modified to ensure it meets the requirements 
 - Add more improvements to mobile responsiveness
 - Add more comprehensive error handling and loading states
 
-## License
+## 📄 License
 
 MIT
 
-## Contact
+## 📬 Contact
 
 For any questions or feedback about this project, please contact me at aechablov@gmail.com.
-
-```
-
-```
