@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:unit:coverage": "vitest run --coverage",
-    "test:unit:ui": "vitest --ui"
+    "test:unit:ui": "vitest --ui",
+    "test:e2e": "cypress open"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.16",
