@@ -1,5 +1,7 @@
-import { compareValues } from '../compareValues';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import { vi } from 'vitest';
+import { compareValues } from '../compareValues';
 
 interface TestObject {
   id: number;
