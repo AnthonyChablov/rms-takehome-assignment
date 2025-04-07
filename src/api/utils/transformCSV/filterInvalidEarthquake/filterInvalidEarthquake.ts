@@ -10,7 +10,6 @@ import { EarthquakeRecord } from '@/types/earthquake';
  */
 export const filterInvalidEarthquakes = (
   earthquakes: EarthquakeRecord[],
-  sortBy?: string | null,
   yAxisKey: keyof EarthquakeRecord = 'longitude', // Default or make required if always needed
 ): EarthquakeRecord[] => {
   return earthquakes.filter((item) => {
@@ -18,13 +17,6 @@ export const filterInvalidEarthquakes = (
     // Check if yAxis value is valid (not null or undefined)
     const isYValueValid = yValue !== null && yValue !== undefined;
 
-    // If sortBy key is provided, check if its value is also valid
-    let isSortValueValid = true; // Assume valid if no sortBy key
-    if (sortBy) {
-      const sortValue = item[sortBy as keyof EarthquakeRecord];
-      isSortValueValid = sortValue !== null && sortValue !== undefined;
-    }
-
-    return isYValueValid && isSortValueValid;
+    return isYValueValid;
   });
 };

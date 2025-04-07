@@ -110,7 +110,7 @@ describe('filterInvalidEarthquakes', () => {
   });
 
   it('should filter out records with invalid y-axis values when specified', () => {
-    const result = filterInvalidEarthquakes(mockEarthquakes, null, 'latitude');
+    const result = filterInvalidEarthquakes(mockEarthquakes, 'latitude');
     expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
     expect(result).toContainEqual(mockEarthquakes[2]);
@@ -118,12 +118,12 @@ describe('filterInvalidEarthquakes', () => {
 
   it('should filter out records with invalid sort key values when specified', () => {
     const result = filterInvalidEarthquakes(mockEarthquakes, 'mag');
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
   });
   it('should filter based on both y-axis and sort key values', () => {
-    const result = filterInvalidEarthquakes(mockEarthquakes, 'mag', 'latitude');
-    expect(result).toHaveLength(2);
+    const result = filterInvalidEarthquakes(mockEarthquakes, 'latitude');
+    expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
   });
 

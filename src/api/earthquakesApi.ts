@@ -58,7 +58,7 @@ export const getEarthquakes = async (
     console.log(`Parsed ${earthquakes.length} records.`);
 
     // 5. Filter out records that have invalid or missing critical keys (e.g., longitude)
-    earthquakes = filterInvalidEarthquakes(earthquakes, sortBy, 'longitude');
+    earthquakes = filterInvalidEarthquakes(earthquakes);
     console.log(
       `Filtered down to ${earthquakes.length} valid records for sorting/plotting.`,
     );
