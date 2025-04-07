@@ -5,7 +5,7 @@ import { parseCSV } from './utils/parseCSV/parseCSV';
 import { transformCsvToEarthquakes } from './utils/transformCSV/transformCSV';
 import { applyLimit } from './utils/transformCSV/applyLimit/applyLimit';
 import { sortEarthquakes } from './utils/transformCSV/sortEarthquakes/sortEarthquakes';
-import { filterInvalidEarthquakes } from './utils/transformCSV/filterInvalidEarthquake/filterInvalidEarthquake';
+import { filterEarthquakes } from './utils/transformCSV/filterEarthquakes/filterEarthquakes';
 
 // Re-define or import the filters type
 export type GetEarthQuakesFilters = {
@@ -37,12 +37,7 @@ export type GetEarthQuakesFilters = {
 export const getEarthquakes = async (
   filters?: GetEarthQuakesFilters,
   sortBy?: string | null,
-  // Optional: You could pass the yAxisKey dynamically if needed
-  // yAxisKey: keyof EarthquakeRecord = 'longitude'
 ): Promise<EarthquakeRecord[]> => {
-  console.log(
-    `Workspaceing earthquakes with filters: ${JSON.stringify(filters)}, sortBy: ${sortBy}`,
-  );
   try {
     // 1. Get the correct URL for the earthquake data API
     const apiUrl = getEarthquakeApiUrl();
@@ -55,27 +50,19 @@ export const getEarthquakes = async (
 
     // 4. Transform the parsed CSV rows into EarthquakeRecord objects
     let earthquakes = transformCsvToEarthquakes(parsedRows);
-    console.log(`Parsed ${earthquakes.length} records.`);
 
     // 5. Filter out records that have invalid or missing critical keys (e.g., longitude)
-    earthquakes = filterInvalidEarthquakes(earthquakes, sortBy, 'longitude');
-    console.log(
-      `Filtered down to ${earthquakes.length} valid records for sorting/plotting.`,
-    );
+    earthquakes = filterEarthquakes(earthquakes);
 
     // 6. Sort the earthquake data based on the provided sorting criteria
     earthquakes = sortEarthquakes(earthquakes, sortBy);
-    console.log(`Sorted records by: ${sortBy ?? 'default order'}.`);
 
     // 7. Apply a limit to the number of records returned, if specified
     earthquakes = applyLimit(earthquakes, filters?.limit);
-    console.log(
-      `Applied limit: ${filters?.limit ?? 'none'}. Final count: ${earthquakes.length}`,
-    );
 
     return earthquakes;
   } catch (error) {
-    console.error('Error in getEarthquakes processing pipeline:', error);
+    console.error('Error in getEarthquakes data processing pipeline:', error);
     // Throw the error so React Query can handle it (e.g., update the error state)
     throw error;
   }
