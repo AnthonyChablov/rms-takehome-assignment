@@ -38,9 +38,6 @@ export const getEarthquakes = async (
   filters?: GetEarthQuakesFilters,
   sortBy?: string | null,
 ): Promise<EarthquakeRecord[]> => {
-  console.log(
-    `Workspaceing earthquakes with filters: ${JSON.stringify(filters)}, sortBy: ${sortBy}`,
-  );
   try {
     // 1. Get the correct URL for the earthquake data API
     const apiUrl = getEarthquakeApiUrl();
@@ -53,27 +50,19 @@ export const getEarthquakes = async (
 
     // 4. Transform the parsed CSV rows into EarthquakeRecord objects
     let earthquakes = transformCsvToEarthquakes(parsedRows);
-    console.log(`Parsed ${earthquakes.length} records.`);
 
     // 5. Filter out records that have invalid or missing critical keys (e.g., longitude)
     earthquakes = filterEarthquakes(earthquakes);
-    console.log(
-      `Filtered down to ${earthquakes.length} valid records for sorting/plotting.`,
-    );
 
     // 6. Sort the earthquake data based on the provided sorting criteria
     earthquakes = sortEarthquakes(earthquakes, sortBy);
-    console.log(`Sorted records by: ${sortBy ?? 'default order'}.`);
 
     // 7. Apply a limit to the number of records returned, if specified
     earthquakes = applyLimit(earthquakes, filters?.limit);
-    console.log(
-      `Applied limit: ${filters?.limit ?? 'none'}. Final count: ${earthquakes.length}`,
-    );
 
     return earthquakes;
   } catch (error) {
-    console.error('Error in getEarthquakes processing pipeline:', error);
+    console.error('Error in getEarthquakes data processing pipeline:', error);
     // Throw the error so React Query can handle it (e.g., update the error state)
     throw error;
   }
