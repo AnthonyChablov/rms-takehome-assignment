@@ -104,7 +104,7 @@ export const getEarthquakes = async (
   let earthquakes = transformCsvToEarthquakes(parsedRows);
 
   // 5. Filter out records with invalid values
-  earthquakes = filterInvalidEarthquakes(earthquakes, sortBy, 'longitude');
+  earthquakes = filterEarthquakes(earthquakes, sortBy, 'longitude');
 
   // 6. Sort the data
   earthquakes = sortEarthquakes(earthquakes, sortBy);
@@ -174,21 +174,7 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
   setYAxisKey: (key) => set({ yAxisKey: key }),
 
   selectedRecord: null,
-  setSelectedRecord: (record) => set({ selectedRecord: record }),
-
-  sortedData: undefined,
-  setSortedData: (data, xAxisKey) => {
-    if (data && xAxisKey) {
-      const sorted = [...data].sort((a, b) => {
-        const valA = a[xAxisKey] as number;
-        const valB = b[xAxisKey] as number;
-        return valA - valB;
-      });
-      set({ sortedData: sorted });
-    } else {
-      set({ sortedData: data });
-    }
-  },
+  setSelectedRecord: (record) => set({ selectedRecord: record })
 }));
 ```
 
