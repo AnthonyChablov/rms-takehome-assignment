@@ -37,8 +37,6 @@ export type GetEarthQuakesFilters = {
 export const getEarthquakes = async (
   filters?: GetEarthQuakesFilters,
   sortBy?: string | null,
-  // Optional: You could pass the yAxisKey dynamically if needed
-  // yAxisKey: keyof EarthquakeRecord = 'longitude'
 ): Promise<EarthquakeRecord[]> => {
   console.log(
     `Workspaceing earthquakes with filters: ${JSON.stringify(filters)}, sortBy: ${sortBy}`,
