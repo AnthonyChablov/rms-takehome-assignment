@@ -1,222 +1,290 @@
-import { renderHook } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { useScrollToElement } from '@/hooks/useScrollToElement';
-import { useRef } from 'react';
+import { usePlotTableStore } from '../plotTableStore';
+import { act } from '@testing-library/react';
+import { EarthquakeRecord } from '@/types/earthquake';
+import { GetEarthQuakesFilters } from '@/api/earthquakesApi';
 
-describe('useScrollToElement', () => {
-  // Mock DOM elements and methods
-  let containerElement: HTMLDivElement;
-  let highlightedElement: HTMLDivElement;
-  let mockScrollTo: ReturnType<typeof vi.fn>;
+// Mock for an earthquake record
+const mockEarthquakeRecord: EarthquakeRecord = {
+  id: 'test123',
+  time: '2023-01-15T12:30:45Z',
+  latitude: 34.0522,
+  longitude: -118.2437,
+  depth: 10.5,
+  mag: 4.7,
+  magType: 'mb',
+  nst: 43,
+  gap: 78.5,
+  dmin: 0.45,
+  rms: 1.25,
+  net: 'us',
+  updated: '2023-01-15T13:00:00Z',
+  place: 'Los Angeles, CA',
+  type: 'earthquake',
+  horizontalError: 0.15,
+  depthError: 0.8,
+  magError: 0.1,
+  magNst: 38,
+  status: 'Reviewed',
+  locationSource: 'us',
+  magSource: 'us',
+};
 
+describe('usePlotTableStore', () => {
+  // Reset the store state before each test
   beforeEach(() => {
-    // Create mock DOM elements
-    containerElement = document.createElement('div');
-    highlightedElement = document.createElement('div');
-    highlightedElement.id = 'test-id';
-
-    // Setup mock dimensions and positions
-    vi.spyOn(containerElement, 'getBoundingClientRect').mockReturnValue({
-      top: 100,
-      bottom: 500,
-      left: 0,
-      right: 100,
-      width: 100,
-      height: 400,
-      x: 0,
-      y: 100,
-      toJSON: () => {},
+    act(() => {
+      usePlotTableStore.setState({
+        filters: { limit: 100 },
+        xAxisKey: 'latitude',
+        yAxisKey: 'longitude',
+        selectedRecord: null,
+      });
     });
-
-    // Mock document.getElementById
-    vi.spyOn(document, 'getElementById').mockImplementation((id) => {
-      if (id === 'test-id') return highlightedElement;
-      return null;
-    });
-
-    // Mock scrollTo
-    mockScrollTo = vi.fn();
-    containerElement.scrollTo = mockScrollTo;
-
-    // Setup offsets
-    Object.defineProperty(containerElement, 'offsetTop', { value: 50 });
-    Object.defineProperty(highlightedElement, 'offsetTop', { value: 200 });
   });
 
+  // Clean up after each test
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('should not scroll when highlighted is null', () => {
-    const containerRef = { current: containerElement };
+  it('should initialize with default values', () => {
+    // Arrange & Act
+    const state = usePlotTableStore.getState();
 
-    renderHook(() => useScrollToElement(null, containerRef));
-
-    expect(mockScrollTo).not.toHaveBeenCalled();
+    // Assert
+    expect(state.filters).toEqual({ limit: 100 });
+    expect(state.xAxisKey).toBe('latitude');
+    expect(state.yAxisKey).toBe('longitude');
+    expect(state.selectedRecord).toBeNull();
   });
 
-  it('should not scroll when highlighted has no id', () => {
-    const containerRef = { current: containerElement };
-    const highlighted = { name: 'test' };
+  it('should set filters correctly', () => {
+    // Arrange
+    const newFilters: GetEarthQuakesFilters = {
+      limit: 50,
+    };
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
+    // Act
+    act(() => {
+      usePlotTableStore.getState().setFilters(newFilters);
+    });
 
-    expect(mockScrollTo).not.toHaveBeenCalled();
+    // Assert
+    expect(usePlotTableStore.getState().filters).toEqual(newFilters);
   });
 
-  it('should not scroll when containerRef is null', () => {
-    const containerRef = { current: null };
-    const highlighted = { id: 'test-id' };
+  it('should set filters to undefined when called with no parameters', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
+    // Act
+    act(() => {
+      initialState.setFilters();
+    });
 
-    expect(document.getElementById).not.toHaveBeenCalled();
+    // Assert
+    expect(usePlotTableStore.getState().filters).toBeUndefined();
   });
 
-  it('should not scroll when element with id does not exist', () => {
-    const containerRef = { current: containerElement };
-    const highlighted = { id: 'non-existent-id' };
+  it('should set X-axis key correctly', () => {
+    // Arrange
+    const newXAxisKey = 'mag';
 
-    vi.spyOn(document, 'getElementById').mockReturnValue(null);
+    // Act
+    act(() => {
+      usePlotTableStore.getState().setXAxisKey(newXAxisKey);
+    });
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
-
-    expect(mockScrollTo).not.toHaveBeenCalled();
+    // Assert
+    expect(usePlotTableStore.getState().xAxisKey).toBe(newXAxisKey);
   });
 
-  it('should not scroll when element is fully visible in viewport', () => {
-    const containerRef = { current: containerElement };
-    const highlighted = { id: 'test-id' };
+  it('should set X-axis key to null when provided null', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
 
-    // Element is within viewport
-    vi.spyOn(highlightedElement, 'getBoundingClientRect').mockReturnValue({
-      top: 150,
-      bottom: 250,
-      left: 0,
-      right: 100,
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 150,
-      toJSON: () => {},
+    // Act
+    act(() => {
+      initialState.setXAxisKey(null);
     });
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
-
-    expect(mockScrollTo).not.toHaveBeenCalled();
+    // Assert
+    expect(usePlotTableStore.getState().xAxisKey).toBeNull();
   });
 
-  it('should scroll when element is above viewport', () => {
-    const containerRef = { current: containerElement };
-    const highlighted = { id: 'test-id' };
+  it('should set Y-axis key correctly', () => {
+    // Arrange
+    const newYAxisKey = 'depth';
 
-    // Element is above viewport
-    vi.spyOn(highlightedElement, 'getBoundingClientRect').mockReturnValue({
-      top: 50,
-      bottom: 150,
-      left: 0,
-      right: 100,
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 50,
-      toJSON: () => {},
+    // Act
+    act(() => {
+      usePlotTableStore.getState().setYAxisKey(newYAxisKey);
     });
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
-
-    expect(mockScrollTo).toHaveBeenCalledWith({
-      top: 150, // 200 (highlightedElement.offsetTop) - 50 (containerElement.offsetTop)
-      behavior: 'smooth',
-    });
+    // Assert
+    expect(usePlotTableStore.getState().yAxisKey).toBe(newYAxisKey);
   });
 
-  it('should scroll when element is below viewport', () => {
-    const containerRef = { current: containerElement };
-    const highlighted = { id: 'test-id' };
+  it('should set Y-axis key to null when provided null', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
 
-    // Element is below viewport
-    vi.spyOn(highlightedElement, 'getBoundingClientRect').mockReturnValue({
-      top: 450,
-      bottom: 550,
-      left: 0,
-      right: 100,
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 450,
-      toJSON: () => {},
+    // Act
+    act(() => {
+      initialState.setYAxisKey(null);
     });
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
-
-    expect(mockScrollTo).toHaveBeenCalledWith({
-      top: 150, // 200 (highlightedElement.offsetTop) - 50 (containerElement.offsetTop)
-      behavior: 'smooth',
-    });
+    // Assert
+    expect(usePlotTableStore.getState().yAxisKey).toBeNull();
   });
 
-  it('should scroll to element when highlighted changes', () => {
-    const containerRef = { current: containerElement };
-    const initialHighlighted = { id: 'test-id-1' };
-    const newHighlighted = { id: 'test-id' };
+  it('should set selected record correctly', () => {
+    // Arrange
+    const record = mockEarthquakeRecord;
 
-    // Element is below viewport
-    vi.spyOn(highlightedElement, 'getBoundingClientRect').mockReturnValue({
-      top: 550,
-      bottom: 650,
-      left: 0,
-      right: 100,
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 550,
-      toJSON: () => {},
+    // Act
+    act(() => {
+      usePlotTableStore.getState().setSelectedRecord(record);
     });
 
-    const { rerender } = renderHook(
-      ({ highlighted }) => useScrollToElement(highlighted, containerRef),
-      { initialProps: { highlighted: initialHighlighted } },
-    );
-
-    // Should not scroll with initial props
-    expect(mockScrollTo).not.toHaveBeenCalled();
-
-    // Rerender with new highlighted
-    rerender({ highlighted: newHighlighted });
-
-    expect(mockScrollTo).toHaveBeenCalledWith({
-      top: 150,
-      behavior: 'smooth',
-    });
+    // Assert
+    expect(usePlotTableStore.getState().selectedRecord).toEqual(record);
   });
 
-  it('should use provided container ref without creating a new one', () => {
-    // Create a real ref with the containerElement
-    const containerRef = { current: containerElement };
-    const highlighted = { id: 'test-id' };
-
-    // Element is below viewport
-    vi.spyOn(highlightedElement, 'getBoundingClientRect').mockReturnValue({
-      top: 550,
-      bottom: 650,
-      left: 0,
-      right: 100,
-      width: 100,
-      height: 100,
-      x: 0,
-      y: 550,
-      toJSON: () => {},
+  it('should set selected record to null when provided null', () => {
+    // Arrange
+    // First set a record
+    act(() => {
+      usePlotTableStore.getState().setSelectedRecord(mockEarthquakeRecord);
     });
 
-    renderHook(() => useScrollToElement(highlighted, containerRef));
-
-    expect(mockScrollTo).toHaveBeenCalledWith({
-      top: 150,
-      behavior: 'smooth',
+    // Act
+    // Then clear it
+    act(() => {
+      usePlotTableStore.getState().setSelectedRecord(null);
     });
 
-    // Verify container ref is still the same object
-    expect(containerRef.current).toBe(containerElement);
+    // Assert
+    expect(usePlotTableStore.getState().selectedRecord).toBeNull();
+  });
+
+  it('should maintain other state properties when updating filters', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
+    const newXAxisKey = 'depth';
+    const newYAxisKey = 'mag';
+    const record = mockEarthquakeRecord;
+    const newFilters: GetEarthQuakesFilters = { limit: 50 };
+
+    // Set some initial values
+    act(() => {
+      initialState.setXAxisKey(newXAxisKey);
+      initialState.setYAxisKey(newYAxisKey);
+      initialState.setSelectedRecord(record);
+    });
+
+    // Act
+    // Update just the filters
+    act(() => {
+      usePlotTableStore.getState().setFilters(newFilters);
+    });
+
+    // Assert
+    const finalState = usePlotTableStore.getState();
+    expect(finalState.filters).toEqual(newFilters);
+    expect(finalState.xAxisKey).toBe(newXAxisKey);
+    expect(finalState.yAxisKey).toBe(newYAxisKey);
+    expect(finalState.selectedRecord).toEqual(record);
+  });
+
+  it('should maintain other state properties when updating X-axis key', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
+    const newFilters: GetEarthQuakesFilters = {
+      limit: 50,
+    };
+    const newYAxisKey = 'mag';
+    const record = mockEarthquakeRecord;
+
+    // Set some initial values
+    act(() => {
+      initialState.setFilters(newFilters);
+      initialState.setYAxisKey(newYAxisKey);
+      initialState.setSelectedRecord(record);
+    });
+
+    // Act
+    // Update just the X-axis key
+    act(() => {
+      usePlotTableStore.getState().setXAxisKey('depth');
+    });
+
+    // Assert
+    const finalState = usePlotTableStore.getState();
+    expect(finalState.xAxisKey).toBe('depth');
+    expect(finalState.filters).toEqual(newFilters);
+    expect(finalState.yAxisKey).toBe(newYAxisKey);
+    expect(finalState.selectedRecord).toEqual(record);
+  });
+
+  it('should maintain other state properties when updating Y-axis key', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
+    const newFilters: GetEarthQuakesFilters = {
+      limit: 50,
+    };
+    const newXAxisKey = 'depth';
+    const record = mockEarthquakeRecord;
+
+    // Set some initial values
+    act(() => {
+      initialState.setFilters(newFilters);
+      initialState.setXAxisKey(newXAxisKey);
+      initialState.setSelectedRecord(record);
+    });
+
+    // Act
+    // Update just the Y-axis key
+    act(() => {
+      usePlotTableStore.getState().setYAxisKey('rms');
+    });
+
+    // Assert
+    const finalState = usePlotTableStore.getState();
+    expect(finalState.yAxisKey).toBe('rms');
+    expect(finalState.filters).toEqual(newFilters);
+    expect(finalState.xAxisKey).toBe(newXAxisKey);
+    expect(finalState.selectedRecord).toEqual(record);
+  });
+
+  it('should maintain other state properties when updating selected record', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
+    const newFilters: GetEarthQuakesFilters = {
+      limit: 50,
+    };
+    const newXAxisKey = 'depth';
+    const newYAxisKey = 'rms';
+
+    // Set some initial values
+    act(() => {
+      initialState.setFilters(newFilters);
+      initialState.setXAxisKey(newXAxisKey);
+      initialState.setYAxisKey(newYAxisKey);
+    });
+
+    // Act
+    // Update just the selected record
+    act(() => {
+      usePlotTableStore.getState().setSelectedRecord(mockEarthquakeRecord);
+    });
+
+    // Assert
+    const finalState = usePlotTableStore.getState();
+    expect(finalState.selectedRecord).toEqual(mockEarthquakeRecord);
+    expect(finalState.filters).toEqual(newFilters);
+    expect(finalState.xAxisKey).toBe(newXAxisKey);
+    expect(finalState.yAxisKey).toBe(newYAxisKey);
   });
 });
