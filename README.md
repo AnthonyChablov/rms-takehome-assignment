@@ -104,7 +104,7 @@ export const getEarthquakes = async (
   let earthquakes = transformCsvToEarthquakes(parsedRows);
 
   // 5. Filter out records with invalid values
-  earthquakes = filterEarthquakes(earthquakes, sortBy, 'longitude');
+  earthquakes = filterEarthquakes(earthquakes);
 
   // 6. Sort the data
   earthquakes = sortEarthquakes(earthquakes, sortBy);
