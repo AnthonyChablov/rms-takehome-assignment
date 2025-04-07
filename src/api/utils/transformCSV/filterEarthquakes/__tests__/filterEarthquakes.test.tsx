@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { filterInvalidEarthquakes } from '../filterInvalidEarthquake';
+import { filterEarthquakes } from '../filterEarthquakes';
 import { EarthquakeRecord } from '@/types/earthquake';
 
 describe('filterInvalidEarthquakes', () => {
@@ -103,32 +103,32 @@ describe('filterInvalidEarthquakes', () => {
   ];
 
   it('should filter out records with invalid y-axis values by default (longitude)', () => {
-    const result = filterInvalidEarthquakes(mockEarthquakes);
+    const result = filterEarthquakes(mockEarthquakes);
     expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
     expect(result).toContainEqual(mockEarthquakes[2]);
   });
 
   it('should filter out records with invalid y-axis values when specified', () => {
-    const result = filterInvalidEarthquakes(mockEarthquakes, 'latitude');
+    const result = filterEarthquakes(mockEarthquakes, 'latitude');
     expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
     expect(result).toContainEqual(mockEarthquakes[2]);
   });
 
   it('should filter out records with invalid sort key values when specified', () => {
-    const result = filterInvalidEarthquakes(mockEarthquakes, 'mag');
+    const result = filterEarthquakes(mockEarthquakes, 'mag');
     expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
   });
   it('should filter based on both y-axis and sort key values', () => {
-    const result = filterInvalidEarthquakes(mockEarthquakes, 'latitude');
+    const result = filterEarthquakes(mockEarthquakes, 'latitude');
     expect(result).toHaveLength(3);
     expect(result).toContainEqual(mockEarthquakes[1]);
   });
 
   it('should return empty array when no records match criteria', () => {
-    const result = filterInvalidEarthquakes(
+    const result = filterEarthquakes(
       mockEarthquakes,
       'nonExistentProperty' as keyof EarthquakeRecord,
     );
@@ -136,7 +136,7 @@ describe('filterInvalidEarthquakes', () => {
   });
 
   it('should handle empty input array', () => {
-    const result = filterInvalidEarthquakes([]);
+    const result = filterEarthquakes([]);
     expect(result).toHaveLength(0);
     expect(result).toEqual([]);
   });

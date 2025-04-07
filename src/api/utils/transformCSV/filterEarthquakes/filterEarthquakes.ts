@@ -8,7 +8,7 @@ import { EarthquakeRecord } from '@/types/earthquake';
  * @param yAxisKey - The key representing the Y-axis value for plotting (defaults to 'longitude').
  * @returns A filtered array of EarthquakeRecord objects.
  */
-export const filterInvalidEarthquakes = (
+export const filterEarthquakes = (
   earthquakes: EarthquakeRecord[],
   yAxisKey: keyof EarthquakeRecord = 'longitude', // Default or make required if always needed
 ): EarthquakeRecord[] => {

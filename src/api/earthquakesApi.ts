@@ -5,7 +5,7 @@ import { parseCSV } from './utils/parseCSV/parseCSV';
 import { transformCsvToEarthquakes } from './utils/transformCSV/transformCSV';
 import { applyLimit } from './utils/transformCSV/applyLimit/applyLimit';
 import { sortEarthquakes } from './utils/transformCSV/sortEarthquakes/sortEarthquakes';
-import { filterInvalidEarthquakes } from './utils/transformCSV/filterInvalidEarthquake/filterInvalidEarthquake';
+import { filterEarthquakes } from './utils/transformCSV/filterEarthquakes/filterEarthquakes';
 
 // Re-define or import the filters type
 export type GetEarthQuakesFilters = {
@@ -56,7 +56,7 @@ export const getEarthquakes = async (
     console.log(`Parsed ${earthquakes.length} records.`);
 
     // 5. Filter out records that have invalid or missing critical keys (e.g., longitude)
-    earthquakes = filterInvalidEarthquakes(earthquakes);
+    earthquakes = filterEarthquakes(earthquakes);
     console.log(
       `Filtered down to ${earthquakes.length} valid records for sorting/plotting.`,
     );
