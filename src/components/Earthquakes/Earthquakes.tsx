@@ -45,6 +45,7 @@ const Earthquakes = () => {
   // The query handles caching and background updates automatically.
   // Data is fetched from the USGS earthquake feed and parsed into a structured format.
   const earthquakesQuery = useEarthquakesQuery(filters, xAxisKey);
+  const earthquakesData = earthquakesQuery.data || [];
 
   // Return the layout that integrates all components, passing down the relevant props.
   return (
@@ -53,7 +54,7 @@ const Earthquakes = () => {
       isLoading={earthquakesQuery.isPending}
       isError={earthquakesQuery.isError}
       // Pass the fetched data, defaulting to an empty array if no data is available.
-      data={earthquakesQuery.data || []}
+      data={earthquakesData}
       // Pass X/Y axis keys and setter functions to allow updating the plot axes.
       xAxisKey={xAxisKey}
       setXAxisKey={setXAxisKey}
