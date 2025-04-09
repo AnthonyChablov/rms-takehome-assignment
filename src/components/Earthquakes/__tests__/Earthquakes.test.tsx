@@ -127,7 +127,7 @@ describe('Earthquakes.tsx', () => {
     expect(screen.getByTestId('earthquakes-success')).toBeInTheDocument();
 
     expect(
-      screen.getByText('USGS Most Recent Earthquakes (Top 100)'),
+      screen.getByText('USGS Most Recent Earthquakes'),
     ).toBeInTheDocument();
 
     expect(screen.getByTestId('plot-pane')).toBeInTheDocument();

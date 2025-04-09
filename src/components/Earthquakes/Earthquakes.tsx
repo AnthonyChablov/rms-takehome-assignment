@@ -67,7 +67,7 @@ const Earthquakes = () => {
       selected={selectedRecord}
       setSelected={setSelectedRecord}
       // Set the title for the layout.
-      title="USGS Most Recent Earthquakes (Top 100)"
+      title="USGS Most Recent Earthquakes"
     />
   );
 };
