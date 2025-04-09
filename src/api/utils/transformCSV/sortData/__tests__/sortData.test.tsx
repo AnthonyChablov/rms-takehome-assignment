@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { sortEarthquakes } from '../sortEarthquakes';
+import { sortData } from '../sortData';
 import { EarthquakeRecord } from '@/types/earthquake';
 
-describe('sortEarthquakes', () => {
+describe('sortData', () => {
   const mockEarthquakes: EarthquakeRecord[] = [
     {
       time: '2023-11-01T08:15:00.000Z',
@@ -175,14 +175,12 @@ describe('sortEarthquakes', () => {
   ];
 
   it('should return the original array if sortBy is null or undefined', () => {
-    expect(sortEarthquakes(mockEarthquakes, null)).toEqual(mockEarthquakes);
-    expect(sortEarthquakes(mockEarthquakes, undefined)).toEqual(
-      mockEarthquakes,
-    );
+    expect(sortData(mockEarthquakes, null)).toEqual(mockEarthquakes);
+    expect(sortData(mockEarthquakes, undefined)).toEqual(mockEarthquakes);
   });
 
   it('should sort earthquakes by magnitude in ascending order', () => {
-    const sortedByMag = sortEarthquakes(mockEarthquakes, 'mag');
+    const sortedByMag = sortData(mockEarthquakes, 'mag');
 
     // Check if the array is sorted by magnitude
     expect(sortedByMag[0].mag).toBe(2.0); // Smallest magnitude
@@ -198,7 +196,7 @@ describe('sortEarthquakes', () => {
   });
 
   it('should sort earthquakes by depth with null values at the end', () => {
-    const sortedByDepth = sortEarthquakes(mockEarthquakes, 'depth');
+    const sortedByDepth = sortData(mockEarthquakes, 'depth');
 
     // Check the first value is the shallowest non-null depth
     expect(sortedByDepth[0].depth).toBe(5.2);
@@ -218,7 +216,7 @@ describe('sortEarthquakes', () => {
   });
 
   it('should sort earthquakes by place name alphabetically', () => {
-    const sortedByPlace = sortEarthquakes(mockEarthquakes, 'place');
+    const sortedByPlace = sortData(mockEarthquakes, 'place');
 
     // Extract place names and ensure we're dealing only with strings (no nulls)
     const places = sortedByPlace
@@ -232,7 +230,7 @@ describe('sortEarthquakes', () => {
   });
 
   it('should sort earthquakes by time chronologically', () => {
-    const sortedByTime = sortEarthquakes(mockEarthquakes, 'time');
+    const sortedByTime = sortData(mockEarthquakes, 'time');
 
     // Check if sorted chronologically
     for (let i = 0; i < sortedByTime.length - 1; i++) {
@@ -245,7 +243,7 @@ describe('sortEarthquakes', () => {
 
   it('should not mutate the original array', () => {
     const originalArray = JSON.parse(JSON.stringify(mockEarthquakes));
-    sortEarthquakes(mockEarthquakes, 'mag');
+    sortData(mockEarthquakes, 'mag');
 
     // Verify original array hasn't changed
     expect(mockEarthquakes).toEqual(originalArray);
@@ -253,7 +251,7 @@ describe('sortEarthquakes', () => {
 
   it('should handle earthquakes with identical values for the sort key', () => {
     // The dataset has two earthquakes with identical times
-    const sortedByTime = sortEarthquakes(mockEarthquakes, 'time');
+    const sortedByTime = sortData(mockEarthquakes, 'time');
 
     // Find the two entries with identical times
     const sameTimeEntries = mockEarthquakes.filter(
@@ -270,7 +268,7 @@ describe('sortEarthquakes', () => {
   });
 
   it('should handle sorting by fields with null values', () => {
-    const sortedByHorizontalError = sortEarthquakes(
+    const sortedByHorizontalError = sortData(
       mockEarthquakes,
       'horizontalError',
     );
@@ -300,7 +298,7 @@ describe('sortEarthquakes', () => {
 
   it('should handle sorting by nonexistent properties', () => {
     // @ts-ignore - Intentionally testing with invalid property
-    const result = sortEarthquakes(mockEarthquakes, 'nonExistentProperty');
+    const result = sortData(mockEarthquakes, 'nonExistentProperty');
 
     // Should return a copy of the array without errors
     expect(result).toHaveLength(mockEarthquakes.length);

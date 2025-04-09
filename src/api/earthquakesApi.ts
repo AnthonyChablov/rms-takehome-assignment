@@ -4,8 +4,8 @@ import { fetchData } from './utils/fetchData/fetchData';
 import { parseCSV } from './utils/parseCSV/parseCSV';
 import { transformCsvToEarthquakes } from './utils/transformCSV/transformCSV';
 import { applyLimit } from './utils/transformCSV/applyLimit/applyLimit';
-import { sortEarthquakes } from './utils/transformCSV/sortEarthquakes/sortEarthquakes';
-import { filterEarthquakes } from './utils/transformCSV/filterEarthquakes/filterEarthquakes';
+import { sortData } from './utils/transformCSV/sortData/sortData';
+import { filterData } from './utils/transformCSV/filterData/filterData';
 
 // Re-define or import the filters type
 export type GetEarthQuakesFilters = {
@@ -51,11 +51,11 @@ export const getEarthquakes = async (
     // 4. Transform the parsed CSV rows into EarthquakeRecord objects
     let earthquakes = transformCsvToEarthquakes(parsedRows);
 
-    // 5. Filter out records that have invalid or missing critical keys (e.g., longitude)
-    earthquakes = filterEarthquakes(earthquakes);
+    // 5. Filter out records that have invalid or missing critical keys (e.g., longitude, mag, )
+    earthquakes = filterData(earthquakes, 'longitude');
 
     // 6. Sort the earthquake data based on the provided sorting criteria
-    earthquakes = sortEarthquakes(earthquakes, sortBy);
+    earthquakes = sortData(earthquakes, sortBy);
 
     // 7. Apply a limit to the number of records returned, if specified
     earthquakes = applyLimit(earthquakes, filters?.limit);

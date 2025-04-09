@@ -23,7 +23,7 @@ interface AxisSelectorProps {
 }
 
 /**
- * AxisSelector is a functional component that renders two dropdowns for selecting
+ * AxisSelector is a function component that renders two dropdowns for selecting
  * the X-Axis and Y-Axis keys from an array of numeric keys.
  * It handles changes in both the X and Y axis selections using provided callback functions.
  *

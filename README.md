@@ -104,10 +104,10 @@ export const getEarthquakes = async (
   let earthquakes = transformCsvToEarthquakes(parsedRows);
 
   // 5. Filter out records with invalid values
-  earthquakes = filterEarthquakes(earthquakes);
+  earthquakes = filterData(earthquakes, 'longitude');
 
   // 6. Sort the data
-  earthquakes = sortEarthquakes(earthquakes, sortBy);
+  earthquakes = sortData(earthquakes, sortBy);
 
   // 7. Apply the limit (after filtering and sorting)
   earthquakes = applyLimit(earthquakes, filters?.limit);
@@ -174,7 +174,7 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
   setYAxisKey: (key) => set({ yAxisKey: key }),
 
   selectedRecord: null,
-  setSelectedRecord: (record) => set({ selectedRecord: record })
+  setSelectedRecord: (record) => set({ selectedRecord: record }),
 }));
 ```
 
