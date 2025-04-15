@@ -245,6 +245,34 @@ While TanStack Query could handle more state management, I deliberately separate
 
 This separation creates a cleaner architecture that would scale better in a larger application where different teams might work on different aspects of the application.
 
+### ⚠️ CORS Resolution
+
+During development, I encountered Cross-Origin Resource Sharing (CORS) issues when fetching data from the remote USGS resource. To address this, I utilized the CORS Anywhere proxy server. This tool acts as a proxy, adding the necessary headers to the response to allow the browser to access the data.
+
+You can find more information about CORS Anywhere and its usage here:
+
+- [CORS Anywhere Demo](https://cors-anywhere.herokuapp.com/corsdemo)
+- [CORS Anywhere GitHub](https://github.com/Rob--W/cors-anywhere/issues/301)
+
+Note: While CORS Anywhere is helpful for development, it's not recommended for production environments. In a production setting, you would typically configure your server to handle CORS headers correctly.
+
+To use CORS Anywhere with the development server:
+
+1. Start a CORS Anywhere instance: You can use the public instance at https://cors-anywhere.herokuapp.com/, or you can run your own instance locally as described in the [CORS Anywhere GitHub repository](https://github.com/Rob--W/cors-anywhere/issues/301).
+
+```typescript
+const USGS_API_URL =
+  '[https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv)';
+export const getEarthquakeApiUrl = () => {
+  // For development with CORS issues, use the CORS Anywhere proxy
+  return `https://cors-anywhere.herokuapp.com/${USGS_API_URL}`;
+  // For production or if CORS is configured correctly, use the direct URL
+  // return USGS_API_URL;
+};
+```
+
+Note: While CORS Anywhere is helpful for development, it's not recommended for production environments due to potential reliability and security concerns. In a production setting, you should configure the server hosting the USGS data (if possible) or your own backend to handle CORS headers correctly.
+
 ## 📥 Installation
 
 1. Clone the repository:
