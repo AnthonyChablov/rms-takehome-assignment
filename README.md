@@ -75,7 +75,7 @@ This separation ensures that each type of state is managed by the most appropria
   - Selecting a plot point scrolls to and highlights the corresponding table row
 
 - **Data Processing Pipeline**
-  - Fetches CSV data from USGS dataset here : https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
+  - Fetches CSV data from this [USGS Earthquakes Dataset](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv)
   - Parses and transforms raw data into appropriate structures
   - Filters invalid records and applies optional limits
   - Sorts data based on selected axes
