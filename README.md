@@ -260,6 +260,10 @@ To use CORS Anywhere with the development server:
 
 1. Start a CORS Anywhere instance: You can use the public instance at https://cors-anywhere.herokuapp.com/, or you can run your own instance locally as described in the [CORS Anywhere GitHub repository](https://github.com/Rob--W/cors-anywhere/issues/301).
 
+2. Request Temporary Access: On the demo page, to proceed using this public instance for your local development, click on the "Request temporary access to the demo server" button. This action should grant you temporary permission to use the proxy.
+
+3. Update the API URL: In your project's API service (src/api/earthquakesApi.ts or a similar file), modify the base URL for fetching earthquake data to prepend the CORS Anywhere proxy URL. For example:
+
 ```typescript
 const BASE_URL: string =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv';
@@ -283,6 +287,8 @@ export const getEarthquakeApiUrl = (): string => {
   return isDevelopment ? PROXY_URL + BASE_URL : BASE_URL;
 };
 ```
+
+Alternatively, you can run your own CORS Anywhere instance locally as described in the [CORS Anywhere GitHub repository](https://github.com/Rob--W/cors-anywhere/issues/301). If you do so, you would update the API URL to point to your local instance (e.g., http://localhost:8080/${USGS_API_URL}).
 
 Note: While CORS Anywhere is helpful for development, it's not recommended for production environments due to potential reliability and security concerns. In a production setting, you should configure the server hosting the USGS data (if possible) or your own backend to handle CORS headers correctly.
 
