@@ -247,7 +247,7 @@ This separation creates a cleaner architecture that would scale better in a larg
 
 ### ⚠️ CORS Resolution
 
-During development, I encountered Cross-Origin Resource Sharing (CORS) issues when fetching data from the remote USGS resource. To address this, I utilized the CORS Anywhere proxy server. This tool acts as a proxy, adding the necessary headers to the response to allow the browser to access the data.
+During development, I encountered Cross-Origin Resource Sharing (CORS) issues when fetching data from the remote USGS resource via the local development environment. To address this, I utilized the CORS Anywhere proxy server. This tool acts as a proxy, adding the necessary headers to the response to allow the browser to access the data.
 
 You can find more information about CORS Anywhere and its usage here:
 
