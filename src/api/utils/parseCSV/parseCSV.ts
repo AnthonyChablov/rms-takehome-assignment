@@ -25,6 +25,7 @@ export const parseCSV = (csvString: string): Promise<CSVRow[]> => {
             (row) => Object.keys(row).length > 0,
           );
           resolve(validData);
+          console.log(validData);
         }
       },
       error: (error: Error) => {
