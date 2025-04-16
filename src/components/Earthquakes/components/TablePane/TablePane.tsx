@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { cn } from '@/utils/utils';
 import { useScrollToElement } from '../../../../hooks/useScrollToElement';
 import useSortedData from './hooks/useSortedData';
 import TableRow from './components/TableRow/TableRow';
 import TableHeader from './components/TableHeader/TableHeader';
+import ActionButton from './components/Button/ActionButton';
 
 /**
  * Interface defining the props for the TablePane component.
@@ -90,6 +90,12 @@ function TablePane<T extends Record<string, any>>({
     }
   };
 
+  const handleClearSelected = () => {
+    if (setSelected) {
+      setSelected([]);
+    }
+  };
+
   // Create a reference for the table container to enable scrolling behavior.
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
@@ -111,8 +117,11 @@ function TablePane<T extends Record<string, any>>({
       className="bg-white rounded-lg w-full lg:w-5/12 px-4 h-screen flex flex-col p-4 shadow-md"
       data-testid="table-pane"
     >
-      {/* Render the title of the table */}
-      <h1 className="text-xl font-bold mb-4 text-gray-800">{title}</h1>
+      <div className="flex justify-between items-center pb-4">
+        {/* Render the title of the table */}
+        <h1 className="text-xl font-bold text-gray-800">{title}</h1>
+        <ActionButton onClick={handleClearSelected} title="Clear Selected" />
+      </div>
 
       {/* Scrollable container for the table */}
       <div
