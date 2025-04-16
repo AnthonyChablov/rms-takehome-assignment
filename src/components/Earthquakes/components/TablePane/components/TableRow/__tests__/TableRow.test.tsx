@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import TableRow from '../TableRow';
@@ -10,26 +11,48 @@ vi.mock('@/utils/utils', () => ({
 }));
 
 describe('TableRow.tsx', () => {
-  const mockRow = { id: 'row-1', name: 'John Doe', age: 30, city: 'New York' };
-  const mockColumns = ['name', 'age', 'city'];
+  interface MockRow {
+    id: string;
+    name: string;
+    age: number;
+    city: string;
+  }
+  const mockRow: MockRow = {
+    id: 'row-1',
+    name: 'John Doe',
+    age: 30,
+    city: 'New York',
+  };
+  const mockColumns: (keyof MockRow)[] = ['name', 'age', 'city'];
   const mockIndex = 0;
-  const mockHighlighted = null;
-  const mockSelected = null;
+  const mockHighlighted: MockRow | null = null;
+  const mockSelected: MockRow[] = [
+    {
+      id: 'row-1',
+      name: 'John Doe',
+      age: 30,
+      city: 'New York',
+    },
+  ];
   const mockHandleClick = vi.fn();
+  const mockSetHighlighted = vi.fn();
 
-  const renderComponent = (
-    props: Partial<TableRowProps<typeof mockRow>> = {},
-  ) => {
+  const renderComponent = (props: Partial<TableRowProps<MockRow>> = {}) => {
     render(
-      <TableRow
-        row={mockRow}
-        index={mockIndex}
-        columns={mockColumns}
-        highlighted={mockHighlighted}
-        selected={mockSelected}
-        handleClick={mockHandleClick}
-        {...props}
-      />,
+      <table>
+        <tbody>
+          <TableRow
+            row={mockRow}
+            index={mockIndex}
+            columns={mockColumns}
+            highlighted={mockHighlighted}
+            selected={mockSelected}
+            handleClick={mockHandleClick}
+            setHighlighted={mockSetHighlighted}
+            {...props}
+          />
+        </tbody>
+      </table>,
     );
   };
 
@@ -73,7 +96,7 @@ describe('TableRow.tsx', () => {
   });
 
   it('should apply selected classes when row is selected', () => {
-    renderComponent({ selected: mockRow });
+    renderComponent({ selected: mockSelected });
     expect(screen.getByRole('row')).toHaveClass('bg-green-100');
     expect(screen.getByRole('row')).toHaveClass('border-l-4');
     expect(screen.getByRole('row')).toHaveClass('border-green-500');
@@ -81,7 +104,7 @@ describe('TableRow.tsx', () => {
   });
 
   it('should not apply selected classes when row is not selected', () => {
-    renderComponent();
+    renderComponent({ selected: [] });
     expect(screen.getByRole('row')).not.toHaveClass('bg-green-100');
     expect(screen.getByRole('row')).not.toHaveClass('border-l-4');
     expect(screen.getByRole('row')).not.toHaveClass('border-green-500');
@@ -93,5 +116,36 @@ describe('TableRow.tsx', () => {
     fireEvent.click(screen.getByRole('row'));
     expect(mockHandleClick).toHaveBeenCalledTimes(1);
     expect(mockHandleClick).toHaveBeenCalledWith(mockRow);
+  });
+
+  it('should render cells with correct content', () => {
+    renderComponent();
+    mockColumns.forEach((column) => {
+      expect(screen.getByText(String(mockRow[column]))).toBeInTheDocument();
+    });
+  });
+
+  it('should apply selected text color class when row is selected', () => {
+    renderComponent({ selected: mockSelected });
+    mockColumns.forEach((column) => {
+      expect(
+        screen.getByText(String(mockRow[column])).closest('td'),
+      ).toHaveClass('font-medium');
+      expect(
+        screen.getByText(String(mockRow[column])).closest('td'),
+      ).toHaveClass('text-green-700');
+    });
+  });
+
+  it('should apply default text color class when row is not selected', () => {
+    renderComponent({ selected: [] });
+    mockColumns.forEach((column) => {
+      expect(
+        screen.getByText(String(mockRow[column])).closest('td'),
+      ).not.toHaveClass('font-medium');
+      expect(
+        screen.getByText(String(mockRow[column])).closest('td'),
+      ).toHaveClass('text-gray-900');
+    });
   });
 });
