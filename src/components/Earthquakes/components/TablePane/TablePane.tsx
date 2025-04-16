@@ -110,11 +110,13 @@ function TablePane<T extends Record<string, any>>({
       <div className="flex justify-between items-center pb-4">
         {/* Render the title of the table and button */}
         <h1 className="text-xl font-bold text-gray-800">{title}</h1>
+        {/* Action button to clear selected items */}
         <ActionButton
-          onClick={handleClearSelected}
-          title={`Clear Selected `}
+          onClick={handleClearSelected} // Calls the handleClearSelected function when the button is clicked
+          title={`Clear Selected `} // Sets the base text for the button's tooltip or accessible name
           children={
             <span className="text-lg font-semibold text-indigo-50">
+              {/* Display the number of selected items if there are any */}
               {selected.length > 0 ? `: ${selected.length} ` : ''}
             </span>
           }
