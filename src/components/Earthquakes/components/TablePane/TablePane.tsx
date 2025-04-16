@@ -118,7 +118,7 @@ function TablePane<T extends Record<string, any>>({
       data-testid="table-pane"
     >
       <div className="flex justify-between items-center pb-4">
-        {/* Render the title of the table */}
+        {/* Render the title of the table and button */}
         <h1 className="text-xl font-bold text-gray-800">{title}</h1>
         <ActionButton onClick={handleClearSelected} title="Clear Selected" />
       </div>
