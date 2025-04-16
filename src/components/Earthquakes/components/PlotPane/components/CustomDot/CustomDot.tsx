@@ -15,11 +15,11 @@ interface CustomDotProps<T extends Record<string, any>> extends DotProps {
   // The data payload for this dot
   payload?: T;
 
-  // The point selected by the user (for special styles)
-  selectedPoint?: T | null;
+  // The points selected by the user (for special styles)
+  selectedPoints?: T[] | null;
 
   // The point being hovered over (for highlighting)
-  highlightedPoint?: T | null;
+  highlightedPoint?: T | null | undefined;
 
   // Callback function when the dot is clicked
   onClick?: (event: any) => void;
@@ -75,7 +75,7 @@ interface CustomDotProps<T extends Record<string, any>> extends DotProps {
  * @param fill - The fill color of the outer circle (dot).
  * @param stroke - The stroke color of the outer circle (dot).
  * @param strokeWidth - The width of the stroke for the outer circle.
- * @param selectedPoint - The point that is currently selected (used to apply selection styles).
+ * @param selectedPoints - The points that are currently selected (used to apply selection styles).
  * @param highlightedPoint - The point that is currently being hovered over (used to apply highlighting styles).
  * @param onClick - Callback function when the dot is clicked.
  * @param onMouseOver - Callback function when the mouse hovers over the dot.
@@ -101,7 +101,7 @@ const CustomDot = <T extends Record<string, any>>({
   fill,
   stroke,
   strokeWidth,
-  selectedPoint,
+  selectedPoints,
   highlightedPoint,
   onClick,
   onMouseOver,
@@ -119,7 +119,12 @@ const CustomDot = <T extends Record<string, any>>({
 }: CustomDotProps<T>) => {
   // Determine if the current dot is highlighted or selected
   const isHighlighted = highlightedPoint && payload === highlightedPoint;
-  const isSelected = selectedPoint && payload === selectedPoint;
+  const isSelected = () => {
+    if (selectedPoints && selectedPoints.length > 0) {
+      return selectedPoints.some((item) => item === payload);
+    }
+    return false;
+  };
 
   // Set default styling values
   let dotRadius = defaultRadius;
@@ -128,7 +133,7 @@ const CustomDot = <T extends Record<string, any>>({
   let currentStrokeWidth = strokeWidth || 1;
 
   // Adjust styles based on selection or highlighting state
-  if (isSelected) {
+  if (isSelected()) {
     dotRadius = selectRadius;
     dotFill = selectFill;
     currentStroke = selectedStroke;
@@ -157,7 +162,7 @@ const CustomDot = <T extends Record<string, any>>({
         strokeWidth={currentStrokeWidth}
       />
       {/* Render the inner circle when the point is selected */}
-      {isSelected && selectedInnerRadius > 0 && (
+      {isSelected() && selectedInnerRadius > 0 && (
         <circle
           cx={cx}
           cy={cy}

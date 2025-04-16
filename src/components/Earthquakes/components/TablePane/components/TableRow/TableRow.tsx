@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { cn } from '@/utils/utils';
+import { usePlotTableStore } from '@/store/plotTableStore';
 
 /**
  * TableRowProps interface defines the expected props for the TableRow component.
@@ -10,16 +11,17 @@ import { cn } from '@/utils/utils';
  * @property {number} index The index of the row in the table, used for styling and key assignment.
  * @property {string[]} columns An array of strings representing the column keys of the table row to display.
  * @property {T | null} highlighted The row that is currently highlighted (typically based on hover or some other condition).
- * @property {T | null} selected The row that is currently selected (typically based on user interaction).
- * @property {(item: T | null) => void} handleClick A callback function that is called when a row is clicked. It receives the clicked row as a parameter (or `null` if deselected).
+ * @property {T[]} selected The array of currently selected rows.
+ * @property {(item: T) => void} handleClick A callback function that is called when a row is clicked. It receives the clicked row as a parameter.
  */
 export interface TableRowProps<T extends Record<string, any>> {
   row: T;
   index: number;
   columns: string[];
   highlighted: T | null;
-  selected: T | null;
-  handleClick: (item: T | null) => void;
+  selected: T[];
+  handleClick: (item: T) => void;
+  setHighlighted?: (item: T | null) => void;
 }
 
 /**
@@ -33,20 +35,20 @@ export interface TableRowProps<T extends Record<string, any>> {
  * @param {number} index The index of the current row in the table.
  * @param {string[]} columns An array of strings representing the column keys to display for the current row.
  * @param {T | null} highlighted The row that is highlighted.
- * @param {T | null} selected The row that is selected.
- * @param {(item: T | null) => void} handleClick Callback function triggered when the row is clicked.
+ * @param {T[]} selected The array of selected rows.
+ * @param {(item: T) => void} handleClick Callback function triggered when the row is clicked.
  *
  * @returns A table row `<tr>` element with conditional styling and click behavior.
  *
  * @example
  * ```tsx
  * <TableRow
- *   row={rowData}
- *   index={0}
- *   columns={['name', 'age']}
- *   highlighted={highlightedRow}
- *   selected={selectedRow}
- *   handleClick={handleRowClick}
+ * row={rowData}
+ * index={0}
+ * columns={['name', 'age']}
+ * highlighted={highlightedRow}
+ * selected={selectedRows}
+ * handleClick={handleRowClick}
  * />
  * ```
  *
@@ -64,10 +66,24 @@ const TableRow = <T extends Record<string, any>>({
   index,
   columns,
   highlighted,
+  setHighlighted,
   selected,
   handleClick,
 }: TableRowProps<T>) => {
-  const isSelected = row?.id === selected?.id;
+  /**
+   * Checks if the current row is present in the array of selected rows.
+   * @returns {boolean} True if the row is selected, false otherwise.
+   */
+  const isRowSelected = () => {
+    return selected?.some((selectedRow) => selectedRow?.id === row?.id);
+  };
+
+  const handleMouseEnter = (event: any) => {
+    if (setHighlighted) {
+      setHighlighted(event?.payload);
+    }
+  };
+
   const isHighlighted = row?.id === highlighted?.id;
 
   return (
@@ -78,15 +94,16 @@ const TableRow = <T extends Record<string, any>>({
         index % 2 === 0 ? 'bg-white' : 'bg-gray-50',
         'hover:cursor-pointer hover:bg-blue-100 h-18 transition-colors duration-200',
         isHighlighted && 'bg-blue-200',
-        isSelected && 'bg-green-100 border-l-4 border-green-500 shadow-sm',
+        isRowSelected() && 'bg-green-100 border-l-4 border-green-500 shadow-sm',
       )}
       onClick={() => handleClick(row)}
+      onMouseOver={handleMouseEnter}
     >
       {columns.map((column) => (
         <td
           key={`${index}-${column}`}
           className={`px-5 py-2 border-b border-gray-200 text-left text-sm ${
-            isSelected ? 'font-medium text-green-700' : 'text-gray-900'
+            isRowSelected() ? 'font-medium text-green-700' : 'text-gray-900'
           }`}
         >
           <div className="flex items-center space-x-2">

@@ -19,9 +19,11 @@ export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
   setYAxisKey: (key: string) => void; // Setter function to update the Y-axis key
   highlighted: T | null | undefined; // The currently highlighted earthquake record
   setHighlighted: Dispatch<SetStateAction<T | null>>; // Setter function to update the highlighted earthquake
-  selected: T | null | undefined; // The currently selected earthquake record
-  setSelected: (item: T | null) => void; // Setter function to update the selected earthquake
+  selected: T[]; // The currently selected earthquake record
+  setSelected: (item: T[]) => void; // Setter function to update the selected earthquake
   title?: string; // Optional title for the visualization
+  addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
+  removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
 }
 
 /**
@@ -48,6 +50,8 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   setHighlighted,
   selected,
   setSelected,
+  addSelected,
+  removeSelected,
   title = 'USGS Most Recent Earthquakes (Top 100)', // Default title if not provided
 }: PlotTablePaneLayoutProps<T>) {
   // --- Loading State ---
@@ -110,6 +114,8 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
           setHighlighted={setHighlighted}
           selected={selected}
           setSelected={setSelected}
+          removeSelected={removeSelected}
+          addSelected={addSelected}
         />
         <TablePane
           title={title} // Pass title for the table pane
@@ -122,6 +128,8 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
           setHighlighted={setHighlighted}
           selected={selected}
           setSelected={setSelected}
+          removeSelected={removeSelected}
+          addSelected={addSelected}
         />
       </Container>
     </div>

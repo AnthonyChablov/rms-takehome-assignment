@@ -31,8 +31,10 @@ const Earthquakes = () => {
   // - `xAxisKey`, `yAxisKey`: Keys representing the X and Y axes of the plot.
   // - `setSelectedRecord`, `setXAxisKey`, `setYAxisKey`: Functions to update these values.
   const {
-    selectedRecord,
-    setSelectedRecord,
+    selectedRecords,
+    setSelectedRecords,
+    addSelectedRecord,
+    removeSelectedRecord,
     xAxisKey,
     setXAxisKey,
     yAxisKey,
@@ -64,8 +66,10 @@ const Earthquakes = () => {
       highlighted={highlightedEarthquake}
       setHighlighted={setHighlightedEarthquake}
       // Pass the selected earthquake record and its setter function.
-      selected={selectedRecord}
-      setSelected={setSelectedRecord}
+      selected={selectedRecords}
+      setSelected={setSelectedRecords}
+      addSelected={addSelectedRecord}
+      removeSelected={removeSelectedRecord}
       // Set the title for the layout.
       title="USGS Most Recent Earthquakes"
     />

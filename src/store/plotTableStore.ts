@@ -39,13 +39,26 @@ interface PlotTableStore<T = any> {
   setYAxisKey: (key: string | null) => void;
 
   /** The currently selected earthquake record, which will be highlighted on the plot. */
-  selectedRecord: T | null;
+  selectedRecords: T[];
 
   /**
    * Sets the selected earthquake record to highlight in the plot.
    * @param record - The earthquake record to select (optional).
    */
-  setSelectedRecord: (record: T | null) => void;
+  setSelectedRecords: (record: T[]) => void;
+
+  /**
+   * Adds a single record to the array of selected records.
+   * @param record - The earthquake record to add.
+   */
+  addSelectedRecord: (record: T) => void;
+
+  /**
+   * Removes a single record from the array of selected records based on a unique identifier.
+   * You might need to adjust the identifier based on your record structure.
+   * @param id - The unique identifier of the record to remove.
+   */
+  removeSelectedRecord: (id: string | number) => void;
 }
 
 /**
@@ -79,8 +92,20 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
   setYAxisKey: (key) => set({ yAxisKey: key }),
 
   /** Initially, no record is selected. */
-  selectedRecord: null,
+  selectedRecords: [],
 
   /** Function to set the currently selected earthquake record to highlight in the plot. */
-  setSelectedRecord: (record) => set({ selectedRecord: record }),
+  setSelectedRecords: (records) => set({ selectedRecords: records }),
+
+  /** Function to add a single record to the selected records array. */
+  addSelectedRecord: (record) =>
+    set((state) => ({ selectedRecords: [...state.selectedRecords, record] })),
+
+  /** Function to remove a single record from the selected records array based on its ID. */
+  removeSelectedRecord: (id) =>
+    set((state) => ({
+      selectedRecords: state.selectedRecords.filter(
+        (r: any) => (r as any).id !== id, // Assuming your records have an 'id' property
+      ),
+    })),
 }));

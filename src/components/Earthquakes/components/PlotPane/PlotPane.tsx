@@ -18,12 +18,14 @@ interface PlotPaneProps<T extends Record<string, any>> {
   data: T[];
   highlighted?: T | null;
   setHighlighted?: (item: T | null) => void;
-  selected?: T | null;
-  setSelected?: (item: T | null) => void;
+  selected?: T[];
+  setSelected?: (item: T[]) => void;
   xAxisKey: string | null;
   setXAxisKey: (key: string) => void;
   yAxisKey: string | null;
   setYAxisKey: (key: string) => void;
+  addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
+  removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
 }
 
 /**
@@ -48,20 +50,6 @@ interface PlotPaneProps<T extends Record<string, any>> {
  * @returns A `<div>` containing the scatter plot chart, interactive elements for axis selection,
  *          and reference lines at X=0 and Y=0 for better visualization.
  *
- * @example
- * ```tsx
- * <PlotPane
- *   data={chartData}
- *   highlighted={highlightedData}
- *   setHighlighted={setHighlightedData}
- *   selected={selectedData}
- *   setSelected={setSelectedData}
- *   xAxisKey="xValue"
- *   setXAxisKey={setXAxisKey}
- *   yAxisKey="yValue"
- *   setYAxisKey={setYAxisKey}
- * />
- * ```
  *
  * @note
  * - The component allows users to dynamically select the X and Y axes from a list of available numeric keys.
@@ -79,7 +67,9 @@ function PlotPane<T extends Record<string, any>>({
   setXAxisKey,
   yAxisKey,
   setYAxisKey,
-}: PlotPaneProps<T>) {
+  addSelected,
+  removeSelected,
+}: PlotPaneProps<T | any>) {
   // Use custom hook to manage the axis and numeric keys state
   const { numericKeys } = usePlotPaneData(data);
 
@@ -107,15 +97,25 @@ function PlotPane<T extends Record<string, any>>({
     const payload = event?.payload;
 
     // Check if both setHighlighted and setSelected are defined
-    if (setHighlighted && setSelected) {
+    if (
+      payload &&
+      setHighlighted &&
+      setSelected &&
+      removeSelected &&
+      addSelected
+    ) {
       // If the clicked item is already selected, deselect it
       if (payload === selected) {
-        setSelected(null);
+        removeSelected(payload);
       } else {
         // Otherwise, select the clicked item
-        setSelected(payload);
+        addSelected(payload);
       }
     }
+  };
+
+  const isSelected = (item: T) => {
+    return selected?.some((selectedItem) => selectedItem.id === item.id);
   };
 
   return (
@@ -175,7 +175,7 @@ function PlotPane<T extends Record<string, any>>({
               strokeWidth={1}
               shape={
                 <CustomDot
-                  selectedPoint={selected}
+                  selectedPoints={selected}
                   highlightedPoint={highlighted}
                 />
               }

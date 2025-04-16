@@ -13,8 +13,10 @@ interface TablePaneProps<T extends Record<string, any>> {
   data: T[]; // The data to be displayed in the table. Each element represents a row in the table.
   highlighted?: T | null; // The currently highlighted row.
   setHighlighted?: (item: T | null) => void; // Function to update the highlighted row.
-  selected?: T | null; // The currently selected row.
-  setSelected?: (item: T | null) => void; // Function to update the selected row.
+  selected?: T[]; // The currently selected row.
+  setSelected?: (item: T[]) => void; // Function to update the selected row.
+  addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
+  removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
   title?: React.ReactNode; // The title of the table. Optional.
   xAxisKey?: string | null; // The key used for sorting the data on the x-axis.
   setXAxisKey?: (key: string) => void; // Function to set the x-axis sorting key.
@@ -34,8 +36,10 @@ function TablePane<T extends Record<string, any>>({
   data = [],
   highlighted = null,
   setHighlighted,
-  selected = null,
+  selected = [],
   setSelected,
+  addSelected,
+  removeSelected,
   title = '',
   xAxisKey = '',
   setXAxisKey,
@@ -58,15 +62,30 @@ function TablePane<T extends Record<string, any>>({
    * @param {T | null} row - The clicked row data.
    */
   const handleClick = (row: T | null) => {
-    if (setHighlighted && setSelected) {
-      // If the row is already selected, clear the selection and highlight.
-      if (row === selected) {
+    if (
+      setHighlighted &&
+      setSelected &&
+      row &&
+      removeSelected &&
+      addSelected &&
+      selected
+    ) {
+      const isSelected = selected.some(
+        (item) => (item as any)?.id === (row as any)?.id,
+      );
+
+      if (isSelected) {
+        // If the row is already selected, deselect it and clear the highlight.
         setHighlighted(null);
-        setSelected(null);
+        removeSelected(row.id); // Assuming removeSelected now takes the item, not just the ID
+        setSelected(
+          selected.filter((item) => (item as any)?.id !== (row as any)?.id),
+        );
       } else {
-        // Otherwise, set the clicked row as selected and highlighted.
+        // If the row is not selected, highlight it and add it to the selected state.
         setHighlighted(row);
-        setSelected(row);
+        addSelected(row);
+        setSelected([...selected, row]);
       }
     }
   };
@@ -115,6 +134,7 @@ function TablePane<T extends Record<string, any>>({
                 highlighted={highlighted}
                 selected={selected}
                 handleClick={handleClick}
+                setHighlighted={setHighlighted}
               />
             ))}
           </tbody>
