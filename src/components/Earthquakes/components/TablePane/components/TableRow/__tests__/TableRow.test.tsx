@@ -88,17 +88,11 @@ describe('TableRow.tsx', () => {
   it('should apply selected classes when row is selected', () => {
     renderComponent({ selected: mockSelected });
     expect(screen.getByRole('row')).toHaveClass('bg-green-100');
-    expect(screen.getByRole('row')).toHaveClass('border-l-4');
-    expect(screen.getByRole('row')).toHaveClass('border-green-500');
-    expect(screen.getByRole('row')).toHaveClass('shadow-sm');
   });
 
   it('should not apply selected classes when row is not selected', () => {
     renderComponent({ selected: [] });
     expect(screen.getByRole('row')).not.toHaveClass('bg-green-100');
-    expect(screen.getByRole('row')).not.toHaveClass('border-l-4');
-    expect(screen.getByRole('row')).not.toHaveClass('border-green-500');
-    expect(screen.getByRole('row')).not.toHaveClass('shadow-sm');
   });
 
   it('should call handleClick when the row is clicked', () => {

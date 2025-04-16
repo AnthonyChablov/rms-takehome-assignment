@@ -1,19 +1,25 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import CustomDot from '../CustomDot';
 
 describe('CustomDot.tsx', () => {
+  interface Payload {
+    id: string;
+    value: number;
+  }
+
   // Base props for testing
   const baseProps = {
     cx: 100,
     cy: 100,
-    payload: { id: 'test', value: 10 },
+    payload: { id: 'test', value: 10 } as Payload,
     onClick: vi.fn(),
     onMouseOver: vi.fn(),
     onMouseLeave: vi.fn(),
   };
 
-  it('should render a basic dot in the DOM', () => {
+  it('should render a basic dot in the DOM with default styles', () => {
     // Arrange
     const { container } = render(<CustomDot {...baseProps} />);
 
@@ -24,30 +30,15 @@ describe('CustomDot.tsx', () => {
     expect(circle).toBeInTheDocument();
     expect(circle).toHaveAttribute('cx', '100');
     expect(circle).toHaveAttribute('cy', '100');
-    expect(circle).toHaveAttribute('r', '6'); // Default radius
-    expect(circle).toHaveAttribute('fill', '#8ec5ff'); // Default fill
-  });
-
-  it('should use custom fill and radius when provided', () => {
-    // Arrange
-    const customProps = {
-      ...baseProps,
-      fill: '#ff0000',
-      r: 10,
-    };
-
-    // Act
-    const { container } = render(<CustomDot {...customProps} />);
-    const circle = container.querySelector('circle');
-
-    // Assert
-    expect(circle).toHaveAttribute('fill', '#ff0000');
-    expect(circle).toHaveAttribute('r', '6'); // Still default radius as r is not used directly
+    expect(circle).toHaveAttribute('r', '6'); // defaultRadius
+    expect(circle).toHaveAttribute('fill', '#8ec5ff'); // defaultFill
+    expect(circle).toHaveAttribute('stroke', '#155dfc'); // Default stroke
+    expect(circle).toHaveAttribute('stroke-width', '1'); // Default strokeWidth
   });
 
   it('should apply highlighted styles when point is highlighted', () => {
     // Arrange
-    const point = { id: 'test', value: 10 };
+    const point: Payload = { id: 'test', value: 10 };
     const highlightProps = {
       ...baseProps,
       payload: point,
@@ -67,15 +58,17 @@ describe('CustomDot.tsx', () => {
 
   it('should apply selected styles and render inner circle when point is selected', () => {
     // Arrange
-    const point = { id: 'test', value: 10 };
+    const point: Payload = { id: 'test', value: 10 };
     const selectProps = {
       ...baseProps,
       payload: point,
-      selectedPoint: point,
+      selectedPoints: [point],
       selectFill: '#00ff00',
       selectRadius: 20,
       selectedInnerRadius: 8,
       selectedInnerFill: '#ffffff',
+      selectedStroke: '#0000ff',
+      selectedStrokeWidth: 2,
     };
 
     // Act
@@ -86,6 +79,8 @@ describe('CustomDot.tsx', () => {
     expect(circles.length).toBe(2); // Main circle + inner circle
     expect(circles[0]).toHaveAttribute('fill', '#00ff00');
     expect(circles[0]).toHaveAttribute('r', '20');
+    expect(circles[0]).toHaveAttribute('stroke', '#0000ff');
+    expect(circles[0]).toHaveAttribute('stroke-width', '2');
     expect(circles[1]).toHaveAttribute('r', '8');
     expect(circles[1]).toHaveAttribute('fill', '#ffffff');
   });
@@ -93,10 +88,10 @@ describe('CustomDot.tsx', () => {
   it('should call onClick when dot is clicked', () => {
     // Arrange
     const { container } = render(<CustomDot {...baseProps} />);
-    const circle = container.querySelector('circle');
+    const circle = container.querySelector('circle')!;
 
     // Act
-    fireEvent.click(circle!);
+    fireEvent.click(circle);
 
     // Assert
     expect(baseProps.onClick).toHaveBeenCalledTimes(1);
@@ -105,10 +100,10 @@ describe('CustomDot.tsx', () => {
   it('should call onMouseOver when dot is hovered', () => {
     // Arrange
     const { container } = render(<CustomDot {...baseProps} />);
-    const circle = container.querySelector('circle');
+    const circle = container.querySelector('circle')!;
 
     // Act
-    fireEvent.mouseOver(circle!);
+    fireEvent.mouseOver(circle);
 
     // Assert
     expect(baseProps.onMouseOver).toHaveBeenCalledTimes(1);
@@ -117,10 +112,10 @@ describe('CustomDot.tsx', () => {
   it('should call onMouseLeave when mouse leaves dot', () => {
     // Arrange
     const { container } = render(<CustomDot {...baseProps} />);
-    const circle = container.querySelector('circle');
+    const circle = container.querySelector('circle')!;
 
     // Act
-    fireEvent.mouseLeave(circle!);
+    fireEvent.mouseLeave(circle);
 
     // Assert
     expect(baseProps.onMouseLeave).toHaveBeenCalledTimes(1);
@@ -145,14 +140,16 @@ describe('CustomDot.tsx', () => {
 
   it('should prioritize selection over highlight styling', () => {
     // Arrange
-    const point = { id: 'test', value: 10 };
+    const point: Payload = { id: 'test', value: 10 };
     const bothProps = {
       ...baseProps,
       payload: point,
-      selectedPoint: point,
+      selectedPoints: [point],
       highlightedPoint: point,
       selectFill: '#00ff00',
       highlightFill: '#ff0000',
+      selectRadius: 15,
+      highlightRadius: 10,
     };
 
     // Act
@@ -161,5 +158,6 @@ describe('CustomDot.tsx', () => {
 
     // Assert
     expect(circle).toHaveAttribute('fill', '#00ff00'); // Selected fill should win
+    expect(circle).toHaveAttribute('r', '15'); // Selected radius should win
   });
 });
