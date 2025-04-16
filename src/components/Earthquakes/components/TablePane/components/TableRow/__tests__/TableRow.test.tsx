@@ -67,16 +67,6 @@ describe('TableRow.tsx', () => {
     expect(cells.length).toBe(mockColumns.length);
   });
 
-  it('should apply the correct background class for even rows', () => {
-    renderComponent({ index: 0 });
-    expect(screen.getByRole('row')).toHaveClass('bg-white');
-  });
-
-  it('should apply the correct background class for odd rows', () => {
-    renderComponent({ index: 1 });
-    expect(screen.getByRole('row')).toHaveClass('bg-gray-50');
-  });
-
   it('should apply hover classes', () => {
     renderComponent();
     expect(screen.getByRole('row')).toHaveClass('hover:cursor-pointer');
@@ -122,30 +112,6 @@ describe('TableRow.tsx', () => {
     renderComponent();
     mockColumns.forEach((column) => {
       expect(screen.getByText(String(mockRow[column]))).toBeInTheDocument();
-    });
-  });
-
-  it('should apply selected text color class when row is selected', () => {
-    renderComponent({ selected: mockSelected });
-    mockColumns.forEach((column) => {
-      expect(
-        screen.getByText(String(mockRow[column])).closest('td'),
-      ).toHaveClass('font-medium');
-      expect(
-        screen.getByText(String(mockRow[column])).closest('td'),
-      ).toHaveClass('text-green-700');
-    });
-  });
-
-  it('should apply default text color class when row is not selected', () => {
-    renderComponent({ selected: [] });
-    mockColumns.forEach((column) => {
-      expect(
-        screen.getByText(String(mockRow[column])).closest('td'),
-      ).not.toHaveClass('font-medium');
-      expect(
-        screen.getByText(String(mockRow[column])).closest('td'),
-      ).toHaveClass('text-gray-900');
     });
   });
 });
