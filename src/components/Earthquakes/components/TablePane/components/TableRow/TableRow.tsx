@@ -78,9 +78,15 @@ const TableRow = <T extends Record<string, any>>({
     return selected?.some((selectedRow) => selectedRow?.id === row?.id);
   };
 
-  const handleMouseEnter = (event: any) => {
+  const handleMouseEnter = () => {
     if (setHighlighted) {
-      setHighlighted(event?.payload);
+      setHighlighted(row);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (setHighlighted) {
+      setHighlighted(null);
     }
   };
 
@@ -97,7 +103,9 @@ const TableRow = <T extends Record<string, any>>({
         isRowSelected() && 'bg-green-100 border-l-4 border-green-500 shadow-sm',
       )}
       onClick={() => handleClick(row)}
-      onMouseOver={handleMouseEnter}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      data-testid={`table-row-${index}`}
     >
       {columns.map((column) => (
         <td
