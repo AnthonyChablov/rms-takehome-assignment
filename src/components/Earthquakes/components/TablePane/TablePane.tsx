@@ -110,7 +110,15 @@ function TablePane<T extends Record<string, any>>({
       <div className="flex justify-between items-center pb-4">
         {/* Render the title of the table and button */}
         <h1 className="text-xl font-bold text-gray-800">{title}</h1>
-        <ActionButton onClick={handleClearSelected} title="Clear Selected" />
+        <ActionButton
+          onClick={handleClearSelected}
+          title={`Clear Selected `}
+          children={
+            <span className="text-lg font-semibold text-indigo-50">
+              {selected.length > 0 ? `: ${selected.length} ` : ''}
+            </span>
+          }
+        />
       </div>
 
       {/* Scrollable container for the table */}
