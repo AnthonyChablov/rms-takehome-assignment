@@ -98,15 +98,18 @@ function PlotPane<T extends Record<string, any>>({
 
     // Check if both setHighlighted and setSelected are defined
     if (
-      payload &&
       setHighlighted &&
       setSelected &&
+      payload &&
       removeSelected &&
-      addSelected
+      addSelected &&
+      selected
     ) {
+      const isSelected = selected.some((item) => item?.id === payload?.id);
+
       // If the clicked item is already selected, deselect it
-      if (payload === selected) {
-        removeSelected(payload);
+      if (isSelected) {
+        removeSelected(payload.id);
       } else {
         // Otherwise, select the clicked item
         addSelected(payload);

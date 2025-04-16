@@ -70,22 +70,12 @@ function TablePane<T extends Record<string, any>>({
       addSelected &&
       selected
     ) {
-      const isSelected = selected.some(
-        (item) => (item as any)?.id === (row as any)?.id,
-      );
+      const isSelected = selected.some((item) => item?.id === row?.id);
 
       if (isSelected) {
-        // If the row is already selected, deselect it and clear the highlight.
-        setHighlighted(null);
         removeSelected(row.id); // Assuming removeSelected now takes the item, not just the ID
-        setSelected(
-          selected.filter((item) => (item as any)?.id !== (row as any)?.id),
-        );
       } else {
-        // If the row is not selected, highlight it and add it to the selected state.
-        setHighlighted(row);
         addSelected(row);
-        setSelected([...selected, row]);
       }
     }
   };
