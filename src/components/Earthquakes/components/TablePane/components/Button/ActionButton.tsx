@@ -23,10 +23,10 @@ const ActionButton = ({
         className,
       )}
       onClick={clearSelected}
-      data-testid="clear-selected-button"
       type="button"
     >
       {title}
+      {children}
     </button>
   );
 };
