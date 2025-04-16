@@ -108,4 +108,68 @@ describe('TableRow.tsx', () => {
       expect(screen.getByText(String(mockRow[column]))).toBeInTheDocument();
     });
   });
+
+  it('should call setHighlighted with the row on mouse enter', () => {
+    renderComponent();
+    fireEvent.mouseEnter(screen.getByRole('row'));
+    expect(mockSetHighlighted).toHaveBeenCalledTimes(1);
+    expect(mockSetHighlighted).toHaveBeenCalledWith(mockRow);
+  });
+
+  it('should call setHighlighted with null on mouse leave', () => {
+    renderComponent();
+    fireEvent.mouseLeave(screen.getByRole('row'));
+    expect(mockSetHighlighted).toHaveBeenCalledTimes(1);
+    expect(mockSetHighlighted).toHaveBeenCalledWith(null);
+  });
+
+  it('should call setHighlighted with the correct row on multiple mouse enter and leave events', () => {
+    const mockRow2: MockRow = {
+      id: 'row-2',
+      name: 'Jane Smith',
+      age: 25,
+      city: 'Los Angeles',
+    };
+    render(
+      <table>
+        <tbody>
+          <TableRow
+            row={mockRow}
+            index={mockIndex}
+            columns={mockColumns}
+            highlighted={mockHighlighted}
+            selected={mockSelected}
+            handleClick={mockHandleClick}
+            setHighlighted={mockSetHighlighted}
+          />
+          <TableRow
+            row={mockRow2}
+            index={mockIndex + 1}
+            columns={mockColumns}
+            highlighted={mockHighlighted}
+            selected={mockSelected}
+            handleClick={mockHandleClick}
+            setHighlighted={mockSetHighlighted}
+          />
+        </tbody>
+      </table>,
+    );
+
+    const row1 = screen.getByTestId(`table-row-${mockIndex}`);
+    const row2 = screen.getByTestId(`table-row-${mockIndex + 1}`);
+
+    fireEvent.mouseEnter(row1);
+    expect(mockSetHighlighted).toHaveBeenCalledWith(mockRow);
+
+    fireEvent.mouseLeave(row1);
+    expect(mockSetHighlighted).toHaveBeenCalledWith(null);
+
+    fireEvent.mouseEnter(row2);
+    expect(mockSetHighlighted).toHaveBeenCalledWith(mockRow2);
+
+    fireEvent.mouseLeave(row2);
+    expect(mockSetHighlighted).toHaveBeenCalledWith(null);
+
+    expect(mockSetHighlighted).toHaveBeenCalledTimes(4);
+  });
 });
