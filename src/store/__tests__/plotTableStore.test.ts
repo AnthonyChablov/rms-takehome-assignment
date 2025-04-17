@@ -63,7 +63,7 @@ describe('usePlotTableStore', () => {
         filters: { limit: 100 },
         xAxisKey: 'latitude',
         yAxisKey: 'longitude',
-        selectedRecords: [], // Initialize as an empty array
+        selectedRecords: new Set(), // Initialize as an empty Set
       });
     });
   });
@@ -81,7 +81,7 @@ describe('usePlotTableStore', () => {
     expect(state.filters).toEqual({ limit: 100 });
     expect(state.xAxisKey).toBe('latitude');
     expect(state.yAxisKey).toBe('longitude');
-    expect(state.selectedRecords).toEqual([]);
+    expect(state.selectedRecords).toEqual(new Set());
   });
 
   it('should set filters correctly', () => {
@@ -166,7 +166,7 @@ describe('usePlotTableStore', () => {
 
   it('should set selected records correctly', () => {
     // Arrange
-    const records = [mockEarthquakeRecord];
+    const records = new Set<string | number | null>([mockEarthquakeRecord.id]);
 
     // Act
     act(() => {
@@ -177,19 +177,21 @@ describe('usePlotTableStore', () => {
     expect(usePlotTableStore.getState().selectedRecords).toEqual(records);
   });
 
-  it('should set selected records to an empty array when provided an empty array', () => {
+  it('should set selected records to an empty Set when provided an empty array', () => {
     // Arrange
     act(() => {
-      usePlotTableStore.getState().setSelectedRecords([mockEarthquakeRecord]);
+      usePlotTableStore
+        .getState()
+        .setSelectedRecords(new Set([mockEarthquakeRecord.id]));
     });
 
     // Act
     act(() => {
-      usePlotTableStore.getState().setSelectedRecords([]);
+      usePlotTableStore.getState().setSelectedRecords(new Set());
     });
 
     // Assert
-    expect(usePlotTableStore.getState().selectedRecords).toEqual([]);
+    expect(usePlotTableStore.getState().selectedRecords).toEqual(new Set());
   });
 
   it('should add a single record to the selected records', () => {
@@ -202,9 +204,9 @@ describe('usePlotTableStore', () => {
     });
 
     // Assert
-    expect(usePlotTableStore.getState().selectedRecords).toEqual([
-      mockEarthquakeRecord,
-    ]);
+    expect(usePlotTableStore.getState().selectedRecords).toEqual(
+      new Set([mockEarthquakeRecord.id]),
+    );
 
     // Act - Add another record
     act(() => {
@@ -212,20 +214,18 @@ describe('usePlotTableStore', () => {
     });
 
     // Assert
-    expect(usePlotTableStore.getState().selectedRecords).toEqual([
-      mockEarthquakeRecord,
-      mockEarthquakeRecord2,
-    ]);
+    expect(usePlotTableStore.getState().selectedRecords).toEqual(
+      new Set([mockEarthquakeRecord.id, mockEarthquakeRecord2.id]),
+    );
   });
 
   it('should remove a single record from the selected records by id', () => {
     // Arrange
     const initialState = usePlotTableStore.getState();
     act(() => {
-      initialState.setSelectedRecords([
-        mockEarthquakeRecord,
-        mockEarthquakeRecord2,
-      ]);
+      initialState.setSelectedRecords(
+        new Set([mockEarthquakeRecord.id, mockEarthquakeRecord2.id]),
+      );
     });
 
     // Act
@@ -234,9 +234,9 @@ describe('usePlotTableStore', () => {
     });
 
     // Assert
-    expect(usePlotTableStore.getState().selectedRecords).toEqual([
-      mockEarthquakeRecord2,
-    ]);
+    expect(usePlotTableStore.getState().selectedRecords).toEqual(
+      new Set([mockEarthquakeRecord2.id]),
+    );
 
     // Act - Try to remove a non-existent record
     act(() => {
@@ -244,9 +244,21 @@ describe('usePlotTableStore', () => {
     });
 
     // Assert
-    expect(usePlotTableStore.getState().selectedRecords).toEqual([
-      mockEarthquakeRecord2,
-    ]);
+    expect(usePlotTableStore.getState().selectedRecords).toEqual(
+      new Set([mockEarthquakeRecord2.id]),
+    );
+  });
+
+  it('should check if a record is selected', () => {
+    // Arrange
+    const initialState = usePlotTableStore.getState();
+    act(() => {
+      initialState.setSelectedRecords(new Set([mockEarthquakeRecord.id]));
+    });
+
+    // Act & Assert
+    expect(initialState.isRecordSelected('test123')).toBe(true);
+    expect(initialState.isRecordSelected('test456')).toBe(false);
   });
 
   it('should maintain other state properties when updating filters', () => {
@@ -254,7 +266,7 @@ describe('usePlotTableStore', () => {
     const initialState = usePlotTableStore.getState();
     const newXAxisKey = 'depth';
     const newYAxisKey = 'mag';
-    const initialRecords = [mockEarthquakeRecord];
+    const initialRecords = new Set([mockEarthquakeRecord.id]);
     const newFilters: GetEarthQuakesFilters = { limit: 100 };
 
     // Set some initial values
@@ -283,7 +295,7 @@ describe('usePlotTableStore', () => {
     const initialState = usePlotTableStore.getState();
     const newFilters: GetEarthQuakesFilters = { limit: 50 };
     const newYAxisKey = 'mag';
-    const initialRecords = [mockEarthquakeRecord];
+    const initialRecords = new Set([mockEarthquakeRecord.id]);
 
     // Set some initial values
     act(() => {
@@ -311,7 +323,7 @@ describe('usePlotTableStore', () => {
     const initialState = usePlotTableStore.getState();
     const newFilters: GetEarthQuakesFilters = { limit: 50 };
     const newXAxisKey = 'depth';
-    const initialRecords = [mockEarthquakeRecord];
+    const initialRecords = new Set([mockEarthquakeRecord.id]);
 
     // Set some initial values
     act(() => {
@@ -340,7 +352,10 @@ describe('usePlotTableStore', () => {
     const newFilters: GetEarthQuakesFilters = { limit: 50 };
     const newXAxisKey = 'depth';
     const newYAxisKey = 'rms';
-    const newRecords = [mockEarthquakeRecord, mockEarthquakeRecord2];
+    const newRecords = new Set([
+      mockEarthquakeRecord.id,
+      mockEarthquakeRecord2.id,
+    ]);
 
     // Set some initial values
     act(() => {

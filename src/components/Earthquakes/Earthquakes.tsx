@@ -35,6 +35,7 @@ const Earthquakes = () => {
     setSelectedRecords,
     addSelectedRecord,
     removeSelectedRecord,
+    isRecordSelected,
     xAxisKey,
     setXAxisKey,
     yAxisKey,
@@ -70,6 +71,7 @@ const Earthquakes = () => {
       setSelected={setSelectedRecords}
       addSelected={addSelectedRecord}
       removeSelected={removeSelectedRecord}
+      isSelected={isRecordSelected}
       // Set the title for the layout.
       title="USGS Most Recent Earthquakes"
     />

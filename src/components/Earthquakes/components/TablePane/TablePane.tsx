@@ -13,10 +13,11 @@ interface TablePaneProps<T extends Record<string, any>> {
   data: T[]; // The data to be displayed in the table. Each element represents a row in the table.
   highlighted?: T | null; // The currently highlighted row.
   setHighlighted?: (item: T | null) => void; // Function to update the highlighted row.
-  selected?: T[]; // The currently selected row.
-  setSelected?: (item: T[]) => void; // Function to update the selected row.
+  selected?: Set<string | number>; // The currently selected row.
+  setSelected?: (item: Set<string | number>) => void; // Function to update the selected row.
   addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
   removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
+  isSelected?: (item: string | number) => boolean; // Optional function to check if an item is selected
   title?: React.ReactNode; // The title of the table. Optional.
   xAxisKey?: string | null; // The key used for sorting the data on the x-axis.
   setXAxisKey?: (key: string) => void; // Function to set the x-axis sorting key.
@@ -36,10 +37,11 @@ function TablePane<T extends Record<string, any>>({
   data = [],
   highlighted = null,
   setHighlighted,
-  selected = [],
+  selected = new Set(),
   setSelected,
   addSelected,
   removeSelected,
+  isSelected,
   title = '',
   xAxisKey = '',
   setXAxisKey,
@@ -62,20 +64,18 @@ function TablePane<T extends Record<string, any>>({
    * @param {T | null} row - The clicked row data.
    */
   const handleClick = (row: T | null) => {
-    if (row && removeSelected && addSelected && selected) {
-      const isSelected = selected?.some((item) => item?.id === row?.id);
-
-      if (isSelected) {
+    if (row && removeSelected && addSelected && selected && isSelected) {
+      if (isSelected(row?.id)) {
         removeSelected(row.id); // Assuming removeSelected now takes the item, not just the ID
       } else {
-        addSelected(row);
+        addSelected(row.id);
       }
     }
   };
 
   const handleClearSelected = () => {
     if (setSelected) {
-      setSelected([]);
+      setSelected(new Set());
     }
   };
 
@@ -110,7 +110,7 @@ function TablePane<T extends Record<string, any>>({
           children={
             <span className="text-lg font-semibold text-indigo-50">
               {/* Display the number of selected items if there are any */}
-              {selected.length > 0 ? `: ${selected.length} ` : ''}
+              {selected.size > 0 ? `: ${selected.size} ` : ''}
             </span>
           }
         />

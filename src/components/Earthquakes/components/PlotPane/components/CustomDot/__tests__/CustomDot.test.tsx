@@ -5,7 +5,7 @@ import CustomDot from '../CustomDot';
 
 describe('CustomDot.tsx', () => {
   interface Payload {
-    id: string;
+    id: string | number;
     value: number;
   }
 
@@ -62,7 +62,7 @@ describe('CustomDot.tsx', () => {
     const selectProps = {
       ...baseProps,
       payload: point,
-      selectedPoints: [point],
+      selectedPoints: new Set([point.id]),
       selectFill: '#00ff00',
       selectRadius: 20,
       selectedInnerRadius: 8,
@@ -144,7 +144,7 @@ describe('CustomDot.tsx', () => {
     const bothProps = {
       ...baseProps,
       payload: point,
-      selectedPoints: [point],
+      selectedPoints: new Set([point.id]),
       highlightedPoint: point,
       selectFill: '#00ff00',
       highlightFill: '#ff0000',

@@ -10,7 +10,7 @@ import { GetEarthQuakesFilters } from '@/api/earthquakesApi';
  *
  * @template T - The type of the earthquake data (e.g., `EarthquakeRecord`).
  */
-interface PlotTableStore<T = any> {
+interface PlotTableStore<T extends { id: string | number } = any> {
   /** The current filters applied to the earthquake data (e.g., limit, date range). */
   filters: GetEarthQuakesFilters | undefined;
 
@@ -38,27 +38,33 @@ interface PlotTableStore<T = any> {
    */
   setYAxisKey: (key: string | null) => void;
 
-  /** The currently selected earthquake record, which will be highlighted on the plot. */
-  selectedRecords: T[];
+  /** The currently selected earthquake records (stored by ID in a Set for efficiency). */
+  selectedRecords: Set<string | number | null>;
 
   /**
-   * Sets the selected earthquake record to highlight in the plot.
-   * @param record - The earthquake record to select (optional).
+   * Sets the Set of selected earthquake record IDs.
+   * @param records - The array of earthquake records to select. Their IDs will be extracted.
    */
-  setSelectedRecords: (record: T[]) => void;
+  setSelectedRecords: (records: Set<string | number | null>) => void;
 
   /**
-   * Adds a single record to the array of selected records.
-   * @param record - The earthquake record to add.
+   * Adds a single record's ID to the Set of selected record IDs.
+   * @param record - The earthquake record to add. Its ID will be extracted.
    */
   addSelectedRecord: (record: T) => void;
 
   /**
-   * Removes a single record from the array of selected records based on a unique identifier.
-   * You might need to adjust the identifier based on your record structure.
+   * Removes a single record's ID from the Set of selected record IDs based on its ID.
    * @param id - The unique identifier of the record to remove.
    */
   removeSelectedRecord: (id: string | number) => void;
+
+  /**
+   * Checks if a record with the given ID is currently selected.
+   * @param id - The ID of the record to check.
+   * @returns True if the record is selected, false otherwise.
+   */
+  isRecordSelected: (id: string | number) => boolean;
 }
 
 /**
@@ -68,11 +74,11 @@ interface PlotTableStore<T = any> {
  * - Filters for fetching earthquake data.
  * - Sorting logic for data based on the selected X-axis key.
  * - Axis key selection for both X and Y axes.
- * - Tracking and updating the selected earthquake record for highlighting in the plot.
+ * - Tracking and updating the selected earthquake record IDs for highlighting in the plot.
  *
  * @returns The store's state and methods for interacting with the plot table.
  */
-export const usePlotTableStore = create<PlotTableStore>((set) => ({
+export const usePlotTableStore = create<PlotTableStore>((set, get) => ({
   /** Default filters for earthquake data (e.g., limit of 100 records). */
   filters: { limit: 100 },
 
@@ -91,21 +97,28 @@ export const usePlotTableStore = create<PlotTableStore>((set) => ({
   /** Function to set a custom key for the Y-axis. */
   setYAxisKey: (key) => set({ yAxisKey: key }),
 
-  /** Initially, no record is selected. */
-  selectedRecords: [],
+  /** Initially, no record ID is selected. */
+  selectedRecords: new Set<string | number | null>(),
 
-  /** Function to set the currently selected earthquake record to highlight in the plot. */
-  setSelectedRecords: (records) => set({ selectedRecords: records }),
+  /** Function to set the currently selected earthquake records. */
+  setSelectedRecords: (records) => set({ selectedRecords: new Set(records) }),
 
-  /** Function to add a single record to the selected records array. */
+  /** Function to add a single record to the selected records set. */
   addSelectedRecord: (record) =>
-    set((state) => ({ selectedRecords: [...state.selectedRecords, record] })),
+    set((state) => {
+      const newSelectedRecords = new Set(state.selectedRecords);
+      newSelectedRecords.add((record as any).id);
+      return { selectedRecords: newSelectedRecords };
+    }),
 
-  /** Function to remove a single record from the selected records array based on its ID. */
+  /** Function to remove a single record from the selected records set based on its ID. */
   removeSelectedRecord: (id) =>
-    set((state) => ({
-      selectedRecords: state.selectedRecords.filter(
-        (r: any) => (r as any).id !== id, // Assuming your records have an 'id' property
-      ),
-    })),
+    set((state) => {
+      const newSelectedRecords = new Set(state.selectedRecords);
+      newSelectedRecords.delete(id);
+      return { selectedRecords: newSelectedRecords };
+    }),
+
+  /** Function to check if a record ID is currently in the Set of selected record IDs. */
+  isRecordSelected: (id) => get().selectedRecords.has(id),
 }));

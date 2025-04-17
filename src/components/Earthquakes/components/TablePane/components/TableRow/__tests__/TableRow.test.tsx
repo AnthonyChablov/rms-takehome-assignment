@@ -26,14 +26,7 @@ describe('TableRow.tsx', () => {
   const mockColumns: (keyof MockRow)[] = ['name', 'age', 'city'];
   const mockIndex = 0;
   const mockHighlighted: MockRow | null = null;
-  const mockSelected: MockRow[] = [
-    {
-      id: 'row-1',
-      name: 'John Doe',
-      age: 30,
-      city: 'New York',
-    },
-  ];
+  const mockSelected: Set<string | number> = new Set(['row-1']);
   const mockHandleClick = vi.fn();
   const mockSetHighlighted = vi.fn();
 
@@ -46,7 +39,7 @@ describe('TableRow.tsx', () => {
             index={mockIndex}
             columns={mockColumns}
             highlighted={mockHighlighted}
-            selected={mockSelected}
+            selected={new Set()} // Initialize with an empty Set if not provided
             handleClick={mockHandleClick}
             setHighlighted={mockSetHighlighted}
             {...props}
@@ -88,11 +81,17 @@ describe('TableRow.tsx', () => {
   it('should apply selected classes when row is selected', () => {
     renderComponent({ selected: mockSelected });
     expect(screen.getByRole('row')).toHaveClass('bg-green-100');
+    expect(screen.getByRole('row')).toHaveClass('border-l-4');
+    expect(screen.getByRole('row')).toHaveClass('border-green-500');
+    expect(screen.getByRole('row')).toHaveClass('shadow-sm');
   });
 
   it('should not apply selected classes when row is not selected', () => {
-    renderComponent({ selected: [] });
+    renderComponent({ selected: new Set() });
     expect(screen.getByRole('row')).not.toHaveClass('bg-green-100');
+    expect(screen.getByRole('row')).not.toHaveClass('border-l-4');
+    expect(screen.getByRole('row')).not.toHaveClass('border-green-500');
+    expect(screen.getByRole('row')).not.toHaveClass('shadow-sm');
   });
 
   it('should call handleClick when the row is clicked', () => {
@@ -138,18 +137,20 @@ describe('TableRow.tsx', () => {
             index={mockIndex}
             columns={mockColumns}
             highlighted={mockHighlighted}
-            selected={mockSelected}
+            selected={new Set()}
             handleClick={mockHandleClick}
             setHighlighted={mockSetHighlighted}
+            data-testid={`table-row-${mockIndex}`}
           />
           <TableRow
             row={mockRow2}
             index={mockIndex + 1}
             columns={mockColumns}
             highlighted={mockHighlighted}
-            selected={mockSelected}
+            selected={new Set()}
             handleClick={mockHandleClick}
             setHighlighted={mockSetHighlighted}
+            data-testid={`table-row-${mockIndex + 1}`}
           />
         </tbody>
       </table>,

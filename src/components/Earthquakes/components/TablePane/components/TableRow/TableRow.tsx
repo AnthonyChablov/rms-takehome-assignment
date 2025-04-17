@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { cn } from '@/utils/utils';
-import { usePlotTableStore } from '@/store/plotTableStore';
 
 /**
  * TableRowProps interface defines the expected props for the TableRow component.
@@ -19,7 +18,7 @@ export interface TableRowProps<T extends Record<string, any>> {
   index: number;
   columns: string[];
   highlighted: T | null;
-  selected: T[];
+  selected: Set<string | number>;
   handleClick: (item: T) => void;
   setHighlighted?: (item: T | null) => void;
 }
@@ -75,7 +74,7 @@ const TableRow = <T extends Record<string, any>>({
    * @returns {boolean} True if the row is selected, false otherwise.
    */
   const isRowSelected = () => {
-    return selected?.some((selectedRow) => selectedRow?.id === row?.id);
+    return selected?.has(row?.id);
   };
 
   const handleMouseEnter = () => {

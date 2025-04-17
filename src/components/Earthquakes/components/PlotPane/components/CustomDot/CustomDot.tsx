@@ -16,7 +16,7 @@ interface CustomDotProps<T extends Record<string, any>> extends DotProps {
   payload?: T;
 
   // The points selected by the user (for special styles)
-  selectedPoints?: T[] | null;
+  selectedPoints?: Set<string | number>;
 
   // The point being hovered over (for highlighting)
   highlightedPoint?: T | null | undefined;
@@ -120,11 +120,8 @@ const CustomDot = <T extends Record<string, any>>({
   // Determine if the current dot is highlighted or selected
   const isHighlighted = highlightedPoint && payload === highlightedPoint;
   const isSelected = () => {
-    if (selectedPoints && selectedPoints.length > 0) {
-      return selectedPoints.some((item) => item === payload);
-    }
-    return false;
-  };
+    return selectedPoints?.has(payload?.id);
+  }; // Check if the current payload is in the selected points
 
   // Set default styling values
   let dotRadius = defaultRadius;
