@@ -104,10 +104,10 @@ export const usePlotTableStore = create<PlotTableStore>((set, get) => ({
   setSelectedRecords: (records) => set({ selectedRecords: new Set(records) }),
 
   /** Function to add a single record to the selected records set. */
-  addSelectedRecord: (record) =>
+  addSelectedRecord: (id) =>
     set((state) => {
       const newSelectedRecords = new Set(state.selectedRecords);
-      newSelectedRecords.add((record as any).id);
+      newSelectedRecords.add(id);
       return { selectedRecords: newSelectedRecords };
     }),
 

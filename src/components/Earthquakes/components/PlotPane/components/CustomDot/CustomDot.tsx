@@ -16,7 +16,7 @@ interface CustomDotProps<T extends Record<string, any>> extends DotProps {
   payload?: T;
 
   // The points selected by the user (for special styles)
-  selectedPoints?: Set<string | number>;
+  selectedPoints?: Set<string | number | null>;
 
   // The point being hovered over (for highlighting)
   highlightedPoint?: T | null | undefined;

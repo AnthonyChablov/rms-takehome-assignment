@@ -19,7 +19,7 @@ export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
   setYAxisKey: (key: string) => void; // Setter function to update the Y-axis key
   highlighted: T | null | undefined; // The currently highlighted earthquake record
   setHighlighted: Dispatch<SetStateAction<T | null>>; // Setter function to update the highlighted earthquake
-  selected: Set<string | number>; // The currently selected earthquake record
+  selected: Set<string | number | null>; // The currently selected earthquake record
   setSelected: (item: Set<string | number>) => void; // Setter function to update the selected earthquake
   title?: string; // Optional title for the visualization
   addSelected?: (item: T) => void; // Optional function to add a selected earthquake record

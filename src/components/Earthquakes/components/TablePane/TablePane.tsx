@@ -13,12 +13,12 @@ interface TablePaneProps<T extends Record<string, any>> {
   data: T[]; // The data to be displayed in the table. Each element represents a row in the table.
   highlighted?: T | null; // The currently highlighted row.
   setHighlighted?: (item: T | null) => void; // Function to update the highlighted row.
-  selected?: Set<string | number>; // The currently selected row.
-  setSelected?: (item: Set<string | number>) => void; // Function to update the selected row.
+  selected?: Set<string | number | null>; // The currently selected row.
+  setSelected?: (item: Set<string>) => void; // Function to update the selected row.
   addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
   removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
   isSelected?: (item: string | number) => boolean; // Optional function to check if an item is selected
-  title?: React.ReactNode; // The title of the table. Optional.
+  title?: string; // The title of the table. Optional.
   xAxisKey?: string | null; // The key used for sorting the data on the x-axis.
   setXAxisKey?: (key: string) => void; // Function to set the x-axis sorting key.
   yAxisKey?: string | null; // The key for sorting data on the y-axis (currently unused in this component).
@@ -66,7 +66,7 @@ function TablePane<T extends Record<string, any>>({
   const handleClick = (row: T | null) => {
     if (row && removeSelected && addSelected && selected && isSelected) {
       if (isSelected(row?.id)) {
-        removeSelected(row.id); // Assuming removeSelected now takes the item, not just the ID
+        removeSelected(row.id);
       } else {
         addSelected(row.id);
       }

@@ -18,7 +18,7 @@ export interface TableRowProps<T extends Record<string, any>> {
   index: number;
   columns: string[];
   highlighted: T | null;
-  selected: Set<string | number>;
+  selected: Set<string | number | null>;
   handleClick: (item: T) => void;
   setHighlighted?: (item: T | null) => void;
 }

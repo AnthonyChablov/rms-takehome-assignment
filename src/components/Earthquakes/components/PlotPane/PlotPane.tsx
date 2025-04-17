@@ -18,7 +18,7 @@ interface PlotPaneProps<T extends Record<string, any>> {
   data: T[];
   highlighted?: T | null;
   setHighlighted?: (item: T | null) => void;
-  selected?: Set<string | number>;
+  selected?: Set<string | number | null>;
   setSelected?: (item: Set<string | number>) => void;
   xAxisKey: string | null;
   setXAxisKey: (key: string) => void;
@@ -68,15 +68,14 @@ function PlotPane<T extends Record<string, any>>({
 
   const handleClick = (event: any) => {
     const payload = event?.payload;
-
     // Check if both setHighlighted and setSelected are defined
     if (payload && removeSelected && addSelected && selected && isSelected) {
       // If the clicked item is already selected, deselect it
-      if (isSelected(payload)) {
+      if (isSelected(payload.id)) {
         removeSelected(payload.id);
       } else {
         // Otherwise, select the clicked item
-        addSelected(payload);
+        addSelected(payload.id);
       }
     }
   };
