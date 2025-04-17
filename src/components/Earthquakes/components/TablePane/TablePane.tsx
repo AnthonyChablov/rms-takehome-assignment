@@ -62,15 +62,8 @@ function TablePane<T extends Record<string, any>>({
    * @param {T | null} row - The clicked row data.
    */
   const handleClick = (row: T | null) => {
-    if (
-      setHighlighted &&
-      setSelected &&
-      row &&
-      removeSelected &&
-      addSelected &&
-      selected
-    ) {
-      const isSelected = selected.some((item) => item?.id === row?.id);
+    if (row && removeSelected && addSelected && selected) {
+      const isSelected = selected?.some((item) => item?.id === row?.id);
 
       if (isSelected) {
         removeSelected(row.id); // Assuming removeSelected now takes the item, not just the ID
