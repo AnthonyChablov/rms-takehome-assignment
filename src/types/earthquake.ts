@@ -68,4 +68,10 @@ export interface EarthquakeRecord {
 
   /** Source network for magnitude data, or null */
   magSource: string | null;
+
+  /**
+   * Allows for additional properties with string keys and any value type.
+   * This makes the type extendable.
+   */
+  [key: string]: any;
 }

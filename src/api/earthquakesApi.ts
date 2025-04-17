@@ -35,9 +35,11 @@ export type GetEarthQuakesFilters = {
  * 7. An optional limit is applied to restrict the number of returned records.
  */
 export const getEarthquakes = async (
+  // Removed the generic <T> here
   filters?: GetEarthQuakesFilters,
   sortBy?: string | null,
 ): Promise<EarthquakeRecord[]> => {
+  // Explicitly return Promise<EarthquakeRecord[]>
   try {
     // 1. Get the correct URL for the earthquake data API
     const apiUrl = getEarthquakeApiUrl();
@@ -46,23 +48,24 @@ export const getEarthquakes = async (
     const csvData = await fetchData(apiUrl);
 
     // 3. Parse the CSV data string into rows
-    const parsedRows = await parseCSV(csvData);
+    const parsedRows = await parseCSV<Record<string, any>>(csvData); // parseCSV returns an array of generic objects
 
     // 4. Transform the parsed CSV rows into EarthquakeRecord objects
-    let earthquakes = transformCsvToEarthquakes(parsedRows);
+    let data = transformCsvToEarthquakes(parsedRows);
 
-    // 5. Filter out records that have invalid or missing critical keys (e.g., longitude, mag, )
-    earthquakes = filterData(earthquakes, 'longitude');
+    // 5. Filter out records that have invalid or missing critical keys (e.g., longitude)
+    // Assuming filterData works with EarthquakeRecord[]
+    data = filterData(data, 'longitude');
 
     // 6. Sort the earthquake data based on the provided sorting criteria
-    earthquakes = sortData(earthquakes, sortBy);
+    data = sortData(data, sortBy);
 
     // 7. Apply a limit to the number of records returned, if specified
-    earthquakes = applyLimit(earthquakes, filters?.limit);
+    data = applyLimit(data, filters?.limit);
 
-    return earthquakes;
+    return data;
   } catch (error) {
-    console.error('Error in getEarthquakes data processing pipeline:', error);
+    // console.error('Error in getEarthquakes data processing pipeline:', error);
     // Throw the error so React Query can handle it (e.g., update the error state)
     throw error;
   }

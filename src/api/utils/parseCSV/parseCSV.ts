@@ -1,19 +1,22 @@
 import Papa, { ParseResult } from 'papaparse';
-import { CSVRow } from '@/types/csvRow'; // Ensure this type definition is correct
 
 /**
  * Parses a CSV string into an array of objects using Papaparse.
+ * The type of the resulting objects is inferred from the CSV header row.
  * @param csvString - The raw CSV data string.
- * @returns A promise that resolves to an array of CSVRow objects.
+ * @returns A promise that resolves to an array of objects, where each object
+ * represents a row and its keys are the CSV headers.
  * @throws Throws an error if parsing fails.
  */
-export const parseCSV = (csvString: string): Promise<CSVRow[]> => {
+export const parseCSV = <T extends Record<string, any>>(
+  csvString: string,
+): Promise<T[]> => {
   return new Promise((resolve, reject) => {
-    Papa.parse<CSVRow>(csvString, {
+    Papa.parse<T>(csvString, {
       header: true, // Assumes the first row is the header
       dynamicTyping: true, // Automatically convert numbers, booleans
       skipEmptyLines: true, // Ignore empty lines
-      complete: (results: ParseResult<CSVRow>) => {
+      complete: (results: ParseResult<T>) => {
         if (results.errors.length > 0) {
           // Log all errors for debugging
           console.error('CSV Parsing Errors:', results.errors);
@@ -25,11 +28,10 @@ export const parseCSV = (csvString: string): Promise<CSVRow[]> => {
             (row) => Object.keys(row).length > 0,
           );
           resolve(validData);
-          console.log(validData);
         }
       },
       error: (error: Error) => {
-        console.error('CSV Parsing Error:', error);
+        // console.error('CSV Parsing Error:', error);
         reject(error);
       },
     });

@@ -67,4 +67,10 @@ export interface CSVRow {
 
   /** Source network for the magnitude data */
   magSource: string;
+
+  /**
+   * Allows for additional properties with string keys and any value type.
+   * This makes the type extendable.
+   */
+  [key: string]: any;
 }

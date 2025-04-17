@@ -13,15 +13,15 @@ import { EarthquakeRecord } from '@/types/earthquake';
  * This context holds the currently selected earthquake record (`highlightedEarthquake`)
  * and provides a setter function (`setHighlightedEarthquake`) to update the state.
  */
-interface HighlightedEarthquakeContextType {
+interface HighlightedEarthquakeContextType<T extends Record<string, any>> {
   /** The currently highlighted earthquake record, or `null` if no record is selected. */
-  highlightedEarthquake: EarthquakeRecord | null;
+  highlightedEarthquake: T | null;
 
   /**
    * Setter function to update the highlighted earthquake record.
    * @param earthquake - The new earthquake record to set as highlighted.
    */
-  setHighlightedEarthquake: Dispatch<SetStateAction<EarthquakeRecord | null>>;
+  setHighlightedEarthquake: Dispatch<SetStateAction<T | null>>;
 }
 
 /**
@@ -35,7 +35,7 @@ interface HighlightedEarthquakeProviderProps {
 
 // Create context with a default value of undefined (will be populated by the provider)
 const HighlightedEarthquakeContext = createContext<
-  HighlightedEarthquakeContextType | undefined
+  HighlightedEarthquakeContextType<any> | undefined
 >(undefined);
 
 /**
@@ -52,10 +52,12 @@ export const HighlightedEarthquakeProvider: React.FC<
 > = ({ children }) => {
   // State to track the currently highlighted earthquake
   const [highlightedEarthquake, setHighlightedEarthquake] =
-    useState<EarthquakeRecord | null>(null);
+    useState<HighlightedEarthquakeContextType<any>['highlightedEarthquake']>(
+      null,
+    );
 
   // Context value containing the state and setter function
-  const value: HighlightedEarthquakeContextType = {
+  const value: HighlightedEarthquakeContextType<any> = {
     highlightedEarthquake,
     setHighlightedEarthquake,
   };
@@ -77,7 +79,7 @@ export const HighlightedEarthquakeProvider: React.FC<
  * @throws Error if used outside of a `HighlightedEarthquakeProvider`.
  */
 export const useHighlightedEarthquakeContext =
-  (): HighlightedEarthquakeContextType => {
+  (): HighlightedEarthquakeContextType<any> => {
     const context = useContext(HighlightedEarthquakeContext);
     // Ensure the context is used within the provider
     if (!context) {
