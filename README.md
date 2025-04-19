@@ -160,21 +160,52 @@ export const useHighlightedEarthquakeContext = (): HighlightedEarthquakeContextT
 
 ### 🗃️ Zustand Store Implementation
 
-Zustand manages client-side state related to the plot and table, these features include a global store that is used to maintain state such as selected and filtered record state. In addition to this, the store is used to update the highlighted record when interacting with the table or plot :
+Zustand manages client-side state related to the plot and table, these features include a global store that is used to maintain state such as selected and filtered record state:
 
 ```typescript
-export const usePlotTableStore = create<PlotTableStore>((set) => ({
-  filters: { limit: 100 }, // Default filters
+export const usePlotTableStore = create<PlotTableStore>((set, get) => ({
+  /** Default filters for earthquake data (e.g., limit of 100 records). */
+  filters: { limit: 100 },
+
+  /** Function to update the current filters applied to the earthquake data. */
   setFilters: (filters) => set({ filters }),
 
+  /** Default key for the X-axis (latitude for plotting data on X-axis). */
   xAxisKey: 'latitude',
+
+  /** Function to set a custom key for the X-axis. */
   setXAxisKey: (key) => set({ xAxisKey: key }),
 
+  /** Default key for the Y-axis (longitude for plotting data on Y-axis). */
   yAxisKey: 'longitude',
+
+  /** Function to set a custom key for the Y-axis. */
   setYAxisKey: (key) => set({ yAxisKey: key }),
 
-  selectedRecord: null,
-  setSelectedRecord: (record) => set({ selectedRecord: record }),
+  /** Initially, no record ID is selected. */
+  selectedRecords: new Set<string | number | null>(),
+
+  /** Function to set the currently selected earthquake records. */
+  setSelectedRecords: (records) => set({ selectedRecords: new Set(records) }),
+
+  /** Function to add a single record to the selected records set. */
+  addSelectedRecord: (id) =>
+    set((state) => {
+      const newSelectedRecords = new Set(state.selectedRecords);
+      newSelectedRecords.add(id);
+      return { selectedRecords: newSelectedRecords };
+    }),
+
+  /** Function to remove a single record from the selected records set based on its ID. */
+  removeSelectedRecord: (id) =>
+    set((state) => {
+      const newSelectedRecords = new Set(state.selectedRecords);
+      newSelectedRecords.delete(id);
+      return { selectedRecords: newSelectedRecords };
+    }),
+
+  /** Function to check if a record ID is currently in the Set of selected record IDs. */
+  isRecordSelected: (id) => get().selectedRecords.has(id),
 }));
 ```
 
