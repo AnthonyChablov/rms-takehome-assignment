@@ -160,7 +160,13 @@ export const useHighlightedEarthquakeContext = (): HighlightedEarthquakeContextT
 
 ### 🗃️ Zustand Store Implementation
 
-Zustand manages client-side state related to the plot and table, these features include a global store that is used to maintain state such as selected and filtered record state:
+Zustand serves as the central hub for managing the client-side state that drives both the plot and the table components. This global store maintains crucial aspects of the user interface, including:
+
+- **Data Filtering:** The currently applied filters that determine which earthquake records are displayed (e.g., a limit on the number of records).
+- **Plot Axes Configuration:** The keys (data properties) selected for the X and Y axes of the plot, allowing users to visualize different data relationships.
+- **Record Selection:** A set of currently selected earthquake record IDs, enabling interactions like highlighting or detailed inspection of specific data points.
+
+Furthermore, the store provides efficient mechanisms for updating the selection state, allowing individual records to be easily added to or removed from the set of selected items. This ensures that changes in user interaction are immediately reflected across components that rely on this state.
 
 ```typescript
 export const usePlotTableStore = create<PlotTableStore>((set, get) => ({
@@ -345,6 +351,14 @@ Note: While CORS Anywhere is helpful for development, it's not recommended for p
    ```
 
 4. Open your web browser and navigate to:
+
+   ```
+   https://cors-anywhere.herokuapp.com/corsdemo
+   ```
+
+   and click on the "Request temporary access to the demo server" button
+
+5. Open your web browser and navigate to:
    ```
    http://localhost:5173
    ```
