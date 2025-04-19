@@ -415,6 +415,7 @@ All code was manually reviewed and modified to ensure it meets the requirements 
 ## 🔮 Future Improvements
 
 - Add more interactive features to the scatter plot (zoom, pan)
+- Consolidate State to a single state management solution (remove Context API for managing highlighted and solely use Zustand instead)
 - End-to-End (E2E) testing with Cypress
 - Increase unit-testing coverage for all components and utilities
 - Implement data filtering options
