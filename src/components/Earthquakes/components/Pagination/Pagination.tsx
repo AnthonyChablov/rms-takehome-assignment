@@ -33,21 +33,21 @@ function Pagination({
     <div
       data-testid="pagination"
       className={cn(
-        `flex space-x-4 justify-between items-center  bg-white border-gray-200 ${className}`,
+        `flex items-center justify-between py-3 px-4 bg-white border-t border-gray-200 ${className}`,
       )}
     >
-      <div className="flex flex-col mb-4 justify-start items-start space-x-4   ">
+      {/* Items Per Page Dropdown */}
+      <div className="flex items-center py-4">
         <label
           htmlFor="itemsPerPage"
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="text-sm font-medium text-gray-700 mr-2"
         >
           Items Per Page:
         </label>
-        <div className="relative hover:cursor-pointer">
+        <div className="relative">
           <select
             id="itemsPerPage"
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 
-            text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+            className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 text-sm"
             value={itemsPerPage}
             onChange={onItemsPerPageChange}
           >
@@ -58,7 +58,6 @@ function Pagination({
             ))}
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-            {/* Arrow icon for dropdown */}
             <svg
               className="fill-current h-4 w-4"
               xmlns="http://www.w3.org/2000/svg"
@@ -69,21 +68,23 @@ function Pagination({
           </div>
         </div>
       </div>
+
+      {/* Pagination Buttons and Info */}
       <div className="flex items-center space-x-4">
         <ActionButton
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-3 py-2 rounded-md text-md bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 disabled:opacity-50"
+          className="bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-sm py-2 px-3 text-sm font-medium disabled:opacity-50"
         >
           Previous
         </ActionButton>
-        <span className="text-md text-gray-600">
-          Page {currentPage} of {totalPages}
+        <span className="text-sm text-gray-600">
+          {`Page ${currentPage} of ${totalPages}`}
         </span>
         <ActionButton
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 rounded-md text-md font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50"
+          className="bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-sm py-2 px-3 text-sm font-medium disabled:opacity-50"
         >
           Next
         </ActionButton>

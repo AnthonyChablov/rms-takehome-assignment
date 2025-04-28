@@ -22,7 +22,7 @@ const ActionButton = ({
       className={cn(
         `
         hover:cursor-pointer bg-blue-400 hover:bg-blue-500 text-white 
-        font-semibold py-2 px-4 rounded-md shadow-md transition duration-200 ease-in-out 
+        font-semibold py-2 px-4 rounded-md shadow-sm transition duration-200 ease-in-out 
         focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50`,
         className,
       )}
