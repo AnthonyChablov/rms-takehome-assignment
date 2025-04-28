@@ -68,7 +68,8 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   itemsPerPage,
   setItemsPerPage,
 }: PlotTablePaneLayoutProps<T>) {
-  // --- Calculate Paginated Data ---
+  // --- Pagination State Management ---
+  // `currentPage` and `itemsPerPage` are used to manage the pagination of the data displayed in the table and plot.
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = useMemo(

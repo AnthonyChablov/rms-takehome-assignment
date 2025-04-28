@@ -19,6 +19,7 @@ import React from 'react';
 const Loading = () => {
   return (
     <>
+      <div className="bg-gray-200 h-4 rounded w-64 mb-2"></div>
       {/* Skeleton for PlotPane */}
       <div
         data-testid="loading-plot"
@@ -37,7 +38,6 @@ const Loading = () => {
         </div>
         <div className="bg-gray-200 rounded-md w-full flex-grow"></div>
       </div>
-
       {/* Skeleton for TablePane */}
       <div
         data-testid="loading-table"
