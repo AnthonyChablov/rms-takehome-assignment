@@ -92,10 +92,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   if (isLoading) {
     return (
       <div data-testid="earthquakes">
-        <Container
-          className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between"
-          dataTestId="earthquakes-loading"
-        >
+        <Container dataTestId="earthquakes-loading">
           <Loading />
         </Container>
       </div>
