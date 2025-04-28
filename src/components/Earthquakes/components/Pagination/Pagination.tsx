@@ -33,15 +33,15 @@ function Pagination({
     <div
       data-testid="pagination"
       className={cn(
-        `flex items-center justify-between py-4  bg-white border-b border-gray-200 ${className}`,
+        `flex space-x-4 justify-between items-center  bg-white border-gray-200 ${className}`,
       )}
     >
-      <div className="flex items-center space-x-4">
+      <div className="flex flex-col mb-4 justify-start items-start space-x-4   ">
         <label
           htmlFor="itemsPerPage"
-          className="text-sm font-bold text-gray-700"
+          className="block text-gray-700 text-sm font-bold mb-2"
         >
-          Items per page:
+          Items Per Page:
         </label>
         <div className="relative hover:cursor-pointer">
           <select

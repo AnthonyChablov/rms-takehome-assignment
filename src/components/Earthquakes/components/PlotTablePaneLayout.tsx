@@ -129,32 +129,32 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   return (
     <div data-testid="earthquakes">
       <Container className="px-4 space-y-6 " dataTestId="earthquakes-success">
-        <div className="">
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-            onItemsPerPageChange={handleItemsPerPageChange}
-            itemsPerPage={itemsPerPage}
-          />
-        </div>
-        <div className="flex flex-col lg:flex-row space-x-4 justify-between">
-          <PlotPane
-            data={paginatedData}
-            xAxisKey={xAxisKey}
-            setXAxisKey={setXAxisKey}
-            yAxisKey={yAxisKey}
-            setYAxisKey={setYAxisKey}
-            highlighted={highlighted}
-            setHighlighted={setHighlighted}
-            selected={selected}
-            setSelected={setSelected}
-            removeSelected={removeSelected}
-            addSelected={addSelected}
-            isSelected={isSelected}
-          />
+        <div className="flex  flex-col lg:flex-row space-x-4 justify-between">
+          <div className="w-full">
+            <PlotPane
+              data={paginatedData}
+              xAxisKey={xAxisKey}
+              setXAxisKey={setXAxisKey}
+              yAxisKey={yAxisKey}
+              setYAxisKey={setYAxisKey}
+              highlighted={highlighted}
+              setHighlighted={setHighlighted}
+              selected={selected}
+              setSelected={setSelected}
+              removeSelected={removeSelected}
+              addSelected={addSelected}
+              isSelected={isSelected}
+            />
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+              onItemsPerPageChange={handleItemsPerPageChange}
+              itemsPerPage={itemsPerPage}
+            />
+          </div>
           <TablePane
-            title={title} // Pass title for the table pane
+            title={title}
             xAxisKey={xAxisKey}
             setXAxisKey={setXAxisKey}
             yAxisKey={yAxisKey}

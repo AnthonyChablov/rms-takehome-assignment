@@ -22,22 +22,6 @@ import React from 'react';
 const Loading = () => {
   return (
     <>
-      {/* Skeleton for Pagination */}
-      <div className="animate-pulse flex items-center justify-between py-5 bg-white border-b border-gray-200">
-        <div className="flex items-center space-x-4">
-          <div className="bg-gray-200 h-8 rounded w-32"></div>
-          {/* Items per page select */}
-        </div>
-        <div className="flex items-center space-x-4">
-          <div className="bg-gray-200 h-8 rounded w-20"></div>
-          {/* Previous button */}
-          <div className="bg-gray-200 h-6 rounded w-20"></div>
-          {/* Page number display */}
-          <div className="bg-gray-200 h-8 rounded w-20"></div>
-          {/* Next button */}
-        </div>
-      </div>
-
       {/* Skeleton for PlotPane and TablePane */}
       <div className="py-6 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between">
         {/* Skeleton for PlotPane */}

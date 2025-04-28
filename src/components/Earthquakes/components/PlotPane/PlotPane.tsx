@@ -27,6 +27,7 @@ interface PlotPaneProps<T extends Record<string, any>> {
   addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
   removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
   isSelected?: (item: string | number) => boolean; // Optional function to check if an item is selected
+  axisSelectorAddon?: React.ReactNode; // optional prop for axis selector addon
 }
 
 function PlotPane<T extends Record<string, any>>({
@@ -42,6 +43,7 @@ function PlotPane<T extends Record<string, any>>({
   addSelected,
   removeSelected,
   isSelected,
+  axisSelectorAddon = null,
 }: PlotPaneProps<T | any>) {
   // Use custom hook to manage the axis and numeric keys state
   const { numericKeys } = usePlotPaneData(data);
@@ -82,18 +84,23 @@ function PlotPane<T extends Record<string, any>>({
 
   return (
     <div
-      className="bg-white rounded-lg  py-6 w-full lg:w-7/12 "
+      className="bg-white rounded-lg  py-6 min-w-full lg:w-7/12 "
       data-testid="plot-pane"
     >
-      {/* Menu Select */}
-      <AxisSelector
-        xAxisKey={xAxisKey}
-        yAxisKey={yAxisKey}
-        numericKeys={numericKeys}
-        handleXAxisChange={handleXAxisChange}
-        handleYAxisChange={handleYAxisChange}
-      />
-
+      <div className="flex items-center justify-between">
+        {/* Container for AxisSelector and the addon */}
+        {/* Menu Select */}
+        <AxisSelector
+          xAxisKey={xAxisKey}
+          yAxisKey={yAxisKey}
+          numericKeys={numericKeys}
+          handleXAxisChange={handleXAxisChange}
+          handleYAxisChange={handleYAxisChange}
+        />
+        {axisSelectorAddon && (
+          <div className="ml-4 w-full">{axisSelectorAddon}</div>
+        )}
+      </div>
       {/* Scatter Plot */}
       {data.length > 0 && xAxisKey && yAxisKey && (
         <ResponsiveContainer width="100%" height={500}>
