@@ -130,47 +130,47 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   // If data is successfully loaded, render the PlotPane and TablePane components with the provided data, axes keys, and state management functions.
   return (
     <div data-testid="earthquakes">
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalPages={totalPages}
-        onItemsPerPageChange={handleItemsPerPageChange}
-        itemsPerPage={itemsPerPage}
-      />
-      <Container
-        className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between"
-        dataTestId="earthquakes-success"
-      >
-        <PlotPane
-          data={paginatedData}
-          xAxisKey={xAxisKey}
-          setXAxisKey={setXAxisKey}
-          yAxisKey={yAxisKey}
-          setYAxisKey={setYAxisKey}
-          highlighted={highlighted}
-          setHighlighted={setHighlighted}
-          selected={selected}
-          setSelected={setSelected}
-          removeSelected={removeSelected}
-          addSelected={addSelected}
-          isSelected={isSelected}
-        />
-
-        <TablePane
-          title={title} // Pass title for the table pane
-          xAxisKey={xAxisKey}
-          setXAxisKey={setXAxisKey}
-          yAxisKey={yAxisKey}
-          setYAxisKey={setYAxisKey}
-          data={paginatedData}
-          highlighted={highlighted}
-          setHighlighted={setHighlighted}
-          selected={selected}
-          setSelected={setSelected}
-          removeSelected={removeSelected}
-          addSelected={addSelected}
-          isSelected={isSelected}
-        />
+      <Container className="px-4 space-y-6 " dataTestId="earthquakes-success">
+        <div className="">
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+            onItemsPerPageChange={handleItemsPerPageChange}
+            itemsPerPage={itemsPerPage}
+          />
+        </div>
+        <div className="flex flex-col lg:flex-row space-x-4 justify-between">
+          <PlotPane
+            data={paginatedData}
+            xAxisKey={xAxisKey}
+            setXAxisKey={setXAxisKey}
+            yAxisKey={yAxisKey}
+            setYAxisKey={setYAxisKey}
+            highlighted={highlighted}
+            setHighlighted={setHighlighted}
+            selected={selected}
+            setSelected={setSelected}
+            removeSelected={removeSelected}
+            addSelected={addSelected}
+            isSelected={isSelected}
+          />
+          <TablePane
+            title={title} // Pass title for the table pane
+            xAxisKey={xAxisKey}
+            setXAxisKey={setXAxisKey}
+            yAxisKey={yAxisKey}
+            setYAxisKey={setYAxisKey}
+            data={paginatedData}
+            highlighted={highlighted}
+            setHighlighted={setHighlighted}
+            selected={selected}
+            setSelected={setSelected}
+            removeSelected={removeSelected}
+            addSelected={addSelected}
+            isSelected={isSelected}
+          />
+        </div>
       </Container>
     </div>
   );

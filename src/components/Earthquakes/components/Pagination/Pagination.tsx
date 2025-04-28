@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
+import ActionButton from '../TablePane/components/Button/ActionButton';
 
 interface PaginationProps {
   currentPage: number;
@@ -9,7 +10,6 @@ interface PaginationProps {
   pageSizeOptions?: number[];
 }
 
-// Define the default page size options as a constant
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 25, 50, 75, 100];
 
 function Pagination({
@@ -27,9 +27,9 @@ function Pagination({
     setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1));
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex space-x-4">
-        <label htmlFor="itemsPerPage" className="text-sm text-gray-600">
+    <div className="flex items-center justify-between py-4  bg-white border-b border-gray-200">
+      <div className="flex items-center space-x-4">
+        <label htmlFor="itemsPerPage" className="text-lg text-gray-600">
           Items per page:
         </label>
         <select
@@ -46,23 +46,23 @@ function Pagination({
         </select>
       </div>
       <div className="flex items-center space-x-2">
-        <button
+        <ActionButton
           onClick={handlePrevPage}
           disabled={currentPage === 1}
           className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
         >
           Previous
-        </button>
+        </ActionButton>
         <span className="text-sm text-gray-600">
           Page {currentPage} of {totalPages}
         </span>
-        <button
+        <ActionButton
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
           className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
         >
           Next
-        </button>
+        </ActionButton>
       </div>
     </div>
   );

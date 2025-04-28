@@ -6,6 +6,7 @@ interface ActionButtonProps {
   className?: string; // Make className optional
   children?: React.ReactNode; // Add children prop
   title?: string; // Add title prop
+  disabled?: boolean; // Add disabled prop
 }
 
 const ActionButton = ({
@@ -13,9 +14,11 @@ const ActionButton = ({
   className,
   children,
   title = '',
+  disabled = false, // Default to false if not provided
 }: ActionButtonProps) => {
   return (
     <button
+      disabled={disabled} // Apply disabled state to the button
       className={cn(
         `
         hover:cursor-pointer bg-blue-400 hover:bg-blue-500 text-white 
