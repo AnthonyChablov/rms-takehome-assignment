@@ -4,6 +4,7 @@ import TablePane from './TablePane/TablePane';
 import Loading from '@/components/Loading/Loading';
 import Error from '@/components/Error/Error';
 import Container from '@/components/Layout/Container';
+import Pagination from './Pagination/Pagination';
 
 /**
  * Props for the `PlotTablePaneLayout` component.
@@ -111,8 +112,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   }
 
   // --- Error State ---
-  // If an error occurred during data fetching, display an error message and fallback content.
-  // In this case, an empty plot and table are displayed as placeholders.
+  // If an error occurred during data fetching, display an error message and fallback content. In this case, an empty plot and table are displayed as placeholders.
   if (isError) {
     return (
       <div data-testid="earthquakes">
@@ -137,48 +137,16 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   }
 
   // --- Success State ---
-  // If data is successfully loaded, render the PlotPane and TablePane components
-  // with the provided data, axes keys, and state management functions.
+  // If data is successfully loaded, render the PlotPane and TablePane components with the provided data, axes keys, and state management functions.
   return (
     <div data-testid="earthquakes">
-      <div className="flex flex-col space-y-4">
-        <div className="flex items-center justify-end space-x-4">
-          <label htmlFor="itemsPerPage" className="text-sm text-gray-600">
-            Items per page:
-          </label>
-          <select
-            id="itemsPerPage"
-            className="border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-          >
-            {[10, 25, 50, 75, 100].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div className="flex justify-end items-center space-x-2">
-        <button
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span className="text-sm text-gray-600">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={Math.ceil(data.length / itemsPerPage)}
+        onItemsPerPageChange={handleItemsPerPageChange}
+        itemsPerPage={itemsPerPage}
+      />
       <Container
         className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between"
         dataTestId="earthquakes-success"
