@@ -9,16 +9,20 @@ interface PaginationProps {
   pageSizeOptions?: number[];
 }
 
+// Define the default page size options as a constant
+const DEFAULT_PAGE_SIZE_OPTIONS = [10, 25, 50, 75, 100];
+
 function Pagination({
   currentPage,
   totalPages,
   setCurrentPage,
   onItemsPerPageChange,
   itemsPerPage,
-  pageSizeOptions = [10, 25, 50, 75, 100],
+  pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
 }: PaginationProps) {
   const handlePrevPage = () =>
     setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
+
   const handleNextPage = () =>
     setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1));
 

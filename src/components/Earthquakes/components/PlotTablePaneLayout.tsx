@@ -11,23 +11,23 @@ import Pagination from './Pagination/Pagination';
  * T represents the data type for the earthquake records (generic for flexibility).
  */
 export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
-  isLoading: boolean; // Indicates whether data is being loaded
-  isError: boolean; // Indicates whether an error occurred while fetching data
-  data: T[]; // The data to display, typically a list of earthquake records
-  xAxisKey: string | null; // Key for the X-axis (e.g., date, magnitude)
-  setXAxisKey: (key: string) => void; // Setter function to update the X-axis key
-  yAxisKey: string | null; // Key for the Y-axis (e.g., depth, distance)
-  setYAxisKey: (key: string) => void; // Setter function to update the Y-axis key
-  highlighted: T | null | undefined; // The currently highlighted earthquake record
-  setHighlighted: Dispatch<SetStateAction<T | null>>; // Setter function to update the highlighted earthquake
-  selected: Set<string | number | null>; // The currently selected earthquake record
-  setSelected: (item: Set<string | number>) => void; // Setter function to update the selected earthquake
-  title?: string; // Optional title for the visualization
-  addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
-  removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
-  isSelected?: (item: string | number) => boolean; // Optional function to check if an item is selected
+  isLoading: boolean;
+  isError: boolean;
+  data: T[];
+  xAxisKey: string | null;
+  setXAxisKey: (key: string) => void;
+  yAxisKey: string | null;
+  setYAxisKey: (key: string) => void;
+  highlighted: T | null | undefined;
+  setHighlighted: Dispatch<SetStateAction<T | null>>;
+  selected: Set<string | number | null>;
+  setSelected: (item: Set<string | number>) => void;
+  title?: string;
+  addSelected?: (item: T) => void;
+  removeSelected?: (id: string | number) => void;
+  isSelected?: (item: string | number) => boolean;
 
-  // --- Pagination Props ---
+  /* Pagination Props */
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   itemsPerPage: number;
@@ -61,7 +61,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   addSelected,
   removeSelected,
   isSelected,
-  title = 'USGS Most Recent Earthquakes (Top 100)', // Default title if not provided
+  title = 'USGS Most Recent Earthquakes (Top 100)', // Default title for the table pane
   /* Pagination Props */
   currentPage,
   setCurrentPage,
@@ -75,16 +75,6 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
     () => data.slice(startIndex, endIndex),
     [data, currentPage, itemsPerPage],
   );
-
-  // --- Handle Page Changes ---
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
-  };
-
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   // --- Handle Items Per Page Change ---
@@ -143,7 +133,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
       <Pagination
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        totalPages={Math.ceil(data.length / itemsPerPage)}
+        totalPages={totalPages}
         onItemsPerPageChange={handleItemsPerPageChange}
         itemsPerPage={itemsPerPage}
       />
