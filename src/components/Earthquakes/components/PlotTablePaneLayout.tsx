@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 import PlotPane from './PlotPane/PlotPane';
 import TablePane from './TablePane/TablePane';
 import Loading from '@/components/Loading/Loading';
@@ -25,6 +25,12 @@ export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
   addSelected?: (item: T) => void; // Optional function to add a selected earthquake record
   removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
   isSelected?: (item: string | number) => boolean; // Optional function to check if an item is selected
+
+  // --- Pagination Props ---
+  currentPage: number;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  itemsPerPage: number;
+  setItemsPerPage: Dispatch<SetStateAction<number>>;
 }
 
 /**
@@ -55,7 +61,40 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   removeSelected,
   isSelected,
   title = 'USGS Most Recent Earthquakes (Top 100)', // Default title if not provided
+  /* Pagination Props */
+  currentPage,
+  setCurrentPage,
+  itemsPerPage,
+  setItemsPerPage,
 }: PlotTablePaneLayoutProps<T>) {
+  // --- Calculate Paginated Data ---
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = useMemo(
+    () => data.slice(startIndex, endIndex),
+    [data, currentPage, itemsPerPage],
+  );
+
+  // --- Handle Page Changes ---
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
+  };
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  // --- Handle Items Per Page Change ---
+  const handleItemsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const newItemsPerPage = parseInt(event.target.value, 10);
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to the first page when items per page changes
+  };
+
   // --- Loading State ---
   // If the data is still loading, display a loading skeleton inside a container.
   if (isLoading) {
@@ -102,12 +141,50 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   // with the provided data, axes keys, and state management functions.
   return (
     <div data-testid="earthquakes">
+      <div className="flex flex-col space-y-4">
+        <div className="flex items-center justify-end space-x-4">
+          <label htmlFor="itemsPerPage" className="text-sm text-gray-600">
+            Items per page:
+          </label>
+          <select
+            id="itemsPerPage"
+            className="border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+          >
+            {[10, 25, 50, 75, 100].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="flex justify-end items-center space-x-2">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span className="text-sm text-gray-600">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
       <Container
         className="px-4 space-y-6 flex flex-col lg:flex-row space-x-4 justify-between"
         dataTestId="earthquakes-success"
       >
         <PlotPane
-          data={data}
+          data={paginatedData}
           xAxisKey={xAxisKey}
           setXAxisKey={setXAxisKey}
           yAxisKey={yAxisKey}
@@ -120,13 +197,14 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
           addSelected={addSelected}
           isSelected={isSelected}
         />
+
         <TablePane
           title={title} // Pass title for the table pane
           xAxisKey={xAxisKey}
           setXAxisKey={setXAxisKey}
           yAxisKey={yAxisKey}
           setYAxisKey={setYAxisKey}
-          data={data}
+          data={paginatedData}
           highlighted={highlighted}
           setHighlighted={setHighlighted}
           selected={selected}
