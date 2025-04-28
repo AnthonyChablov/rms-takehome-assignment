@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import ActionButton from '../TablePane/components/Button/ActionButton';
+import { cn } from '@/utils/utils';
 
 interface PaginationProps {
   currentPage: number;
@@ -8,6 +9,7 @@ interface PaginationProps {
   onItemsPerPageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   itemsPerPage: number;
   pageSizeOptions?: number[];
+  className?: string;
 }
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 25, 50, 75, 100];
@@ -19,6 +21,7 @@ function Pagination({
   onItemsPerPageChange,
   itemsPerPage,
   pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
+  className = '',
 }: PaginationProps) {
   const handlePrevPage = () =>
     setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
@@ -27,9 +30,17 @@ function Pagination({
     setCurrentPage((prevPage) => Math.min(totalPages, prevPage + 1));
 
   return (
-    <div className="flex items-center justify-between py-4  bg-white border-b border-gray-200">
+    <div
+      data-testid="pagination"
+      className={cn(
+        `flex items-center justify-between py-4  bg-white border-b border-gray-200 ${className}`,
+      )}
+    >
       <div className="flex items-center space-x-4">
-        <label htmlFor="itemsPerPage" className="text-lg text-gray-600">
+        <label
+          htmlFor="itemsPerPage"
+          className="text-lg font-medium text-gray-800"
+        >
           Items per page:
         </label>
         <select
@@ -45,11 +56,11 @@ function Pagination({
           ))}
         </select>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-4">
         <ActionButton
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+          className="px-3 py-2 rounded-md text-sm bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 disabled:opacity-50"
         >
           Previous
         </ActionButton>
@@ -59,7 +70,7 @@ function Pagination({
         <ActionButton
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50"
         >
           Next
         </ActionButton>
