@@ -29,7 +29,7 @@ describe('ActionButton.tsx', () => {
 
   it('should be disabled when the disabled prop is true', () => {
     // Arrange
-    const handleClick = vi.fn(); // Mock function to track calls
+    const handleClick = vi.fn();
 
     // Act
     render(<ActionButton onClick={handleClick} disabled={true} />);
