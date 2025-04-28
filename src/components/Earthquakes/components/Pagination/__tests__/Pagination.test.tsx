@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import Pagination from '../Pagination';
 
-describe('AxisSelector.tsx', () => {
+describe('Pagination.tsx', () => {
   it('should render in the DOM', () => {
     // Arrange
     const mockProps = {

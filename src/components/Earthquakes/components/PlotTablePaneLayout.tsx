@@ -5,6 +5,8 @@ import Loading from '@/components/Loading/Loading';
 import Error from '@/components/Error/Error';
 import Container from '@/components/Layout/Container';
 import Pagination from './Pagination/Pagination';
+import { usePagination } from './hooks/usePagination/usePagination';
+import { useDataFiltering } from './hooks/useDataFiltering/useDataFiltering';
 
 /**
  * Props for the `PlotTablePaneLayout` component.
@@ -68,24 +70,31 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   itemsPerPage,
   setItemsPerPage,
 }: PlotTablePaneLayoutProps<T>) {
-  // --- Pagination State Management ---
-  // `currentPage` and `itemsPerPage` are used to manage the pagination of the data displayed in the table and plot.
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedData = useMemo(
-    () => data.slice(startIndex, endIndex),
-    [data, currentPage, itemsPerPage],
-  );
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  // --- Handle Items Per Page Change ---
+  // --- Pagination ---
+  const {
+    paginatedData,
+    totalPages,
+    handleItemsPerPageChange: baseHandleItemsPerPageChange,
+  } = usePagination({
+    data,
+    currentPage,
+    itemsPerPage,
+  });
+  // Handle items per page change and reset current page to 1
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
-    const newItemsPerPage = parseInt(event.target.value, 10);
-    setItemsPerPage(newItemsPerPage);
-    setCurrentPage(1); // Reset to the first page when items per page changes
+    baseHandleItemsPerPageChange(event, setItemsPerPage, setCurrentPage);
   };
+
+  // --- Data Filtering for Plot ---
+  const { filteredData: plotData, filteredOutCount } = useDataFiltering({
+    data: paginatedData,
+    xAxisKey,
+    yAxisKey,
+    isLoading,
+    isError,
+  });
 
   // --- Loading State ---
   // If the data is still loading, display a loading skeleton inside a container.
@@ -100,7 +109,8 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   }
 
   // --- Error State ---
-  // If an error occurred during data fetching, display an error message and fallback content. In this case, an empty plot and table are displayed as placeholders.
+  // If an error occurred during data fetching, display an error message and fallback content.
+  // In this case, an empty plot and table are displayed as placeholders.
   if (isError) {
     return (
       <div data-testid="earthquakes">
@@ -125,14 +135,14 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   }
 
   // --- Success State ---
-  // If data is successfully loaded, render the PlotPane and TablePane components with the provided data, axes keys, and state management functions.
+  // If data is successfully loaded
   return (
     <div data-testid="earthquakes">
       <Container className="px-4 space-y-6 " dataTestId="earthquakes-success">
         <div className="flex  flex-col lg:flex-row space-x-4 justify-between">
           <div className="w-full">
             <PlotPane
-              data={paginatedData}
+              data={plotData}
               xAxisKey={xAxisKey}
               setXAxisKey={setXAxisKey}
               yAxisKey={yAxisKey}
