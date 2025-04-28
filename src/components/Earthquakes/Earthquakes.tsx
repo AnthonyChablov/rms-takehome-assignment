@@ -63,26 +63,20 @@ const Earthquakes = () => {
   // Return the layout that integrates all components, passing down the relevant props.
   return (
     <PlotTableLayout
-      // Pass loading and error states from the data fetching query.
       isLoading={earthquakesQuery.isPending}
       isError={earthquakesQuery.isError}
-      // Pass the fetched data, defaulting to an empty array if no data is available.
       data={earthquakesData}
-      // Pass X/Y axis keys and setter functions to allow updating the plot axes.
       xAxisKey={xAxisKey}
       setXAxisKey={setXAxisKey}
       yAxisKey={yAxisKey}
       setYAxisKey={setYAxisKey}
-      // Pass the highlighted earthquake record and its setter function to synchronize the state.
       highlighted={highlightedEarthquake}
       setHighlighted={setHighlightedEarthquake}
-      // Pass the selected earthquake record and its setter function.
       selected={selectedRecords}
       setSelected={setSelectedRecords}
       addSelected={addSelectedRecord}
       removeSelected={removeSelectedRecord}
       isSelected={isRecordSelected}
-      // Set the title for the layout.
       title="USGS Most Recent Earthquakes"
       // Pagination Props
       currentPage={currentPage}
