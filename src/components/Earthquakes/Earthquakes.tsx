@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
 import { usePlotTableStore } from '@/store/plotTableStore';
 import PlotTableLayout from './components/PlotTablePaneLayout';
+
+/**
+ * Configuration object for pagination default values.
+ */
+const DEFAULT_PAGINATION_CONFIG = {
+  INITIAL_CURRENT_PAGE: 1,
+  INITIAL_ITEMS_PER_PAGE: 75,
+};
 
 /**
  * `Earthquakes` component fetches and displays recent earthquake data from the USGS API.
@@ -20,16 +28,11 @@ import PlotTableLayout from './components/PlotTablePaneLayout';
 const Earthquakes = () => {
   // --- Context API ---
   // Access the highlighted earthquake state and setter function from the context.
-  // This allows the user to highlight and select a specific earthquake record,
-  // which is shared between the PlotPane and TablePane components.
   const { highlightedEarthquake, setHighlightedEarthquake } =
     useHighlightedEarthquakeContext();
 
   // --- Zustand Store ---
   // Access the global state for managing the plot table.
-  // - `selectedRecord`: The currently selected earthquake record.
-  // - `xAxisKey`, `yAxisKey`: Keys representing the X and Y axes of the plot.
-  // - `setSelectedRecord`, `setXAxisKey`, `setYAxisKey`: Functions to update these values.
   const {
     selectedRecords,
     setSelectedRecords,
@@ -40,14 +43,21 @@ const Earthquakes = () => {
     setXAxisKey,
     yAxisKey,
     setYAxisKey,
-    filters, // The filters used for fetching data from the API.
+    filters,
   } = usePlotTableStore();
 
+  // --- Pagination State ---
+  const [currentPage, setCurrentPage] = useState(
+    DEFAULT_PAGINATION_CONFIG.INITIAL_CURRENT_PAGE,
+  );
+  const [itemsPerPage, setItemsPerPage] = useState(
+    DEFAULT_PAGINATION_CONFIG.INITIAL_ITEMS_PER_PAGE,
+  );
+
   // --- Data Fetching ---
-  // Use the `useEarthquakesQuery` hook to fetch earthquake data based on the provided filters and X axis key.
-  // The query handles caching and background updates automatically.
-  // Data is fetched from the USGS earthquake feed and parsed into a structured format.
-  const earthquakesQuery = useEarthquakesQuery(filters, xAxisKey);
+  // Fetch earthquake data using the `useEarthquakesQuery` hook.
+  const updatedFilters = filters ? { ...filters, limit: undefined } : undefined;
+  const earthquakesQuery = useEarthquakesQuery(updatedFilters, xAxisKey);
   const earthquakesData = earthquakesQuery.data || [];
 
   // Return the layout that integrates all components, passing down the relevant props.
@@ -74,6 +84,11 @@ const Earthquakes = () => {
       isSelected={isRecordSelected}
       // Set the title for the layout.
       title="USGS Most Recent Earthquakes"
+      // Pagination Props
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
+      itemsPerPage={itemsPerPage}
+      setItemsPerPage={setItemsPerPage}
     />
   );
 };

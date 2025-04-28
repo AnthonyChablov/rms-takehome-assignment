@@ -27,6 +27,20 @@ describe('ActionButton.tsx', () => {
     expect(buttonElement).toHaveTextContent(titleText);
   });
 
+  it('should be disabled when the disabled prop is true', () => {
+    // Arrange
+    const handleClick = vi.fn();
+
+    // Act
+    render(<ActionButton onClick={handleClick} disabled={true} />);
+    const buttonElement = screen.getByRole('button');
+
+    // Assert
+    expect(buttonElement).toBeDisabled();
+    fireEvent.click(buttonElement); // Simulate a click event
+    expect(handleClick).not.toHaveBeenCalled(); // Ensure the click handler is not called
+  });
+
   it('should apply the provided className', () => {
     // Arrange
     const customClassName = 'custom-button-class';
