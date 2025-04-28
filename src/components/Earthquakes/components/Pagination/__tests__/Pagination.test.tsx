@@ -35,7 +35,7 @@ describe('AxisSelector.tsx', () => {
     render(<Pagination {...mockProps} />);
 
     // Assert
-    const itemsPerPageSelect = screen.getByLabelText('Items per page:');
+    const itemsPerPageSelect = screen.getByLabelText('Items Per Page:');
     expect(itemsPerPageSelect).toHaveValue('10');
   });
 
@@ -51,7 +51,7 @@ describe('AxisSelector.tsx', () => {
 
     // Act
     render(<Pagination {...mockProps} />);
-    const itemsPerPageSelect = screen.getByLabelText('Items per page:');
+    const itemsPerPageSelect = screen.getByLabelText('Items Per Page:');
     fireEvent.change(itemsPerPageSelect, { target: { value: '25' } });
 
     // Assert
