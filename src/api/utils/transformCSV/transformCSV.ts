@@ -29,6 +29,7 @@ export const transformCsvToEarthquakes = <T extends Record<string, any>>(
     // properties from the current 'row' that are not part of the standard
     // 'EarthquakeRecord' structure (i.e., dynamically added columns).
     const extra: Record<string, any> = {};
+    let hasExtra = false;
 
     // Iterate over all the keys in the current 'row' object.
     for (const key in row) {
@@ -42,14 +43,12 @@ export const transformCsvToEarthquakes = <T extends Record<string, any>>(
           // If the 'key' is not in 'earthquakeRecord', add it to the 'extra' object,
           // preserving its original value from the 'row'.
           extra[key] = row[key];
+          hasExtra = true;
         }
       }
     }
 
-    // Return a new object that combines the standard 'earthquakeRecord' with the
-    // 'extra' object. The spread syntax ('...') is used to merge the properties
-    // of both objects into a single new object. This allows the 'EarthquakeRecord'
-    // to contain both the predefined fields and any dynamic, extra fields from the CSV.
-    return { ...earthquakeRecord, extra };
+    // Conditionally add the 'extra' property only if there are extra fields
+    return hasExtra ? { ...earthquakeRecord, extra } : earthquakeRecord;
   });
 };
