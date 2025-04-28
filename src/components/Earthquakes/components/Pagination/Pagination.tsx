@@ -47,7 +47,7 @@ function Pagination({
         <div className="relative">
           <select
             id="itemsPerPage"
-            className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 text-sm"
+            className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-3 pr-6 rounded leading-tight focus:outline-none focus:border-blue-500 text-sm"
             value={itemsPerPage}
             onChange={onItemsPerPageChange}
           >
@@ -57,7 +57,7 @@ function Pagination({
               </option>
             ))}
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center  px-2 text-gray-700">
             <svg
               className="fill-current h-4 w-4"
               xmlns="http://www.w3.org/2000/svg"
