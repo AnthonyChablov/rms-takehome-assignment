@@ -23,14 +23,18 @@ const Loading = () => {
   return (
     <>
       {/* Skeleton for Pagination */}
-      <div className="animate-pulse flex items-center justify-between py-4 bg-white border-b border-gray-200">
+      <div className="animate-pulse flex items-center justify-between py-5 bg-white border-b border-gray-200">
         <div className="flex items-center space-x-4">
           <div className="bg-gray-200 h-8 rounded w-32"></div>
+          {/* Items per page select */}
         </div>
         <div className="flex items-center space-x-4">
-          <div className="bg-gray-200 h-8 rounded w-16"></div>
+          <div className="bg-gray-200 h-8 rounded w-20"></div>
+          {/* Previous button */}
           <div className="bg-gray-200 h-6 rounded w-20"></div>
-          <div className="bg-gray-200 h-8 rounded w-16"></div>
+          {/* Page number display */}
+          <div className="bg-gray-200 h-8 rounded w-20"></div>
+          {/* Next button */}
         </div>
       </div>
 
@@ -42,7 +46,7 @@ const Loading = () => {
           className="animate-pulse bg-white rounded-lg  w-full lg:w-7/12 flex flex-col"
         >
           {/* Menu skeletons */}
-          <div className="mb-4 flex items-center space-x-4 p-4">
+          <div className="mb-4 flex items-center space-x-4 py-4 px-0">
             <div>
               <div className="bg-gray-200 h-4 rounded w-12 mb-2"></div>
               <div className="bg-gray-200 h-10 rounded w-34"></div>

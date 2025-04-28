@@ -39,7 +39,7 @@ function Pagination({
       <div className="flex items-center space-x-4">
         <label
           htmlFor="itemsPerPage"
-          className="text-lg font-medium text-gray-800"
+          className="text-md font-medium text-gray-800"
         >
           Items per page:
         </label>
@@ -60,17 +60,17 @@ function Pagination({
         <ActionButton
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-3 py-2 rounded-md text-sm bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 disabled:opacity-50"
+          className="px-3 py-2 rounded-md text-md bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 disabled:opacity-50"
         >
           Previous
         </ActionButton>
-        <span className="text-sm text-gray-600">
+        <span className="text-md text-gray-600">
           Page {currentPage} of {totalPages}
         </span>
         <ActionButton
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-3 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50"
+          className="px-3 py-2 rounded-md text-md font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:opacity-50"
         >
           Next
         </ActionButton>
