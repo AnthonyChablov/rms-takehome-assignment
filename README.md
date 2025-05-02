@@ -68,6 +68,10 @@ This separation ensures that each type of state is managed by the most appropria
   - Scroll functionality to access all rows and columns
   - Row highlighting on hover/selection
   - Synchronized with plot selections
+  - **Pagination Implementation:**
+    - **Entries per page control:** A dropdown or input field allows users to select the number of earthquake records displayed on each page (e.g., 10, 25, 50, 75, 100).
+    - **Page navigation:** "Previous" and "Next" buttons enable users to move between pages of the data table.
+    - **Page number indicator:** Clearly displays the current page number and the total number of pages (e.g., "Page 1 of 10").
 
 - **Bidirectional Component Linking**
 
