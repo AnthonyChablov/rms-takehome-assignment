@@ -62,7 +62,7 @@ This separation ensures that each type of state is managed by the most appropria
   - Visual highlighting of selected data points
   - Responsive design adapting to viewport size
 
-- **Data Table**
+- **Data Table & Pagination**
 
   - Complete display of earthquake records
   - Scroll functionality to access all rows and columns
