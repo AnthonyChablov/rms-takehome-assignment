@@ -1,13 +1,13 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Map from '../Map';
+import MapPane from '../Map';
 
-describe('Map.tsx', () => {
+describe('MapPane.tsx', () => {
   it('should render in the DOM', () => {
     // Arrange
 
     // Act
-    const { container } = render(<Map />);
+    const { container } = render(<MapPane />);
 
     // Assert
     expect(container).toBeInTheDocument();

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Map = () => {
+const MapPane = () => {
   return <div>Map</div>;
 };
 
-export default Map;
+export default MapPane;

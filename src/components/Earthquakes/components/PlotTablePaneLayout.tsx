@@ -7,6 +7,7 @@ import Container from '@/components/Layout/Container';
 import Pagination from './Pagination/Pagination';
 import { usePagination } from './hooks/usePagination/usePagination';
 import { useDataFiltering } from './hooks/useDataFiltering/useDataFiltering';
+import Map from './Map/Map';
 
 /**
  * Props for the `PlotTablePaneLayout` component.
