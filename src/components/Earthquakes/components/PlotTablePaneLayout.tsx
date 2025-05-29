@@ -7,7 +7,7 @@ import Container from '@/components/Layout/Container';
 import Pagination from './Pagination/Pagination';
 import { usePagination } from './hooks/usePagination/usePagination';
 import { useDataFiltering } from './hooks/useDataFiltering/useDataFiltering';
-import Map from './Map/Map';
+import Map from './MapPane/Map';
 
 /**
  * Props for the `PlotTablePaneLayout` component.
@@ -81,6 +81,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
     currentPage,
     itemsPerPage,
   });
+
   // Handle items per page change and reset current page to 1
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
