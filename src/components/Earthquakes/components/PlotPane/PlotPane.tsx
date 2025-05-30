@@ -85,7 +85,7 @@ function PlotPane<T extends Record<string, any>>({
 
   return (
     <div
-      className="bg-white rounded-lg  py-6 min-w-full lg:w-7/12 "
+      className="bg-white rounded-lg py-6 min-w-full lg:w-7/12 "
       data-testid="plot-pane"
     >
       <div className="flex items-center justify-between">

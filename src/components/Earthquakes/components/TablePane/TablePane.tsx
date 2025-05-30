@@ -113,6 +113,7 @@ function TablePane<T extends Record<string, any>>({
               {selected.size > 0 ? `: ${selected.size} ` : ''}
             </span>
           }
+          active={selected.size > 0}
         />
       </div>
 
