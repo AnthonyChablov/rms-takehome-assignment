@@ -1,11 +1,10 @@
 // MapPane.tsx
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
+import React, { useState } from 'react';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'react-leaflet-markercluster/styles';
 import L from 'leaflet';
 import { cn } from '@/utils/utils';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
