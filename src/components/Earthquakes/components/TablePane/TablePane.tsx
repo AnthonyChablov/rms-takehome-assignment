@@ -102,7 +102,7 @@ function TablePane<T extends Record<string, any>>({
     >
       <div className="flex justify-between items-center pb-4">
         {/* Render the title of the table and button */}
-        <h1 className="text-xl font-bold text-gray-800">{title}</h1>
+        <h1 className="text-xl font-bold text-gray-800 py-8 ">{title}</h1>
         {/* Action button to clear selected items */}
         <ActionButton
           onClick={handleClearSelected} // Calls the handleClearSelected function when the button is clicked
