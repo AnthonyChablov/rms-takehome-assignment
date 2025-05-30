@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
-import PlotTableLayout from './components/PlotTablePaneLayout';
+import PaneLayout from './components/PaneLayout';
 import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore';
 import { useVisualizationStore } from '@/store/visualizationStore/visualizationStore';
 
@@ -12,6 +12,8 @@ const DEFAULT_PAGINATION_CONFIG = {
   INITIAL_CURRENT_PAGE: 1,
   INITIAL_ITEMS_PER_PAGE: 75,
 };
+/* Configuration for Pane Title */
+const PANE_TITLE = 'USGS Most Recent Earthquakes';
 
 /**
  * `Earthquakes` component fetches and displays recent earthquake data from the USGS API.
@@ -65,7 +67,7 @@ const Earthquakes = () => {
 
   // Return the layout that integrates all components, passing down the relevant props.
   return (
-    <PlotTableLayout
+    <PaneLayout
       isLoading={earthquakesQuery.isPending}
       isError={earthquakesQuery.isError}
       data={earthquakesData}
@@ -80,7 +82,7 @@ const Earthquakes = () => {
       addSelected={addSelectedRecord}
       removeSelected={removeSelectedRecord}
       isSelected={isRecordSelected}
-      title="USGS Most Recent Earthquakes"
+      title={PANE_TITLE}
       // Pagination Props
       currentPage={currentPage}
       setCurrentPage={setCurrentPage}

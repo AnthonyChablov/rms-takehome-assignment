@@ -11,10 +11,10 @@ import Map from './MapPane/Map';
 import { VisualizationPane } from '@/store/visualizationStore/visualizationStore';
 
 /**
- * Props for the `PlotTablePaneLayout` component.
+ * Props for the `PaneLayout` component.
  * T represents the data type for the earthquake records (generic for flexibility).
  */
-export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
+export interface PaneLayoutProps<T extends Record<string, any>> {
   isLoading: boolean;
   isError: boolean;
   data: T[];
@@ -51,10 +51,10 @@ export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
  * It also manages the state for X/Y axis keys, selected records, and highlighted records
  * to ensure a dynamic and interactive user experience.
  *
- * @param {PlotTablePaneLayoutProps<T>} props - The props passed to the component.
+ * @param {PaneLayoutProps<T>} props - The props passed to the component.
  * @returns {JSX.Element} The layout rendering the earthquake data visualization.
  */
-export function PlotTablePaneLayout<T extends Record<string, any>>({
+export function PaneLayout<T extends Record<string, any>>({
   isLoading,
   isError,
   data,
@@ -78,7 +78,7 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   /* Visualization Props */
   currentPane = 'plot',
   setCurrentPane = () => {},
-}: PlotTablePaneLayoutProps<T>) {
+}: PaneLayoutProps<T>) {
   // --- Pagination ---
   const {
     paginatedData,
@@ -194,4 +194,4 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   );
 }
 
-export default PlotTablePaneLayout;
+export default PaneLayout;
