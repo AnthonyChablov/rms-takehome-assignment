@@ -1,18 +1,19 @@
 // useVisualizationStore.ts
 import { create } from 'zustand';
+import { Dispatch, SetStateAction } from 'react';
 
 /**
  * Defines the possible visualization panes.
  * This can be extended if more visualization types are added.
  */
-type VisualizationPane = 'plot' | 'map';
+export type VisualizationPane = 'plot' | 'map';
 
 /**
  * Zustand store interface for managing the active visualization pane.
  */
 interface VisualizationStore {
   currentPane: VisualizationPane; // The currently active visualization pane
-  setPane: (pane: VisualizationPane) => void; // Function to set the active pane
+  setCurrentPane: (pane: VisualizationPane) => void; // Function to set the active pane
 }
 
 /**
@@ -22,5 +23,5 @@ interface VisualizationStore {
  */
 export const useVisualizationStore = create<VisualizationStore>((set) => ({
   currentPane: 'plot', // Default to showing the plot pane
-  setPane: (pane) => set({ currentPane: pane }),
+  setCurrentPane: (pane) => set({ currentPane: pane }),
 }));

@@ -8,6 +8,7 @@ import Pagination from './Pagination/Pagination';
 import { usePagination } from './hooks/usePagination/usePagination';
 import { useDataFiltering } from './hooks/useDataFiltering/useDataFiltering';
 import Map from './MapPane/Map';
+import { VisualizationPane } from '@/store/visualizationStore/visualizationStore';
 
 /**
  * Props for the `PlotTablePaneLayout` component.
@@ -35,6 +36,10 @@ export interface PlotTablePaneLayoutProps<T extends Record<string, any>> {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   itemsPerPage: number;
   setItemsPerPage: Dispatch<SetStateAction<number>>;
+
+  /* Visualization Props */
+  currentPane?: string;
+  setCurrentPane?: (pane: VisualizationPane) => void;
 }
 
 /**
@@ -70,6 +75,9 @@ export function PlotTablePaneLayout<T extends Record<string, any>>({
   setCurrentPage,
   itemsPerPage,
   setItemsPerPage,
+  /* Visualization Props */
+  currentPane = 'plot',
+  setCurrentPane = () => {},
 }: PlotTablePaneLayoutProps<T>) {
   // --- Pagination ---
   const {

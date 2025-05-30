@@ -3,6 +3,7 @@ import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
 import PlotTableLayout from './components/PlotTablePaneLayout';
 import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore';
+import { useVisualizationStore } from '@/store/visualizationStore/visualizationStore';
 
 /**
  * Configuration object for pagination default values.
@@ -45,6 +46,8 @@ const Earthquakes = () => {
     setYAxisKey,
     filters,
   } = usePlotTableStore();
+  // Access the global state for managing the data visualization features.
+  const { currentPane, setCurrentPane } = useVisualizationStore();
 
   // --- Pagination State ---
   const [currentPage, setCurrentPage] = useState(
@@ -83,6 +86,9 @@ const Earthquakes = () => {
       setCurrentPage={setCurrentPage}
       itemsPerPage={itemsPerPage}
       setItemsPerPage={setItemsPerPage}
+      // Visualization Features Props
+      currentPane={currentPane}
+      setCurrentPane={setCurrentPane}
     />
   );
 };

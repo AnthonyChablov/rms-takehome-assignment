@@ -35,7 +35,7 @@ describe('visualizationStore', () => {
     // Act
     // Use act to wrap the state update, as it's a synchronous update to a Zustand store.
     act(() => {
-      store.setPane('map');
+      store.setCurrentPane('map');
     });
 
     // Assert
@@ -47,12 +47,12 @@ describe('visualizationStore', () => {
     // Arrange
     const store = useVisualizationStore.getState();
     act(() => {
-      store.setPane('map'); // Set to 'map' first
+      store.setCurrentPane('map'); // Set to 'map' first
     });
 
     // Act
     act(() => {
-      store.setPane('map'); // Try to set to 'map' again
+      store.setCurrentPane('map'); // Try to set to 'map' again
     });
 
     // Assert
