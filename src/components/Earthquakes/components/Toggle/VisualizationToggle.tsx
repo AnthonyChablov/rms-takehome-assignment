@@ -1,18 +1,25 @@
 import React from 'react';
 import ActionButton from '../TablePane/components/Button/ActionButton';
-import { VisualizationPane } from '@/store/visualizationStore/visualizationStore'; // Assuming this is the correct path for VisualizationPane type
+import { VisualizationPane } from '@/store/visualizationStore/visualizationStore';
+import { cn } from '@/utils/utils';
 
 interface VisualizationToggleProps {
   currentPane: VisualizationPane;
   setCurrentPane: (pane: VisualizationPane) => void;
+  className?: string;
 }
 
 const VisualizationToggle = ({
   currentPane,
   setCurrentPane,
+  className = '',
 }: VisualizationToggleProps) => {
   return (
-    <div className="relative inline-flex rounded-md shadow-none py-5 ">
+    <div
+      className={cn(
+        `relative inline-flex rounded-md shadow-none py-5 ${className}`,
+      )}
+    >
       <ActionButton
         onClick={() => setCurrentPane('plot')}
         active={currentPane === 'plot'}
