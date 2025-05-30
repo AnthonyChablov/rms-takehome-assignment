@@ -28,6 +28,10 @@ interface MapPaneProps<T extends Record<string, any>> {
   latitudeKey?: string; // The key in the data object that holds the latitude value (default: 'latitude')
   longitudeKey?: string; // The key in the data object that holds the longitude value (default: 'longitude')
   idKey?: string; // The key in the data object that holds the unique ID (default: 'id')
+  xAxisKey: string | null;
+  setXAxisKey: (key: string) => void;
+  yAxisKey: string | null;
+  setYAxisKey: (key: string) => void;
 }
 
 /**
@@ -43,7 +47,12 @@ function MapPane<T extends Record<string, any>>({
   highlighted,
   setHighlighted,
   selected,
-  // setSelected, // Not directly used for setting in MapPane, but kept for consistency
+  // Not directly used for setting in MapPane, but kept for consistency
+  xAxisKey,
+  setYAxisKey,
+  yAxisKey,
+  setXAxisKey,
+  setSelected,
   addSelected,
   removeSelected,
   isSelected,

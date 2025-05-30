@@ -7,8 +7,8 @@ import Container from '@/components/Layout/Container';
 import Pagination from './Pagination/Pagination';
 import { usePagination } from './hooks/usePagination/usePagination';
 import { useDataFiltering } from './hooks/useDataFiltering/useDataFiltering';
-import Map from './MapPane/Map';
 import { VisualizationPane } from '@/store/visualizationStore/visualizationStore';
+import MapPane from './MapPane/MapPane';
 
 /**
  * Props for the `PaneLayout` component.
@@ -151,20 +151,38 @@ export function PaneLayout<T extends Record<string, any>>({
       <Container className="px-4 space-y-6 " dataTestId="earthquakes-success">
         <div className="flex  flex-col lg:flex-row space-x-4 justify-between">
           <div className="w-full">
-            <PlotPane
-              data={plotData}
-              xAxisKey={xAxisKey}
-              setXAxisKey={setXAxisKey}
-              yAxisKey={yAxisKey}
-              setYAxisKey={setYAxisKey}
-              highlighted={highlighted}
-              setHighlighted={setHighlighted}
-              selected={selected}
-              setSelected={setSelected}
-              removeSelected={removeSelected}
-              addSelected={addSelected}
-              isSelected={isSelected}
-            />
+            {currentPane === 'plot' && (
+              <PlotPane
+                data={plotData}
+                xAxisKey={xAxisKey}
+                setXAxisKey={setXAxisKey}
+                yAxisKey={yAxisKey}
+                setYAxisKey={setYAxisKey}
+                highlighted={highlighted}
+                setHighlighted={setHighlighted}
+                selected={selected}
+                setSelected={setSelected}
+                removeSelected={removeSelected}
+                addSelected={addSelected}
+                isSelected={isSelected}
+              />
+            )}
+            {currentPane === 'map' && (
+              <MapPane
+                data={plotData}
+                xAxisKey={xAxisKey}
+                setXAxisKey={setXAxisKey}
+                yAxisKey={yAxisKey}
+                setYAxisKey={setYAxisKey}
+                highlighted={highlighted}
+                setHighlighted={setHighlighted}
+                selected={selected}
+                setSelected={setSelected}
+                removeSelected={removeSelected}
+                addSelected={addSelected}
+                isSelected={isSelected}
+              />
+            )}
             <Pagination
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}

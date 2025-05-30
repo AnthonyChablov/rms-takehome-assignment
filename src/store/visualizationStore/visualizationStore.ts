@@ -22,6 +22,6 @@ interface VisualizationStore {
  * which visualization is currently displayed.
  */
 export const useVisualizationStore = create<VisualizationStore>((set) => ({
-  currentPane: 'plot', // Default to showing the plot pane
+  currentPane: 'map', // Default to showing the plot pane
   setCurrentPane: (pane) => set({ currentPane: pane }),
 }));
