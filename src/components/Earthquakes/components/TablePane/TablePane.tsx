@@ -97,7 +97,7 @@ function TablePane<T extends Record<string, any>>({
 
   return (
     <div
-      className="bg-white rounded-lg w-full lg:w-5/12 px-4 h-screen flex flex-col p-4 py-11 shadow-md"
+      className="bg-white rounded-lg w-full lg:w-5/12 px-4 h-screen flex flex-col p-4  shadow-md"
       data-testid="table-pane"
     >
       <div className="flex justify-between items-center pb-4">
@@ -120,9 +120,9 @@ function TablePane<T extends Record<string, any>>({
       {/* Scrollable container for the table */}
       <div
         ref={tableContainerRef}
-        className="overflow-y-auto overflow-x-auto flex-grow pt-6"
+        className="overflow-y-auto overflow-x-auto flex-grow "
       >
-        <table className="min-w-full leading-normal relative ">
+        <table className="min-w-full leading-normal  relative ">
           {/* Table Header */}
           <TableHeader columns={columns} />
 
