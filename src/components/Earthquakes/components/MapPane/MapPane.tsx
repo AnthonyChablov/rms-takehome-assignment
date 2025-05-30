@@ -142,11 +142,13 @@ function MapPane<T extends Record<string, any>>({
 
   return (
     <div
-      className="bg-white rounded-lg py-6 min-w-full lg:w-7/12 flex flex-col items-center"
+      className="bg-white rounded-lg  min-w-full lg:w-7/12 flex flex-col items-center"
       data-testid="map-pane"
     >
       <div className="flex items-center justify-end w-full ">
-        {paneControls && <div className="flex-shrink-0">{paneControls}</div>}
+        {paneControls && (
+          <div className="flex-shrink-0 py-6">{paneControls}</div>
+        )}
       </div>
       <MapContainer
         center={center} // Initial map center

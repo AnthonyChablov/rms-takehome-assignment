@@ -12,7 +12,7 @@ const VisualizationToggle = ({
   setCurrentPane,
 }: VisualizationToggleProps) => {
   return (
-    <div className="relative inline-flex rounded-md shadow-none py-8">
+    <div className="relative inline-flex rounded-md shadow-none py-5 ">
       <ActionButton
         onClick={() => setCurrentPane('plot')}
         active={currentPane === 'plot'}
