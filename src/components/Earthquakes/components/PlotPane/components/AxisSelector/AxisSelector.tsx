@@ -43,7 +43,7 @@ function AxisSelector({
   handleYAxisChange,
 }: AxisSelectorProps) {
   return (
-    <div className="mb-4 flex items-center space-x-4">
+    <div className="pb-4 flex items-center space-x-4">
       {/* X-Axis Selector */}
       <div>
         <label

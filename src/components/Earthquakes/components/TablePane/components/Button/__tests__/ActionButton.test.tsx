@@ -110,4 +110,40 @@ describe('ActionButton.tsx', () => {
     expect(buttonTextNodes[0]).toBe(titleText);
     expect(buttonTextNodes[1]).toBe('Child Content');
   });
+
+  it('should render active if active prop provided is true', () => {
+    // Arrange
+
+    // Act
+    render(<ActionButton active={true} onClick={() => {}}></ActionButton>);
+    const button = screen.getByRole('button');
+
+    // Assert
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveClass('active');
+  });
+
+  it('should render defaultly inactive if active prop not provided', () => {
+    // Arrange
+
+    // Act
+    render(<ActionButton onClick={() => {}}></ActionButton>);
+    const button = screen.getByRole('button');
+
+    // Assert
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveClass('inactive');
+  });
+
+  it('should render inactive if provided active prop is false', () => {
+    // Arrange
+
+    // Act
+    render(<ActionButton active={false} onClick={() => {}}></ActionButton>);
+    const button = screen.getByRole('button');
+
+    // Assert
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveClass('inactive');
+  });
 });

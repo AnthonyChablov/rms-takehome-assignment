@@ -9,6 +9,7 @@ import { usePagination } from './hooks/usePagination/usePagination';
 import { useDataFiltering } from './hooks/useDataFiltering/useDataFiltering';
 import { VisualizationPane } from '@/store/visualizationStore/visualizationStore';
 import MapPane from './MapPane/MapPane';
+import ActionButton from './TablePane/components/Button/ActionButton';
 
 /**
  * Props for the `PaneLayout` component.
@@ -149,6 +150,25 @@ export function PaneLayout<T extends Record<string, any>>({
   return (
     <div data-testid="earthquakes">
       <Container className="px-4 space-y-6 " dataTestId="earthquakes-success">
+        {/* Toggle Buttons */}
+        <div className="flex justify-center mb-4">
+          <div className="relative inline-flex rounded-md shadow-none">
+            <ActionButton
+              onClick={() => setCurrentPane('plot')}
+              active={currentPane === 'plot'}
+              className="rounded-l-sm rounded-r-none border-r border-gray-300" // Specific styling for left button
+            >
+              Plot
+            </ActionButton>
+            <ActionButton
+              onClick={() => setCurrentPane('map')}
+              active={currentPane === 'map'}
+              className="rounded-r-sm rounded-l-none" // Specific styling for right button
+            >
+              Map
+            </ActionButton>
+          </div>
+        </div>
         <div className="flex  flex-col lg:flex-row space-x-4 justify-between">
           <div className="w-full">
             {currentPane === 'plot' && (

@@ -140,10 +140,6 @@ function MapPane<T extends Record<string, any>>({
       className="bg-white rounded-lg py-6 min-w-full lg:w-7/12 flex flex-col items-center"
       data-testid="map-pane"
     >
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">
-        Data Visualization on Map
-      </h2>
-      {/* MapContainer is the main component for the Leaflet map */}
       <MapContainer
         center={center} // Initial map center
         zoom={zoom} // Initial map zoom level
