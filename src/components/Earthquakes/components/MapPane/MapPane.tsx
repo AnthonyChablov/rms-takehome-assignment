@@ -32,6 +32,8 @@ interface MapPaneProps<T extends Record<string, any>> {
   setXAxisKey: (key: string) => void;
   yAxisKey: string | null;
   setYAxisKey: (key: string) => void;
+  // Pane Control
+  paneControls?: React.ReactNode;
 }
 
 /**
@@ -59,6 +61,9 @@ function MapPane<T extends Record<string, any>>({
   latitudeKey = 'latitude', // Default key for latitude
   longitudeKey = 'longitude', // Default key for longitude
   idKey = 'id', // Default key for unique ID
+
+  // Pane Control props
+  paneControls = null,
 }: MapPaneProps<T>) {
   // State to manage the map's center and zoom level.
   // Initialized to a default global view.
@@ -140,6 +145,9 @@ function MapPane<T extends Record<string, any>>({
       className="bg-white rounded-lg py-6 min-w-full lg:w-7/12 flex flex-col items-center"
       data-testid="map-pane"
     >
+      <div className="flex items-center justify-end w-full ">
+        {paneControls && <div className="flex-shrink-0">{paneControls}</div>}
+      </div>
       <MapContainer
         center={center} // Initial map center
         zoom={zoom} // Initial map zoom level

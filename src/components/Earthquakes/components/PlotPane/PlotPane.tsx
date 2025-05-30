@@ -28,6 +28,7 @@ interface PlotPaneProps<T extends Record<string, any>> {
   removeSelected?: (id: string | number) => void; // Optional function to remove a selected earthquake record
   isSelected?: (item: string | number) => boolean; // Optional function to check if an item is selected
   axisSelectorAddon?: React.ReactNode; // optional prop for axis selector addon
+  paneControls?: React.ReactNode;
 }
 
 function PlotPane<T extends Record<string, any>>({
@@ -43,7 +44,7 @@ function PlotPane<T extends Record<string, any>>({
   addSelected,
   removeSelected,
   isSelected,
-  axisSelectorAddon = null,
+  paneControls = null,
 }: PlotPaneProps<T | any>) {
   // Use custom hook to manage the axis and numeric keys state
   const { numericKeys } = usePlotPaneData(data);
@@ -97,8 +98,8 @@ function PlotPane<T extends Record<string, any>>({
           handleXAxisChange={handleXAxisChange}
           handleYAxisChange={handleYAxisChange}
         />
-        {axisSelectorAddon && (
-          <div className="ml-4 w-full">{axisSelectorAddon}</div>
+        {paneControls && ( // Use the new prop name here
+          <div className="flex-shrink-0 ml-4">{paneControls}</div>
         )}
       </div>
       {/* Scatter Plot */}
