@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
-import { usePlotTableStore } from '@/store/plotTableStore';
 import PlotTableLayout from './components/PlotTablePaneLayout';
+import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore';
 
 /**
  * Configuration object for pagination default values.

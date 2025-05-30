@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { usePlotTableStore } from '../plotTableStore';
+import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore';
 import { act } from '@testing-library/react';
 import { EarthquakeRecord } from '@/types/earthquake';
 import { GetEarthQuakesFilters } from '@/api/earthquakesApi';

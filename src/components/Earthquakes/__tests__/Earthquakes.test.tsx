@@ -4,7 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Earthquakes from '../Earthquakes';
 import { useEarthquakesQuery } from '@/api/earthquakesQuery';
 import { useHighlightedEarthquakeContext } from '@/context/EarthquakesContext';
-import { usePlotTableStore } from '@/store/plotTableStore';
+import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore';
 
 // Mock the modules
 vi.mock('@/api/earthquakesQuery');

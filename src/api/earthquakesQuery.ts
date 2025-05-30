@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getEarthquakes } from './earthquakesApi';
 import { GetEarthQuakesFilters } from './earthquakesApi';
-import { usePlotTableStore } from '@/store/plotTableStore'; // Import Zustand store
+import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore'; // Import Zustand store
 
 /**
  * Custom hook that fetches earthquake data using the `getEarthquakes` API.

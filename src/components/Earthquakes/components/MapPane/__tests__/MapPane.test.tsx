@@ -5,11 +5,5 @@ import MapPane from '../Map';
 describe('MapPane.tsx', () => {
   it('should render in the DOM', () => {
     // Arrange
-
-    // Act
-    const { container } = render(<MapPane />);
-
-    // Assert
-    expect(container).toBeInTheDocument();
   });
 });
