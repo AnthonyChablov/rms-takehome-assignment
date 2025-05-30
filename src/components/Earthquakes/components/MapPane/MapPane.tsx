@@ -180,15 +180,47 @@ function MapPane<T extends Record<string, any>>({
             // Create a custom DivIcon for markers to apply dynamic styling with Tailwind
             const customIcon = L.divIcon({
               className: cn(
-                'rounded-full w-4 h-4 border-2 transition-all duration-200 ease-in-out',
+                // Base styles - matching CustomDot defaults
+                'rounded-full transition-all duration-200 ease-in-out',
+                'border border-[#155dfc]', // Default stroke color from CustomDot
+
+                // Size and state-based styling
                 isCurrentSelected
-                  ? 'bg-[#00c950] border-blue-800 p-2'
-                  : 'bg-[#8ec5ff] border-red-700',
+                  ? [
+                      'w-6 h-6', // 24px diameter (selectRadius = 12 * 2)
+                      'bg-[#fff]', // selectFill color
+                      'border-[#155dfc]', // selectedStroke color
+                      'border-[1px]', // selectedStrokeWidth
+                      // Inner dot effect using box-shadow or pseudo-element
+                      'shadow-[inset_0_0_0_7px_#00c950]', // Creates inner white circle (selectedInnerFill)
+                    ]
+                  : [
+                      'w-3 h-3', // 12px diameter (defaultRadius = 6 * 2)
+                      'bg-[#8ec5ff]', // defaultFill color
+                      'border-[#155dfc]', // default stroke
+                      'border-[1px]', // default strokeWidth
+                    ],
+
+                // Highlight state (hover effect)
                 isCurrentHighlighted &&
-                  ' ring-4 ring-yellow-400 ring-opacity-75',
+                  !isCurrentSelected && [
+                    'w-[18px] h-[18px]', // 18px diameter (highlightRadius = 9 * 2)
+                    'bg-[#2b7fff]', // highlightFill color
+                  ],
+
+                // Highlight ring effect (equivalent to the ring you had)
+                isCurrentHighlighted && 'ring-2 ring-[#2b7fff] ring-opacity-50',
               ),
-              iconSize: [16, 16], // Size of the icon
-              iconAnchor: [8, 8], // Point of the icon which will correspond to marker's location
+              iconSize: isCurrentSelected
+                ? [24, 24]
+                : isCurrentHighlighted
+                  ? [18, 18]
+                  : [12, 12],
+              iconAnchor: isCurrentSelected
+                ? [12, 12]
+                : isCurrentHighlighted
+                  ? [9, 9]
+                  : [6, 6],
             });
 
             return (
@@ -208,7 +240,7 @@ function MapPane<T extends Record<string, any>>({
                   {/* Display all key-value pairs of the data item in the popup */}
                   {Object.entries(item).map(([key, value]) => (
                     <div key={key} className="text-xs">
-                      <span className="font-medium">{key}:</span>{' '}
+                      <span className="font-medium">{key}:</span>
                       {String(value)}
                     </div>
                   ))}
@@ -216,16 +248,14 @@ function MapPane<T extends Record<string, any>>({
                 {/* Tooltip content shown on marker hover */}
                 <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
                   <div className="p-2 bg-gray-800 text-white rounded-md shadow-lg">
-                    {' '}
                     {/* Added padding, background, text color, rounded corners, and shadow */}
                     {Object.entries(item).map(([key, value]) => (
                       <div key={key} className="text-sm leading-relaxed">
-                        {' '}
                         {/* Adjusted text size and line height */}
                         <span className="font-semibold text-blue-300">
                           {key}:
-                        </span>{' '}
-                        {String(value)}{' '}
+                        </span>
+                        {String(value)}
                         {/* Made key bold and gave it a distinct color */}
                       </div>
                     ))}

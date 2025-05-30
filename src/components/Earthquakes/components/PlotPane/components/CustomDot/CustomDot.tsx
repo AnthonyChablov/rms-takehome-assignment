@@ -59,12 +59,18 @@ interface CustomDotProps<T extends Record<string, any>> extends DotProps {
 
   // Fill color of the inner circle when selected
   selectedInnerFill?: string;
+
+  // Stroke color when the dot is highlighted/hovered
+  highlightStroke?: string;
+
+  // Stroke width when the dot is highlighted/hovered
+  highlightStrokeWidth?: number;
 }
 
 /**
  * CustomDot is a reusable component that renders a dot with customizable styles and interactions.
  * This component is typically used in data visualization charts where dots represent data points.
- * It allows customization of the dot’s size, color, and interaction styles based on its selection or highlight state.
+ * It allows customization of the dot's size, color, and interaction styles based on its selection or highlight state.
  *
  * @template T - The type of the data object passed as the payload, extending the generic object type.
  *
@@ -90,6 +96,8 @@ interface CustomDotProps<T extends Record<string, any>> extends DotProps {
  * @param selectedStrokeWidth - Stroke width when the dot is selected.
  * @param selectedInnerRadius - Inner radius of the dot when selected (for additional visual effects).
  * @param selectedInnerFill - Fill color of the inner circle when selected.
+ * @param highlightStroke - Stroke color when the dot is highlighted/hovered.
+ * @param highlightStrokeWidth - Stroke width when the dot is highlighted/hovered.
  *
  * @returns A group element `<g>` containing one or more circle elements, styled according to the current selection or highlight state.
  */
@@ -116,6 +124,8 @@ const CustomDot = <T extends Record<string, any>>({
   selectedStrokeWidth = 1, // Stroke width when selected
   selectedInnerRadius = 5, // Radius of the inner dot when selected (increased)
   selectedInnerFill = '#fff', // Fill color of the inner dot when selected
+  highlightStroke = '#000000', // Black stroke color when highlighted/hovered
+  highlightStrokeWidth = 2, // Stroke width when highlighted/hovered
 }: CustomDotProps<T>) => {
   // Determine if the current dot is highlighted or selected
   const isHighlighted = highlightedPoint && payload === highlightedPoint;
@@ -138,6 +148,8 @@ const CustomDot = <T extends Record<string, any>>({
   } else if (isHighlighted) {
     dotRadius = highlightRadius;
     dotFill = highlightFill;
+    currentStroke = highlightStroke; // Apply black border when hovered
+    currentStrokeWidth = highlightStrokeWidth; // Apply thicker border when hovered
   } else if (fill) {
     dotFill = fill; // If a custom fill is provided, use it
   } else {
