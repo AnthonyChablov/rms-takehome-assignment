@@ -116,6 +116,22 @@ function MapPane<T extends Record<string, any>>({
     }
   };
 
+  const createClusterCustomIcon = function (cluster: {
+    getChildCount: () => number;
+  }) {
+    const count = cluster.getChildCount();
+    const size = count < 10 ? 30 : count < 100 ? 35 : 40;
+
+    return L.divIcon({
+      html: `<div class="bg-blue-600 text-white rounded-full flex items-center justify-center w-full h-full font-bold shadow-lg border-2 border-white">
+        <span class="text-sm leading-none">${count}</span>
+      </div>`,
+      className: 'custom-cluster-marker',
+      iconSize: L.point(size, size, true),
+      iconAnchor: L.point(size / 2, size / 2, true),
+    });
+  };
+
   return (
     <div
       className="bg-white rounded-lg  min-w-full lg:w-7/12 flex flex-col items-center"
@@ -138,159 +154,158 @@ function MapPane<T extends Record<string, any>>({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MarkerClusterGroup>
-          {/* Iterate over data to create markers for each point */}
-          {data.map((item, index) => {
-            const lat = item[latitudeKey];
-            const lng = item[longitudeKey];
-            const itemId = item[idKey];
+        {/* Add cluster group */}
 
-            // Only render a marker if valid latitude and longitude are present
-            if (typeof lat === 'number' && typeof lng === 'number') {
-              // Determine if the current item is highlighted or selected for styling
-              const isCurrentHighlighted =
-                highlighted && highlighted[idKey] === itemId;
-              const isCurrentSelected =
-                isSelected && itemId !== undefined && isSelected(itemId);
+        {/* Iterate over data to create markers for each point */}
+        {data.map((item, index) => {
+          const lat = item[latitudeKey];
+          const lng = item[longitudeKey];
+          const itemId = item[idKey];
 
-              // Create a custom DivIcon for markers to apply dynamic styling with Tailwind
-              const customIcon = L.divIcon({
-                className: cn(
-                  // Base styles - matching CustomDot defaults
-                  'rounded-full transition-all duration-200 ease-in-out',
-                  'border border-[#155dfc]', // Default stroke color from CustomDot
+          // Only render a marker if valid latitude and longitude are present
+          if (typeof lat === 'number' && typeof lng === 'number') {
+            // Determine if the current item is highlighted or selected for styling
+            const isCurrentHighlighted =
+              highlighted && highlighted[idKey] === itemId;
+            const isCurrentSelected =
+              isSelected && itemId !== undefined && isSelected(itemId);
 
-                  // Size and state-based styling
-                  isCurrentSelected
-                    ? [
-                        'w-6 h-6', // 24px diameter (selectRadius = 12 * 2)
-                        'bg-[#fff]', // selectFill color
-                        'border-[#155dfc]', // selectedStroke color
-                        'border-[1px]', // selectedStrokeWidth
-                        // Inner dot effect using box-shadow or pseudo-element
-                        'shadow-[inset_0_0_0_7px_#00c950]', // Creates inner white circle (selectedInnerFill)
-                      ]
-                    : [
-                        'w-3 h-3', // 12px diameter (defaultRadius = 6 * 2)
-                        'bg-[#8ec5ff]', // defaultFill color
-                        'border-[#155dfc]', // default stroke
-                        'border-[1px]', // default strokeWidth
-                      ],
+            // Create a custom DivIcon for markers to apply dynamic styling with Tailwind
+            const customIcon = L.divIcon({
+              className: cn(
+                // Base styles - matching CustomDot defaults
+                'rounded-full transition-all duration-200 ease-in-out',
+                'border border-[#155dfc]', // Default stroke color from CustomDot
 
-                  // Highlight state (hover effect)
-                  isCurrentHighlighted &&
-                    !isCurrentSelected && [
-                      'w-[18px] h-[18px]', // 18px diameter (highlightRadius = 9 * 2)
-                      'bg-[#2b7fff]', // highlightFill color
+                // Size and state-based styling
+                isCurrentSelected
+                  ? [
+                      'w-6 h-6', // 24px diameter (selectRadius = 12 * 2)
+                      'bg-[#fff]', // selectFill color
+                      'border-[#155dfc]', // selectedStroke color
+                      'border-[1px]', // selectedStrokeWidth
+                      // Inner dot effect using box-shadow or pseudo-element
+                      'shadow-[inset_0_0_0_7px_#00c950]', // Creates inner white circle (selectedInnerFill)
+                    ]
+                  : [
+                      'w-3 h-3', // 12px diameter (defaultRadius = 6 * 2)
+                      'bg-[#8ec5ff]', // defaultFill color
+                      'border-[#155dfc]', // default stroke
+                      'border-[1px]', // default strokeWidth
                     ],
 
-                  // Highlight ring effect (equivalent to the ring you had)
-                  isCurrentHighlighted &&
-                    'ring-2 ring-[#2b7fff] ring-opacity-50',
-                ),
-                iconSize: isCurrentSelected
-                  ? [24, 24]
-                  : isCurrentHighlighted
-                    ? [18, 18]
-                    : [12, 12],
-                iconAnchor: isCurrentSelected
-                  ? [12, 12]
-                  : isCurrentHighlighted
-                    ? [9, 9]
-                    : [6, 6],
-              });
+                // Highlight state (hover effect)
+                isCurrentHighlighted &&
+                  !isCurrentSelected && [
+                    'w-[18px] h-[18px]', // 18px diameter (highlightRadius = 9 * 2)
+                    'bg-[#2b7fff]', // highlightFill color
+                  ],
 
-              return (
-                <Marker
-                  key={itemId || index} // Unique key for React list rendering
-                  position={[lat, lng]} // Marker position [latitude, longitude]
-                  icon={customIcon} // Apply the custom icon
-                  eventHandlers={{
-                    click: () => handleMarkerClick(item), // Handle click to toggle selection
-                    mouseover: () => handleMarkerMouseOver(item), // Handle mouse over for highlighting
-                    mouseout: () => handleMarkerMouseOut(item), // Handle mouse out to clear highlighting
-                  }}
-                >
-                  {/* Tooltip content shown on marker hover */}
-                  <Tooltip direction="top" offset={[0, -15]} opacity={1}>
-                    <div className="bg-white  text-white p-1 rounded-lg backdrop-blur-sm max-w-[250px]">
-                      {/* Quick info header */}
-                      <div className="flex items-center mb-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
-                        <span className="font-semibold text-sm text-blue-600">
-                          Quick Info
-                        </span>
-                      </div>
+                // Highlight ring effect (equivalent to the ring you had)
+                isCurrentHighlighted && 'ring-2 ring-[#2b7fff] ring-opacity-50',
+              ),
+              iconSize: isCurrentSelected
+                ? [24, 24]
+                : isCurrentHighlighted
+                  ? [18, 18]
+                  : [12, 12],
+              iconAnchor: isCurrentSelected
+                ? [12, 12]
+                : isCurrentHighlighted
+                  ? [9, 9]
+                  : [6, 6],
+            });
 
-                      {/* Key details only - limit to most important fields */}
-                      <div className="space-y-1">
-                        {Object.entries(item)
-                          .filter(([key]) => {
-                            // Show only the most relevant fields in tooltip
-                            const importantFields = [
-                              'magnitude',
-                              'mag',
-                              'depth',
-                              'place',
-                              'time',
-                              'title',
-                            ];
-                            return importantFields.some((field) =>
-                              key.toLowerCase().includes(field.toLowerCase()),
-                            );
-                          })
-                          .slice(0, 4) // Limit to 4 most important fields
-                          .map(([key, value]) => {
-                            const formattedKey = key
-                              .replace(/([A-Z])/g, ' $1')
-                              .replace(/^./, (str) => str.toUpperCase())
-                              .trim();
-
-                            const formattedValue = (() => {
-                              if (typeof value === 'number') {
-                                if (key.toLowerCase().includes('mag')) {
-                                  return `${value.toFixed(1)} M`;
-                                }
-                                if (key.toLowerCase().includes('depth')) {
-                                  return `${value.toFixed(1)} km`;
-                                }
-                                if (key.toLowerCase().includes('time')) {
-                                  return new Date(value).toLocaleDateString();
-                                }
-                                return value.toFixed(1);
-                              }
-                              if (
-                                typeof value === 'string' &&
-                                value.length > 30
-                              ) {
-                                return value.substring(0, 30) + '...';
-                              }
-                              return String(value);
-                            })();
-
-                            return (
-                              <div
-                                key={key}
-                                className="flex justify-between items-center text-xs"
-                              >
-                                <span className="text-gray-600 font-semibold mr-2">
-                                  {formattedKey} :
-                                </span>
-                                <span className="text-gray-900 font-medium">
-                                  {formattedValue}
-                                </span>
-                              </div>
-                            );
-                          })}
-                      </div>
+            return (
+              <Marker
+                key={itemId || index} // Unique key for React list rendering
+                position={[lat, lng]} // Marker position [latitude, longitude]
+                icon={customIcon} // Apply the custom icon
+                eventHandlers={{
+                  click: () => handleMarkerClick(item), // Handle click to toggle selection
+                  mouseover: () => handleMarkerMouseOver(item), // Handle mouse over for highlighting
+                  mouseout: () => handleMarkerMouseOut(item), // Handle mouse out to clear highlighting
+                }}
+              >
+                {/* Tooltip content shown on marker hover */}
+                <Tooltip direction="top" offset={[0, -15]} opacity={1}>
+                  <div className="bg-white  text-white p-1 rounded-lg backdrop-blur-sm max-w-[250px]">
+                    {/* Quick info header */}
+                    <div className="flex items-center mb-2">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
+                      <span className="font-semibold text-sm text-blue-600">
+                        Quick Info
+                      </span>
                     </div>
-                  </Tooltip>
-                </Marker>
-              );
-            }
-            return null; // Don't render marker if lat/lng are invalid
-          })}
-        </MarkerClusterGroup>
+
+                    {/* Key details only - limit to most important fields */}
+                    <div className="space-y-1">
+                      {Object.entries(item)
+                        .filter(([key]) => {
+                          // Show only the most relevant fields in tooltip
+                          const importantFields = [
+                            'magnitude',
+                            'mag',
+                            'depth',
+                            'place',
+                            'time',
+                            'title',
+                          ];
+                          return importantFields.some((field) =>
+                            key.toLowerCase().includes(field.toLowerCase()),
+                          );
+                        })
+                        .slice(0, 4) // Limit to 4 most important fields
+                        .map(([key, value]) => {
+                          const formattedKey = key
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, (str) => str.toUpperCase())
+                            .trim();
+
+                          const formattedValue = (() => {
+                            if (typeof value === 'number') {
+                              if (key.toLowerCase().includes('mag')) {
+                                return `${value.toFixed(1)} M`;
+                              }
+                              if (key.toLowerCase().includes('depth')) {
+                                return `${value.toFixed(1)} km`;
+                              }
+                              if (key.toLowerCase().includes('time')) {
+                                return new Date(value).toLocaleDateString();
+                              }
+                              return value.toFixed(1);
+                            }
+                            if (
+                              typeof value === 'string' &&
+                              value.length > 30
+                            ) {
+                              return value.substring(0, 30) + '...';
+                            }
+                            return String(value);
+                          })();
+
+                          return (
+                            <div
+                              key={key}
+                              className="flex justify-between items-center text-xs"
+                            >
+                              <span className="text-gray-600 font-semibold mr-2">
+                                {formattedKey} :
+                              </span>
+                              <span className="text-gray-900 font-medium">
+                                {formattedValue}
+                              </span>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                </Tooltip>
+              </Marker>
+            );
+          }
+          return null; // Don't render marker if lat/lng are invalid
+        })}
       </MapContainer>
     </div>
   );
