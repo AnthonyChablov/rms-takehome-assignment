@@ -181,10 +181,10 @@ function MapPane<T extends Record<string, any>>({
               className: cn(
                 'rounded-full w-4 h-4 border-2 transition-all duration-200 ease-in-out',
                 isCurrentSelected
-                  ? 'bg-blue-600 border-blue-800 scale-125'
+                  ? 'bg-blue-600 border-blue-800 '
                   : 'bg-red-500 border-red-700',
                 isCurrentHighlighted &&
-                  'scale-150 ring-4 ring-yellow-400 ring-opacity-75',
+                  ' ring-4 ring-yellow-400 ring-opacity-75',
               ),
               iconSize: [16, 16], // Size of the icon
               iconAnchor: [8, 8], // Point of the icon which will correspond to marker's location
