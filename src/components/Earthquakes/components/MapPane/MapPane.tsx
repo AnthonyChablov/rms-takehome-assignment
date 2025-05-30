@@ -70,32 +70,6 @@ function MapPane<T extends Record<string, any>>({
   const [center, setCenter] = useState<[number, number]>([0, 0]);
   const [zoom, setZoom] = useState(2); // Low zoom for a global view
 
-  // Effect to adjust map center and zoom when data changes.
-  // It calculates the average latitude and longitude of the data points.
-  useEffect(() => {
-    if (data && data.length > 0) {
-      // Calculate the sum of latitudes and longitudes
-      const sumLat = data.reduce(
-        (sum, item) => sum + (item[latitudeKey] || 0),
-        0,
-      );
-      const sumLng = data.reduce(
-        (sum, item) => sum + (item[longitudeKey] || 0),
-        0,
-      );
-
-      // Calculate the average latitude and longitude
-      const avgLat = sumLat / data.length;
-      const avgLng = sumLng / data.length;
-
-      // Set the map center to the average coordinates
-      setCenter([avgLat, avgLng]);
-      // Adjust zoom level. A more sophisticated algorithm could calculate
-      // a bounding box and set zoom to fit all points.
-      setZoom(3); // Slightly increased zoom when data is present
-    }
-  }, [data, latitudeKey, longitudeKey]); // Re-run effect if data or key props change
-
   /**
    * Handles click events on map markers.
    * Toggles the selection state of the clicked data item.
@@ -234,31 +208,78 @@ function MapPane<T extends Record<string, any>>({
                   mouseout: () => handleMarkerMouseOut(item), // Handle mouse out to clear highlighting
                 }}
               >
-                {/* Popup content shown on marker click */}
-                <Popup>
-                  <div className="font-semibold text-sm mb-1">Details:</div>
-                  {/* Display all key-value pairs of the data item in the popup */}
-                  {Object.entries(item).map(([key, value]) => (
-                    <div key={key} className="text-xs">
-                      <span className="font-medium">{key}:</span>
-                      {String(value)}
-                    </div>
-                  ))}
-                </Popup>
                 {/* Tooltip content shown on marker hover */}
-                <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
-                  <div className="p-2 bg-gray-800 text-white rounded-md shadow-lg">
-                    {/* Added padding, background, text color, rounded corners, and shadow */}
-                    {Object.entries(item).map(([key, value]) => (
-                      <div key={key} className="text-sm leading-relaxed">
-                        {/* Adjusted text size and line height */}
-                        <span className="font-semibold text-blue-300">
-                          {key}:
-                        </span>
-                        {String(value)}
-                        {/* Made key bold and gave it a distinct color */}
-                      </div>
-                    ))}
+                <Tooltip direction="top" offset={[0, -15]} opacity={1}>
+                  <div className="bg-white  text-white p-1 rounded-lg backdrop-blur-sm max-w-[250px]">
+                    {/* Quick info header */}
+                    <div className="flex items-center mb-2">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-2 animate-pulse"></div>
+                      <span className="font-semibold text-sm text-blue-600">
+                        Quick Info
+                      </span>
+                    </div>
+
+                    {/* Key details only - limit to most important fields */}
+                    <div className="space-y-1">
+                      {Object.entries(item)
+                        .filter(([key]) => {
+                          // Show only the most relevant fields in tooltip
+                          const importantFields = [
+                            'magnitude',
+                            'mag',
+                            'depth',
+                            'place',
+                            'time',
+                            'title',
+                          ];
+                          return importantFields.some((field) =>
+                            key.toLowerCase().includes(field.toLowerCase()),
+                          );
+                        })
+                        .slice(0, 4) // Limit to 4 most important fields
+                        .map(([key, value]) => {
+                          const formattedKey = key
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, (str) => str.toUpperCase())
+                            .trim();
+
+                          const formattedValue = (() => {
+                            if (typeof value === 'number') {
+                              if (key.toLowerCase().includes('mag')) {
+                                return `${value.toFixed(1)} M`;
+                              }
+                              if (key.toLowerCase().includes('depth')) {
+                                return `${value.toFixed(1)} km`;
+                              }
+                              if (key.toLowerCase().includes('time')) {
+                                return new Date(value).toLocaleDateString();
+                              }
+                              return value.toFixed(1);
+                            }
+                            if (
+                              typeof value === 'string' &&
+                              value.length > 30
+                            ) {
+                              return value.substring(0, 30) + '...';
+                            }
+                            return String(value);
+                          })();
+
+                          return (
+                            <div
+                              key={key}
+                              className="flex justify-between items-center text-xs"
+                            >
+                              <span className="text-gray-600 font-semibold mr-2">
+                                {formattedKey} :
+                              </span>
+                              <span className="text-gray-900 font-medium">
+                                {formattedValue}
+                              </span>
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
                 </Tooltip>
               </Marker>
