@@ -142,7 +142,7 @@ function MapPane<T extends Record<string, any>>({
 
   return (
     <div
-      className="bg-white rounded-lg h-full  min-w-full lg:w-7/12 flex flex-col items-center"
+      className="bg-white rounded-lg  min-w-full lg:w-7/12 flex flex-col items-center"
       data-testid="map-pane"
     >
       <div className="flex items-center justify-end w-full ">
