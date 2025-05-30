@@ -9,7 +9,7 @@ import { usePlotTableStore } from '@/store/plotTableStore/plotTableStore';
 // Mock the modules
 vi.mock('@/api/earthquakesQuery');
 vi.mock('@/context/EarthquakesContext');
-vi.mock('@/store/plotTableStore');
+vi.mock('@/store/plotTableStore/plotTableStore');
 vi.mock('../components/EarthquakesLayout/EarthquakesLayout', () => ({
   default: (props: any) => (
     <div data-testid="earthquakes-layout-component">

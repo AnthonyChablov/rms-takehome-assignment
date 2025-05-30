@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act } from '@testing-library/react'; // act is essential for state updates in tests
-import { useVisualizationStore } from '../dataVisualizationStore';
+import { useVisualizationStore } from '../visualizationStore';
 
-describe('useVisualizationStore', () => {
+describe('visualizationStore', () => {
   // Reset the store state to its initial values before each test
   beforeEach(() => {
     act(() => {
