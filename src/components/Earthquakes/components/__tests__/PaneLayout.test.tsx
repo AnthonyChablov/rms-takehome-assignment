@@ -10,10 +10,7 @@ const mockData = [
 
 class MockResizeObserver {
   // The constructor might receive a callback, but we don't need to do anything with it for this mock.
-  constructor(callback: ResizeObserverCallback) {
-    // You could store the callback if you needed to trigger it manually in more advanced tests,
-    // but for a basic "rendering" test, it's usually not necessary.
-  }
+  constructor(callback: ResizeObserverCallback) {}
 
   observe() {
     // Mock the observe method. It does nothing.
