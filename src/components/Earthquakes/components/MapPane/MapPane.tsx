@@ -113,8 +113,9 @@ function MapPane<T extends Record<string, any>>({
       if (isSelected(item[idKey])) {
         removeSelected(item[idKey]);
       } else {
-        addSelected(item);
+        addSelected(item.id);
       }
+      console.log(item);
     }
   };
 
@@ -181,8 +182,8 @@ function MapPane<T extends Record<string, any>>({
               className: cn(
                 'rounded-full w-4 h-4 border-2 transition-all duration-200 ease-in-out',
                 isCurrentSelected
-                  ? 'bg-blue-600 border-blue-800 '
-                  : 'bg-red-500 border-red-700',
+                  ? 'bg-[#00c950] border-blue-800 p-2'
+                  : 'bg-[#8ec5ff] border-red-700',
                 isCurrentHighlighted &&
                   ' ring-4 ring-yellow-400 ring-opacity-75',
               ),
@@ -214,13 +215,21 @@ function MapPane<T extends Record<string, any>>({
                 </Popup>
                 {/* Tooltip content shown on marker hover */}
                 <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
-                  {/* Display all key-value pairs of the data item in the tooltip */}
-                  {Object.entries(item).map(([key, value]) => (
-                    <div key={key} className="text-xs">
-                      <span className="font-medium">{key}:</span>{' '}
-                      {String(value)}
-                    </div>
-                  ))}
+                  <div className="p-2 bg-gray-800 text-white rounded-md shadow-lg">
+                    {' '}
+                    {/* Added padding, background, text color, rounded corners, and shadow */}
+                    {Object.entries(item).map(([key, value]) => (
+                      <div key={key} className="text-sm leading-relaxed">
+                        {' '}
+                        {/* Adjusted text size and line height */}
+                        <span className="font-semibold text-blue-300">
+                          {key}:
+                        </span>{' '}
+                        {String(value)}{' '}
+                        {/* Made key bold and gave it a distinct color */}
+                      </div>
+                    ))}
+                  </div>
                 </Tooltip>
               </Marker>
             );
