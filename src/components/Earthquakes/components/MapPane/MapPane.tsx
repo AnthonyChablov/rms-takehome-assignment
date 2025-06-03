@@ -4,6 +4,9 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import CustomMarker from './components/CustomMarker/CustomMarker';
 
+const MAP_HEADER = 'Map View';
+const MAP_SUBHEADER = 'Click on markers to select or deselect them.';
+
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
@@ -85,10 +88,8 @@ function MapPane<T extends Record<string, any>>({
     >
       <div className="flex items-center justify-end w-full">
         <div className="flex-grow py-6">
-          <h2 className="text-xl font-semibold  text-gray-900">Map View</h2>
-          <p className="text-lg text-gray-700">
-            Click on markers to select or deselect them.
-          </p>
+          <h2 className="text-xl font-semibold  text-gray-900">{MAP_HEADER}</h2>
+          <p className="text-lg text-gray-700">{MAP_SUBHEADER}</p>
         </div>
         {paneControls && (
           <div className="flex-shrink-0 py-6">{paneControls}</div>
