@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { GetEarthQuakesFilters } from '@/api/earthquakesApi';
-import { EarthquakeRecord } from '@/types/earthquake';
 
 /**
  * Zustand store interface for managing the state of the plot table,
@@ -47,12 +46,6 @@ interface PlotTableStore<T extends { id: string | number } = any> {
    * @param records - The array of earthquake records to select. Their IDs will be extracted.
    */
   setSelectedRecords: (records: Set<string | number | null>) => void;
-
-  /**
-   * The full data objects of currently selected earthquake records (stored in a Map
-   * for efficient retrieval of the full record).
-   */
-  selectedRecordData: Map<string | number, T>;
 
   /**
    * Adds a single record's ID to the Set of selected record IDs.
@@ -107,9 +100,6 @@ export const usePlotTableStore = create<PlotTableStore>((set, get) => ({
   /** Initially, no record ID is selected. */
   selectedRecords: new Set<string | number | null>(),
 
-  /*  Set state for selected records */
-  selectedRecordData: new Map<string | number, EarthquakeRecord>(),
-
   /** Function to set the currently selected earthquake records. */
   setSelectedRecords: (records) => set({ selectedRecords: new Set(records) }),
 
@@ -117,14 +107,8 @@ export const usePlotTableStore = create<PlotTableStore>((set, get) => ({
   addSelectedRecord: (id) =>
     set((state) => {
       const newSelectedRecords = new Set(state.selectedRecords);
-      const newSelectedRecordData = new Map(state.selectedRecordData);
-
       newSelectedRecords.add(id);
-
-      return {
-        selectedRecordIds: newSelectedRecords,
-        selectedRecordData: newSelectedRecordData,
-      };
+      return { selectedRecords: newSelectedRecords };
     }),
 
   /** Function to remove a single record from the selected records set based on its ID. */

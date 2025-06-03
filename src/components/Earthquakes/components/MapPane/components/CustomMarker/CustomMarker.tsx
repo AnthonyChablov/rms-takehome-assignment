@@ -78,7 +78,10 @@ function CustomMarker<T extends Record<string, any>>({
       eventHandlers={{
         click: () => {
           handleMarkerClick(item);
-          map.setView([lat, lng], 9);
+          map.setView([lat, lng], map.getZoom() + 2, {
+            animate: true,
+            duration: 0.5,
+          });
         },
         mouseover: () => handleMarkerMouseOver(item),
         mouseout: () => handleMarkerMouseOut(item),
