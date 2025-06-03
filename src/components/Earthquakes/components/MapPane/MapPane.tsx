@@ -100,8 +100,6 @@ function MapPane<T extends Record<string, any>>({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {data.map((item, index) => {
-          const lat = item[latitudeKey];
-          const lng = item[longitudeKey];
           const itemId = item[idKey];
           // CustomMarker will handle the validation and rendering
           return (
