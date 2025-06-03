@@ -84,6 +84,12 @@ function MapPane<T extends Record<string, any>>({
       data-testid="map-pane"
     >
       <div className="flex items-center justify-end w-full">
+        <div className="flex-grow py-6">
+          <h2 className="text-xl font-semibold  text-gray-900">Map View</h2>
+          <p className="text-lg text-gray-700">
+            Click on markers to select or deselect them.
+          </p>
+        </div>
         {paneControls && (
           <div className="flex-shrink-0 py-6">{paneControls}</div>
         )}
